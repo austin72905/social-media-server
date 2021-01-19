@@ -1,4 +1,5 @@
 ﻿using SocialMedia.Models;
+using SocialMedia.Models.Login;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,6 +9,6 @@ namespace SocialMedia.Interface
 {
     public interface ILogin
     {
-        ResponseModel CheckUserExisted(LoginReq req);
+        LoginResp CheckUserExisted(LoginReq req);
     }
 }

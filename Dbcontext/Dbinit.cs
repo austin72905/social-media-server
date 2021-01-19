@@ -19,7 +19,7 @@ namespace SocialMedia.Dbcontext
             //會員
             var member = new Member[]
             {
-                new Member{Name="Austin"},
+                new Member{Name="Austin",Gender="男"},
             };
 
             foreach (Member user in member)
@@ -44,7 +44,7 @@ namespace SocialMedia.Dbcontext
             //會員資料
             var memberInfo = new MemberInfo[]
             {
-                new MemberInfo{MemberID=member.Single(m => m.Name=="Austin").ID,Gender="男",Job="Teacher",State="hungry",Introduce="I like big ass"},
+                new MemberInfo{MemberID=member.Single(m => m.Name=="Austin").ID,NickName="台中小太陽",Job="Teacher",State="hungry",Introduce="I like big ass"},
             };
 
             foreach (MemberInfo userInfo in memberInfo)

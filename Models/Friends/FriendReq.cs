@@ -5,7 +5,10 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Models.Friends
 {
-    public class FriendsReq
+    public class FriendReq
     {
+        public int memberid { get; set; }
+
+        public int friendid { get; set; }
     }
 }

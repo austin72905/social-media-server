@@ -11,6 +11,9 @@ namespace SocialMedia.Models.DbModels
 
         public string Name { get; set; }
 
+        //性別
+        public string Gender { get; set; }
+
         //導覽屬性       
         public Password Password { get; set; }
         public MemberInfo MemberInfo { get; set; }

@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Models
 {
-    public class LoginReq : RequestModel
+    public class LoginReq 
     {
-        public override string username { get; set; }
-        public override string password { get; set; }
+        public  string username { get; set; }
+        public  string password { get; set; }
     }
 }

@@ -8,19 +8,21 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Controllers
 {
-    public class DirectoryController : Controller
+    public class FriendController : Controller
     {
-        //注入login服務
         private readonly IDirectory _directory;
-        public DirectoryController(IDirectory directory)
+
+        public FriendController(IDirectory directory)
         {
             _directory = directory;
         }
-        //get
-        public IActionResult Index(int id)
+
+        //get 好友列表
+        public IActionResult Index()
         {
-            var checkresult = _directory.GetFrinedList(id);
-            return Json(checkresult);
+            int memberID = Convert.ToInt32(Request.Query["memberid"]);
+            var result=_directory.GetFrinedList(memberID);
+            return Json(result);
         }
 
         //新增好友

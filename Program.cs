@@ -32,7 +32,7 @@ namespace SocialMedia
                 //註冊方法
                 services.AddScoped<IRegister, Register>()
                 .AddScoped<ILogin, Login>()
-                .AddScoped<ISetting,MemberInfo>()
+                .AddScoped<IMemberinfo,MemberInfo>()
                 .AddScoped<IDirectory, Service.Directory>()
                 //----- 
                 )

@@ -15,9 +15,13 @@ namespace SocialMedia.Models.DbModels
         //[DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int MemberID { get; set; }
 
-        //性別
+        //大頭貼網址
+        [StringLength(100)]
+        public string HeadPhoto { get; set; }
 
-        public string Gender { get; set; }
+        //綽號
+        [StringLength(20)]
+        public string NickName { get; set; }
 
         //工作
         [StringLength(20)]

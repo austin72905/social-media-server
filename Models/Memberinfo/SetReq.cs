@@ -20,6 +20,9 @@ namespace SocialMedia.Models.Setting
         //工作       
         public string Job { get; set; }
 
+        //工作       
+        public string NickName { get; set; }
+
         //狀態       
         public string State { get; set; }
         //自我介紹      

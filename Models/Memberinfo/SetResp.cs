@@ -5,13 +5,13 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Models.Setting
 {
-    public class SetResp : ResponseModel
+    public class SetResp
     {
-        public override int Code { get; set; }
+        public  int code { get; set; }
 
-        public override string Msg { get; set; }
+        public  string msg { get; set; }
 
-        public List<RespData> data { get; set; }
+        public List<MemberinfoData> data { get; set; }
     }
 
     public class RespData
@@ -19,6 +19,8 @@ namespace SocialMedia.Models.Setting
         
         public string MemberName { get; set; }
         public string Gender { get; set; }
+
+        public string NickName { get; set; }
         //工作       
         public string Job { get; set; }
 
@@ -35,6 +37,23 @@ namespace SocialMedia.Models.Setting
         public bool IsRegist { get; set; }
     }
 
+    public class MemberinfoData
+    {
+        public string username { get; set; }
+
+        public string nickname { get; set; }
+        public int memberID { get; set; }
+        public string gender { get; set; }
+        public string job { get; set; }
+        public string state { get; set; }
+        public string introduce { get; set; }
+
+        public List<string> intersert { get; set; }
+
+        public List<string> preferType { get; set; }
+        public bool isRegist { get; set; }
+    }
+
 
     //返回選項
     public class TypeResp : ResponseModel
@@ -45,7 +64,6 @@ namespace SocialMedia.Models.Setting
 
         public OptionData OptionData { get; set; }
 
-        public bool IsRegist { get; set; }
 
     }
 

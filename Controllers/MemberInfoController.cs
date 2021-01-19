@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using SocialMedia.Interface;
+using SocialMedia.Models.DbModels;
 using SocialMedia.Models.Setting;
 using System;
 using System.Collections.Generic;
@@ -10,32 +11,44 @@ namespace SocialMedia.Controllers
 {
     public class MemberInfoController : Controller
     {
-        private readonly ISetting _setting;
+        private readonly IMemberinfo _setting;
 
-        public MemberInfoController(ISetting setting)
+        public MemberInfoController(IMemberinfo setting)
         {
             _setting = setting;
         }
 
         //get
-        public IActionResult Index(int? id)
+        //用戶列表
+        //public IActionResult Index([FromBody] SetReq reqbody)
+        //{
+        //    var checkresult = _setting.GetMemberInfo(reqbody.memberid);
+        //    return Json(checkresult);
+        //}
+
+        //get
+        //用戶列表
+        public IActionResult Index()
         {
-            var checkresult = _setting.GetMemberInfo(id);
+            int memberID = Convert.ToInt32(Request.Query["memberid"]);
+            //var checkresult = _setting.GetMemberInfo(reqbody.memberid);
+            var checkresult = _setting.GetMemberList(memberID);
             return Json(checkresult);
         }
 
-        //post 
-        public IActionResult Post([FromBody] SetReq reqbody)
+       
+
+        //test 新增 選項
+
+        public IActionResult AddInter([FromBody] Interest interest)
         {
-            var result = _setting.GetMemberInfo(reqbody);
+            var result = _setting.AddInterest1(interest);
             return Json(result);
         }
 
-        //取得選項
-        //get
-        public IActionResult SelectOption()
+        public IActionResult AddPer([FromBody] Personality personality)
         {
-            var result = _setting.GetSelectOption();
+            var result = _setting.AddPersonality1(personality);
             return Json(result);
         }
     }

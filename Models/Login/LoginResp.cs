@@ -5,21 +5,20 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Models.Login
 {
-    public class LoginResp : ResponseModel
+    public class LoginResp
     {
-        public override int Code { get; set; }
+        public  int code { get; set; }
 
-        public override string Msg { get; set; }
+        public  string msg { get; set; }
       
-        public  Data data { get; set; }
+        public LoginData data { get; set; }
     }
 
-    public class Data
+    public class LoginData
     {
-        public string Gender { get; set; }
-
-        public int MemberID { get; set; }
-
-        public  bool IsRegist { get; set; }
+        public string username { get; set; }
+        public string gender { get; set; }
+        public int memberID { get; set; }
+        public bool isRegist { get; set; }
     }
 }

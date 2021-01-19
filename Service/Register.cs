@@ -14,63 +14,71 @@ using SocialMedia.Models.DbModels;
 
 namespace SocialMedia.Service
 {
-    public class Register : IRegister
+    public class Register : DBfactory,IRegister
     {
         //注入DbContext
-        private readonly MemberContext _context;
-        public Register(MemberContext context)
+        //private readonly MemberContext _context;
+        public Register(MemberContext context) : base(context)
         {
-            _context = context;
+            //_context = context;
         }
 
-        public ResponseModel CheckUserExisted(RegisReq req) 
+        /// <summary>
+        /// 實作註冊功能
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        public RegistResp CheckUserExisted(RegisReq req) 
         {
             RegistResp resp = new RegistResp();
-            
-            var memberInfo = _context.Members.Include(mp=>mp.Password).AsNoTracking();
 
-            //用 == 會忽略大小寫
-            var memberExisted = memberInfo.Any(m => string.Equals(m.Name, req.username, StringComparison.Ordinal));
-            
+            //var memberInfo = _context.Members.Include(mp=>mp.Password).AsNoTracking();
+
+            ////用 == 會忽略大小寫
+            //var memberExisted = memberInfo.Any(m => string.Equals(m.Name, req.username, StringComparison.Ordinal));
+            var memberExisted = base.CheckMemberExisted(req);
 
             if (memberExisted)
             {
-                resp.Code = (int)RespCode.FAIL;
-                resp.Msg = "用戶已存在";
+                resp.code = (int)RespCode.FAIL;
+                resp.msg = "用戶已存在";
                 return resp;
             }
 
             //之後寫一個存入資料庫的方法
-            var psdSaveData = new Password()
-            {
-                Code = req.password,
-            };
+            //var psdSaveData = new Password()
+            //{
+            //    Code = req.password,
+            //};
 
-            var memberSaveData = new Member()
-            {
-                Name = req.username,
-                Password = psdSaveData,
-            };
-            _context.Add(memberSaveData);
-            _context.SaveChanges();
+            //var memberSaveData = new Member()
+            //{
+            //    Name = req.username,
+            //    Password = psdSaveData,
+            //};
+            //_context.Add(memberSaveData);
+            //_context.SaveChanges();
 
+            //如果用戶不存在就新增
+            base.SaveMemberData(req);
+
+
+
+            //var member = _context.Members.Include(mf => mf.MemberInfo)
+            //                          .Include(mp => mp.Password)
+            //                          .AsNoTracking()
+            //                          .FirstOrDefault(m => string.Equals(m.Name, req.username, StringComparison.Ordinal));
             
+            //取得用戶實體
+            var member = base.GetMemberInstance(req);
 
-
-
-            var member = _context.Members.Include(mf => mf.MemberInfo)
-                                      .Include(mp => mp.Password)
-                                      .AsNoTracking()
-                                      .FirstOrDefault(m => string.Equals(m.Name, req.username, StringComparison.Ordinal));
-
-
-            resp.Code = (int)RespCode.SUCCESS;
-            resp.Msg = "註冊成功";
-            Data da = new Data() 
+            resp.code = (int)RespCode.SUCCESS;
+            resp.msg = "註冊成功";
+            RegistData da = new RegistData() 
             { 
-                Gender= req.gender,
-                MemberID= member.ID,
-                IsRegist=true,
+                gender= member.Gender,
+                memberID= member.ID,
+                isRegist=true,
             };            
             resp.data = da;
 

@@ -9,74 +9,104 @@ using System.Linq;
 
 namespace SocialMedia.Service
 {
-    public class Directory : IDirectory
+    public class Directory : DBfactory,IDirectory
     {
         //注入DbContext
-        private readonly MemberContext _context;
-        public Directory(MemberContext context)
+        //private readonly MemberContext _context;
+        public Directory(MemberContext context):base(context)
         {
-            _context = context;
+            //_context = context;
         }
 
-        public FriendsResp GetFrinedList(int? id)
+        /// <summary>
+        /// 實作取得好友列表
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public FriendResp GetFrinedList(int id)
         {
-            FriendsResp resp = new FriendsResp();
+            FriendResp resp = new FriendResp();
 
-            var memberInfo = _context.Members.Include(mf => mf.MemberInfo)
-                                      .Include(mi => mi.MemberInterests)
-                                        .ThenInclude(i => i.Interest)
-                                      .Include(mt => mt.PreferTypes)
-                                        .ThenInclude(k => k.Personality)
-                                      .Include(md=>md.Directory)
-                                      .AsNoTracking();
-
-            var correctId = memberInfo.Any(m => m.ID == id);
-
+            var memberInfo = base.GetMemberListInstance();
+            
+            var correctId = CheckMemberId(memberInfo, id);
+            
             if (!correctId)
             {
-                resp.Code = (int)RespCode.FAIL;
-                resp.Msg = "用戶不存在，請重新登入";
+                resp.code = (int)RespCode.FAIL;
+                resp.msg = "用戶不存在，請重新登入";
                 return resp;
             }
 
-            List<RespData> friendlist = GetFrinedList(memberInfo,id);
+            List<FriendData> friendlist = base.GetFrinedList(memberInfo,id);
    
             //回到用戶列表
-            resp.Code = (int)RespCode.SUCCESS;
-            resp.Msg = "取得用戶成功";
+            resp.code = (int)RespCode.SUCCESS;
+            resp.msg = "取得用戶成功";
             resp.data = friendlist;
             //回到個人頁面
 
             return resp;
         }
 
-
-        //取得朋友資訊
-        public List<RespData> GetFrinedList(IQueryable<Member> memberInfo,int? id)
+        /// <summary>
+        /// 實作新增好友
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+        public FriendResp AddFrined(FriendReq req)
         {
-            //取得用戶資料
-            var memInfo = memberInfo.FirstOrDefault(m => m.ID == id);
-            //取得用戶朋友的memberid
-            string[] frinedId = memInfo.Directory.ContactList.Split(',');
-            //取得朋友列表       
-            var friendInfos = memberInfo.Where(m => frinedId.Contains(m.ID.ToString())).Select(m => m);
+            FriendResp resp = new FriendResp();
 
-            List<RespData> frinedlist = new List<RespData>();
-            foreach (var item in friendInfos)
+            var memberInfo = base.GetMemberListInstance();
+            var correctId = CheckMemberId(memberInfo, req.memberid);        
+            if (!correctId)
             {
-                //var friendInfo = memberInfo.FirstOrDefault(m => m.ID == int.Parse(frinedId));
-                frinedlist.Add(new RespData()
-                {
-                    Gender = item.MemberInfo.Gender,
-                    Job = item.MemberInfo.Job,
-                    State = item.MemberInfo.State,
-                    Introduce = item.MemberInfo.Introduce,
-                    Intersert = string.Join("、", item.MemberInterests.Where(mi => mi.MemberID == item.ID).Select(mi => mi.Interest.Name)),
-                    PreferType = string.Join("、", item.PreferTypes.Where(mi => mi.MemberID == item.ID).Select(mi => mi.Personality.Kind)),
-                });
+                resp.code = (int)RespCode.FAIL;
+                resp.msg = "用戶不存在，請重新登入";
+                return resp;
             }
 
-            return frinedlist;
+            //儲存朋友
+            base.SaveDirectoryData(req);
+
+            List<FriendData> friendlist = base.GetFrinedList(memberInfo,req.memberid);
+            //回到用戶列表
+            resp.code = (int)RespCode.SUCCESS;
+            resp.msg = "取得用戶成功";
+            resp.data = friendlist;
+
+            return resp;
+
+        }
+
+        /// <summary>
+        /// 實作刪除好友
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
+
+        public FriendResp DeleteFrined(FriendReq req)
+        {
+            FriendResp resp = new FriendResp();
+            var memberInfo = base.GetMemberListInstance();
+            var correctId = CheckMemberId(memberInfo, req.memberid);
+            if (!correctId)
+            {
+                resp.code = (int)RespCode.FAIL;
+                resp.msg = "用戶不存在，請重新登入";
+                return resp;
+            }
+            //刪除朋友
+            base.SaveDirectoryData(req,false);
+
+            List<FriendData> friendlist = base.GetFrinedList(memberInfo, req.memberid);
+            //回到用戶列表
+            resp.code = (int)RespCode.SUCCESS;
+            resp.msg = "取得用戶成功";
+            resp.data = friendlist;
+
+            return resp;
 
         }
 
