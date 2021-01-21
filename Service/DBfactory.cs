@@ -240,7 +240,7 @@ namespace SocialMedia.Service
         /// 用戶基本資訊
         /// </summary>
         /// <param name="req"></param>
-        public virtual void SaveMemberData(RegisReq req)
+        protected virtual void SaveMemberData(RegisReq req)
         {
             //註冊的時候把資料都建立起來
             var member = SetMember(req);
@@ -320,13 +320,13 @@ namespace SocialMedia.Service
 
             //篩選出 要刪除的 跟要新增的(取差集)
 
-            var addList = inputIdList.Except(NowIdList);
-            var delList = NowIdList.Except(inputIdList);
-
-
+            //var addList = inputIdList.Except(NowIdList);
+            //var delList = NowIdList.Except(inputIdList);
+            var result = GetTwoExcept(inputIdList, NowIdList);
+            //var result = GetIdListTest(req.data.preferType, memInfo.ToList(), preferTypeDic);
             //要新增的
             //var list1 = new List<int>();
-            
+
 
             //foreach(var i in inputIdList)
             //{
@@ -347,13 +347,13 @@ namespace SocialMedia.Service
             //}
 
             //添加
-            foreach(var i in addList)
+            foreach (var i in result.addList)
             {
                 var prefer =SetPreferData(req,i);
                 _context.Add(prefer);
             }
             //刪除
-            foreach (var i in delList)
+            foreach (var i in result.delList)
             {
                 var delItem = memInfo.Where(x =>x.PersonalityID == i).FirstOrDefault();
                 _context.PreferTypes.Remove(delItem);
@@ -362,6 +362,7 @@ namespace SocialMedia.Service
             _context.SaveChanges();
 
         }
+
 
         //修改興趣
         public virtual void SaveMemberInterest(PersonalReq req)
@@ -378,18 +379,17 @@ namespace SocialMedia.Service
 
             //篩選出 要刪除的 跟要新增的(取差集)
 
-            var addList = inputIdList.Except(NowIdList);
-            var delList = NowIdList.Except(inputIdList);
+            var result = GetTwoExcept(inputIdList, NowIdList);
 
             //修改資料庫
             //添加
-            foreach (var i in addList)
+            foreach (var i in result.addList)
             {
                 var inter = MemberInterestData(req, i);
                 _context.Add(inter);
             }
             //刪除
-            foreach (var i in delList)
+            foreach (var i in result.delList)
             {
                 var delItem = memInfo.Where(x => x.InterestID == i).FirstOrDefault();
                 _context.MemberInterests.Remove(delItem);
@@ -585,6 +585,34 @@ namespace SocialMedia.Service
             }
 
             return idList;
+        }
+
+        //返回 memberInterest、 prefertype 這種 多對多關連資料表 對應的id
+        //可以返回兩個值
+        public (List<int>addList, List<int> delList) GetIdListTest<T>(IList<T> inputList, IList<T> inputList2, Dictionary<int, string> preferTypeDic)
+        {
+            var idList = new List<int>();
+            foreach (var i in inputList)
+            {
+                foreach (var x in preferTypeDic)
+                {
+                    if (x.Value == i.ToString())
+                    {
+                        //[1,2,6]
+                        idList.Add(x.Key);
+                    }
+                }
+            }
+
+            return (idList,idList);
+
+        }
+
+        //取得差集
+        public (IEnumerable<int> addList, IEnumerable<int> delList) GetTwoExcept(List<int> inputIdList, List<int> NowIdList)
+        {
+            
+            return (inputIdList.Except(NowIdList), NowIdList.Except(inputIdList));
         }
 
     }
