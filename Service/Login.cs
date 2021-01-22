@@ -26,18 +26,16 @@ namespace SocialMedia.Service
             //var memberInfo = _context.Members.Include(mf => mf.MemberInfo)
             //                          .Include(mp => mp.Password).AsNoTracking();
             ////用 == 會忽略大小寫
-            //var memberExisted = memberInfo.Any(m => string.Equals(m.Name,req.username,StringComparison.Ordinal));
-            var memberExisted = base.CheckMemberExisted(req);
+            
+            var member = base.GetMemberInstance(req);
             //沒有這個帳戶
-            if (!memberExisted)
+            if (member == null)
             {
                 resp.code = (int)RespCode.FAIL;
                 resp.msg = "用戶不存在，請先註冊";
                 return resp;
             }
 
-            //var member = memberInfo.FirstOrDefault(m => m.Name == req.username);
-            var member = base.GetMemberInstance(req);
             //密碼錯誤
             if (req.password!= member.Password.Code)
             {

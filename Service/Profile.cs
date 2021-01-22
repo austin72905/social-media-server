@@ -28,10 +28,12 @@ namespace SocialMedia.Service
         public ProfileResp GetMemberDetail(int id,int userid)
         {
             ProfileResp resp = new ProfileResp();
-            var memberInfo = base.GetMemberListInstance();
-            
-            var correctId = CheckMemberId(memberInfo, id);
-            if (!correctId)
+            //var memberInfo = base.GetMemberListInstance();
+
+
+            var memberInfo = base.GetMemberInstance(id);
+            //var correctId = CheckMemberId(memberInfo, id);
+            if (memberInfo == null)
             {
                 resp.code = (int)RespCode.FAIL;
                 resp.msg = "用戶不存在，請重新登入";
@@ -39,10 +41,10 @@ namespace SocialMedia.Service
             }
 
             //取得對應用戶的資料
-            var memInfo = base.GetMemberInstance(memberInfo,userid);
+            var QueryMemInfo = base.GetMemberInstance(userid);
             
             //查詢的用戶不存在
-            if(memInfo == null)
+            if(QueryMemInfo == null)
             {
                 resp.code = (int)RespCode.FAIL;
                 resp.msg = "此用戶不存在";
@@ -52,15 +54,16 @@ namespace SocialMedia.Service
             // 返回對應用戶資料
             ProfileData da = new ProfileData()
             {
-                username = memInfo.ID.ToString(),
-                nickname = memInfo.MemberInfo.NickName,
-                gender = memInfo.Gender,
-                job = memInfo.MemberInfo.Job,
-                state = memInfo.MemberInfo.State,
-                introduce = memInfo.MemberInfo.Introduce,
-                interest = string.Join("、", memInfo.MemberInterests.Where(mi => mi.MemberID == memInfo.ID).Select(mi => mi.Interest.Name)),
-                preferType = string.Join("、", memInfo.PreferTypes.Where(mi => mi.MemberID == memInfo.ID).Select(mi => mi.Personality.Kind)),
+                username = QueryMemInfo.ID.ToString(),
+                nickname = QueryMemInfo.MemberInfo.NickName,
+                gender = QueryMemInfo.Gender,
+                job = QueryMemInfo.MemberInfo.Job,
+                state = QueryMemInfo.MemberInfo.State,
+                introduce = QueryMemInfo.MemberInfo.Introduce,
+                interest = string.Join("、", QueryMemInfo.MemberInterests.Where(mi => mi.MemberID == QueryMemInfo.ID).Select(mi => mi.Interest.Name)),
+                preferType = string.Join("、", QueryMemInfo.PreferTypes.Where(mi => mi.MemberID == QueryMemInfo.ID).Select(mi => mi.Personality.Kind)),
             };
+
             //回到用戶列表
             resp.code = (int)RespCode.SUCCESS;
             resp.msg = "取得用戶成功";

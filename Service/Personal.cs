@@ -2,6 +2,7 @@
 using SocialMedia.Dbcontext;
 using SocialMedia.Enum;
 using SocialMedia.Interface;
+using SocialMedia.Models.DbModels;
 using SocialMedia.Models.Personal;
 using System;
 using System.Collections.Generic;
@@ -27,18 +28,25 @@ namespace SocialMedia.Service
         public PersonalResp GetPersonalInfo(int id)
         {
             PersonalResp resp = new PersonalResp();
-            var memberInfo = base.GetMemberListInstance();
+            //var memberInfo = base.GetMemberListInstance();
             
-            var correctId = DBfactory.CheckMemberId(memberInfo, id);
-            if (!correctId)
+            //var correctId = DBfactory.CheckMemberId(memberInfo, id);
+            //if (!correctId)
+            //{
+            //    resp.code = (int)RespCode.FAIL;
+            //    resp.msg = "用戶不存在，請重新登入";
+            //    return resp;
+            //}
+
+            var memInfo = base.GetMemberInstance(id);
+            if ( memInfo == null)
             {
                 resp.code = (int)RespCode.FAIL;
                 resp.msg = "用戶不存在，請重新登入";
                 return resp;
             }
 
-            var memInfo = base.GetMemberInstance(memberInfo,id);
-            
+
             //返回個人訊息
             PersonalData da = new PersonalData()
             {
@@ -71,10 +79,10 @@ namespace SocialMedia.Service
         {
             PersonalResp resp = new PersonalResp();
 
-            var memberInfo = base.GetMemberListInstance();
+            var memberListInfo = base.GetMemberListInstance();
 
             //驗證id
-            var correctId = DBfactory.CheckMemberId(memberInfo, req.memberid);
+            var correctId = DBfactory.CheckMemberId(memberListInfo, req.memberid);
             if (!correctId)
             {
                 resp.code = (int)RespCode.FAIL;
@@ -88,7 +96,7 @@ namespace SocialMedia.Service
             base.SavePreferType(req);
             base.SaveMemberInterest(req);
 
-            var memInfo = base.GetMemberInstance(memberInfo, req.memberid);
+            var memInfo = memberListInfo.FirstOrDefault(m => m.ID == req.memberid);
 
             //返回個人訊息
             PersonalData da = new PersonalData()
@@ -148,5 +156,9 @@ namespace SocialMedia.Service
 
             return resp;
         }
+
+        
+
+
     }
 }

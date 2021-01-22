@@ -45,29 +45,9 @@ namespace SocialMedia.Service
                 return resp;
             }
 
-            //之後寫一個存入資料庫的方法
-            //var psdSaveData = new Password()
-            //{
-            //    Code = req.password,
-            //};
-
-            //var memberSaveData = new Member()
-            //{
-            //    Name = req.username,
-            //    Password = psdSaveData,
-            //};
-            //_context.Add(memberSaveData);
-            //_context.SaveChanges();
-
+            
             //如果用戶不存在就新增
-            base.SaveMemberData(req);
-
-
-
-            //var member = _context.Members.Include(mf => mf.MemberInfo)
-            //                          .Include(mp => mp.Password)
-            //                          .AsNoTracking()
-            //                          .FirstOrDefault(m => string.Equals(m.Name, req.username, StringComparison.Ordinal));
+            base.SaveMemberData(req);                                 
             
             //取得用戶實體
             var member = base.GetMemberInstance(req);

@@ -21,6 +21,8 @@ namespace SocialMedia.Service
             _context = context;
         }
 
+        
+
         /// <summary>
         /// 檢查ID
         /// </summary>
@@ -138,7 +140,7 @@ namespace SocialMedia.Service
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public virtual Member SetMember(RegisReq req)
+        private Member SetMember(RegisReq req)
         {
             var password = SetPassword(req);
             var directory = SetDirectory(req);
@@ -162,7 +164,7 @@ namespace SocialMedia.Service
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public virtual Password SetPassword(RegisReq req)
+        private  Password SetPassword(RegisReq req)
         {
             var password = new Password()
             {
@@ -172,28 +174,10 @@ namespace SocialMedia.Service
             return password;
         }
 
-        /// <summary>
-        /// 提供 memberInfo 實體
-        /// </summary>
-        /// <param name="req"></param>
-        /// <returns></returns>
-        public virtual Models.DbModels.MemberInfo SetMemberInfo(SetReq req)
-        {
-            var memberInfo = new Models.DbModels.MemberInfo()
-            {
-                MemberID = req.memberid,
-                //Gender = req.data.Gender,
-                NickName=req.data.NickName,
-                Job = req.data.Job,
-                State = req.data.State,
-                Introduce = req.data.Introduce,
-            };
-
-            return memberInfo;
-        }
+        
 
         //第一次建立
-        public virtual Models.DbModels.MemberInfo SetMemberInfo(RegisReq req)
+        private  Models.DbModels.MemberInfo SetMemberInfo(RegisReq req)
         {
             var memberInfo = new Models.DbModels.MemberInfo()
             {
@@ -203,7 +187,7 @@ namespace SocialMedia.Service
         }
 
 
-        public virtual  Models.DbModels.Directory SetDirectory(RegisReq req)
+        private  Models.DbModels.Directory SetDirectory(RegisReq req)
         {
 
             var directory = new Models.DbModels.Directory()
@@ -250,23 +234,11 @@ namespace SocialMedia.Service
         }
 
 
-        //這個好像用不到
-        /// <summary>
-        /// 個人訊息
-        /// </summary>
-        /// <param name="memberInfo"></param>
-        public virtual void SaveMemberInfoData(SetReq req)
-        {
-            var memberInfo = SetMemberInfo(req);
-            SaveMemberInfoData(memberInfo);
-        }
-
-
         //修改個人資料
-        public virtual void SaveMemberInfoData(PersonalReq req)
+        protected virtual void SaveMemberInfoData(PersonalReq req)
         {
-            var memberlist = _context.Members.Include(mf =>mf.MemberInfo );
-            var memberInfo = GetMemberInstance(memberlist, req.memberid);
+            var memberInfo = _context.Members.Include(mf =>mf.MemberInfo ).FirstOrDefault(m => m.ID == req.memberid) ;
+            //var memberInfo = GetMemberInstance(memberlist, req.memberid);
             //修改值
             memberInfo.MemberInfo.NickName = req.data.nickname;
             memberInfo.MemberInfo.Job = req.data.job;
@@ -277,7 +249,7 @@ namespace SocialMedia.Service
 
 
         //修改偏好類型
-        public virtual void SavePreferType(PersonalReq req)
+        protected virtual void SavePreferType(PersonalReq req)
         {
             //取得實體
             var memInfo = _context.PreferTypes.Include(pp => pp.Personality)
@@ -309,7 +281,7 @@ namespace SocialMedia.Service
 
 
         //修改興趣
-        public virtual void SaveMemberInterest(PersonalReq req)
+        protected virtual void SaveMemberInterest(PersonalReq req)
         {
             //取得實體
             var memInfo = _context.MemberInterests.Include(mi => mi.Interest)
@@ -344,11 +316,11 @@ namespace SocialMedia.Service
         /// 新增好友
         /// </summary>
         /// <param name="req"></param>
-        public virtual void SaveDirectoryData(FriendReq req,bool isAdd =true)
+        protected virtual void SaveDirectoryData(FriendReq req,bool isAdd =true)
         {
-            var memberDirectorylist = _context.Members.Include(md => md.Directory);
+            var memberInfo = _context.Members.Include(md => md.Directory).FirstOrDefault(m => m.ID == req.memberid);
 
-            var memberInfo = GetMemberInstance(memberDirectorylist, req.memberid);
+            //var memberInfo = GetMemberInstance(memberDirectorylist, req.memberid);
 
             //取得用戶朋友的memberid
             string frinedId = memberInfo.Directory.ContactList;
@@ -367,7 +339,11 @@ namespace SocialMedia.Service
             _context.SaveChanges();
         }
 
-
+        /// <summary>
+        /// 註冊時取得用戶實體
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         public virtual Member GetMemberInstance(RegisReq req)
         {
             var member = _context.Members.Include(mf => mf.MemberInfo)
@@ -377,6 +353,11 @@ namespace SocialMedia.Service
             return member;
         }
 
+        /// <summary>
+        /// 登入取得用戶實體
+        /// </summary>
+        /// <param name="req"></param>
+        /// <returns></returns>
         public virtual Member GetMemberInstance(LoginReq req)
         {
             var member = _context.Members.Include(mf => mf.MemberInfo)
@@ -386,21 +367,23 @@ namespace SocialMedia.Service
             return member;
         }
 
-        
 
         /// <summary>
-        /// 取得member實體
+        /// get 方法時 取得用戶實體
         /// </summary>
-        /// <param name="memberInfo"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual Member GetMemberInstance(IQueryable<Member> memberInfo,int id)
+        public virtual Member GetMemberInstance(int id)
         {
-            var member = memberInfo.FirstOrDefault(m => m.ID == id);
+            var member = _context.Members.Include(mf => mf.MemberInfo)
+                                      .Include(mi => mi.MemberInterests)
+                                        .ThenInclude(i => i.Interest)
+                                      .Include(mt => mt.PreferTypes)
+                                        .ThenInclude(k => k.Personality)
+                                      .AsNoTracking()
+                                      .FirstOrDefault(m => m.ID == id);
             return member;
         }
-
-
 
 
         /// <summary>
@@ -428,7 +411,7 @@ namespace SocialMedia.Service
         public List<FriendData> GetFrinedList(IQueryable<Member> memberInfo, int id)
         {
             //取得用戶資料
-            var memInfo = GetMemberInstance(memberInfo, id);
+            var memInfo = memberInfo.FirstOrDefault(m => m.ID == id);
             //取得用戶朋友的memberid
             string[] frinedId = memInfo.Directory.ContactList.Split(',');
             //取得朋友列表       
@@ -445,8 +428,6 @@ namespace SocialMedia.Service
                     job = item.MemberInfo.Job,
                     state = item.MemberInfo.State,
                     introduce = item.MemberInfo.Introduce,
-                    //intersert = string.Join("、", item.MemberInterests.Where(mi => mi.MemberID == item.ID).Select(mi => mi.Interest.Name)),
-                    //preferType = string.Join("、", item.PreferTypes.Where(mi => mi.MemberID == item.ID).Select(mi => mi.Personality.Kind)),
                 });
             }
 
@@ -513,17 +494,17 @@ namespace SocialMedia.Service
         }
 
         //返回 memberInterest、 prefertype 這種 多對多關連資料表 對應的id
-        public List<int> GetIdList<T>(IList<T> inputList, Dictionary<int, string> preferTypeDic) 
+        public List<int> GetIdList<T>(IList<T> inputList, Dictionary<int, string> Dic) 
         {
             var idList = new List<int>();
-            foreach (var i in inputList)
+            foreach (var item in inputList)
             {
-                foreach (var x in preferTypeDic)
+                foreach (var optionItem in Dic)
                 {
-                    if (x.Value == i.ToString())
+                    if (optionItem.Value == item.ToString())
                     {
                         //[1,2,6]
-                        idList.Add(x.Key);
+                        idList.Add(optionItem.Key);
                     }
                 }
             }
