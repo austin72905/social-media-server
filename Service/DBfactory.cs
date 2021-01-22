@@ -141,14 +141,16 @@ namespace SocialMedia.Service
         public virtual Member SetMember(RegisReq req)
         {
             var password = SetPassword(req);
-            //var directory = SetDirectory(req);
-            //不用建立memberInfo 他會幫你建立 除了 memberid 其他都是null
-
+            var directory = SetDirectory(req);
+            var memberInfo = SetMemberInfo(req);
+            
             var member = new Member()
             {
                 Name= req.username,
+                Gender =req.gender,
                 Password = password,
-                //Directory= directory
+                Directory= directory,
+                MemberInfo= memberInfo,
 
             };
 
@@ -278,74 +280,16 @@ namespace SocialMedia.Service
         public virtual void SavePreferType(PersonalReq req)
         {
             //取得實體
-            var preferType = _context.PreferTypes.Include(pp => pp.Personality);
-
-            //列出用戶的偏好類型
-            var memInfo = preferType.Where(p => p.MemberID == req.memberid);
+            var memInfo = _context.PreferTypes.Include(pp => pp.Personality)
+                .Where(p => p.MemberID == req.memberid);
 
             //personality 字典
-            var preferTypeDic = PreferTypeDic(preferType);
+            Dictionary<int, string> personalDic = PreferTypeDic(_context.Personalitys);
 
-            //取得現有的idlist 與 輸入prefertype 的idlist
-            List<int> inputIdList = GetIdList(req.data.preferType, preferTypeDic);
-            List<int> NowIdList = GetIdList(memInfo.ToList(), preferTypeDic);
+            //取得要刪除、新增的項目
+            var result = GetAddDelTest(req.data.preferType, memInfo.Select(p => p.Personality.Kind).ToList(), personalDic);
 
-            //列出req 的preferType
-            //var plist2 = new List<int>();
-            //foreach (var i in req.data.preferType)
-            //{
-            //    foreach(var x in preferTypeDic)
-            //    {
-            //        if(x.Value == i)
-            //        {
-            //            //[1,2,6]
-            //            plist2.Add(x.Key);
-            //        }
-            //    }
-            //}
-
-            //列出目前有的preferType
-            //var plist3 = new List<int>();
-            //foreach (var i in preferlist)
-            //{
-            //    foreach (var x in preferTypeDic)
-            //    {
-            //        if (x.Value == i.Personality.Kind)
-            //        {
-            //            //[1,3,5]
-            //            plist3.Add(x.Key);
-            //        }
-            //    }
-            //}
-
-            //篩選出 要刪除的 跟要新增的(取差集)
-
-            //var addList = inputIdList.Except(NowIdList);
-            //var delList = NowIdList.Except(inputIdList);
-            var result = GetTwoExcept(inputIdList, NowIdList);
-            //var result = GetIdListTest(req.data.preferType, memInfo.ToList(), preferTypeDic);
-            //要新增的
-            //var list1 = new List<int>();
-
-
-            //foreach(var i in inputIdList)
-            //{
-            //    if (!inputIdList.Contains(i))
-            //    {
-            //        list1.Add(i);
-            //    }
-            //}
-
-            ////要刪除的
-            //var list2 = new List<int>();
-            //foreach (var i in NowIdList)
-            //{
-            //    if (!NowIdList.Contains(i))
-            //    {
-            //        list2.Add(i);
-            //    }
-            //}
-
+            
             //添加
             foreach (var i in result.addList)
             {
@@ -368,18 +312,15 @@ namespace SocialMedia.Service
         public virtual void SaveMemberInterest(PersonalReq req)
         {
             //取得實體
-            var MemberInterest = _context.MemberInterests.Include(mi => mi.Interest);
-            //列出用戶的興趣
-            var memInfo = MemberInterest.Where(p => p.MemberID == req.memberid);
+            var memInfo = _context.MemberInterests.Include(mi => mi.Interest)
+                .Where(p => p.MemberID == req.memberid);
+
             //interest 字典
-            var MemberItDic = MemberInterestDic(MemberInterest);
-            //取得現有的idlist 與 輸入prefertype 的idlist
-            List<int> inputIdList = GetIdList(req.data.interest, MemberItDic);
-            List<int> NowIdList = GetIdList(memInfo.ToList(), MemberItDic);
+            Dictionary<int, string> MemberItDic = MemberInterestDic(_context.Interests);
 
-            //篩選出 要刪除的 跟要新增的(取差集)
-
-            var result = GetTwoExcept(inputIdList, NowIdList);
+            //取得要刪除、新增的項目
+            var result = GetAddDelTest(req.data.interest, memInfo.Select(p => p.Interest.Name).ToList(), MemberItDic);
+            
 
             //修改資料庫
             //添加
@@ -405,19 +346,20 @@ namespace SocialMedia.Service
         /// <param name="req"></param>
         public virtual void SaveDirectoryData(FriendReq req,bool isAdd =true)
         {
-            var memberlist = _context.Members.Include(md => md.Directory);
-            var memberInfo = GetMemberInstance(memberlist, req.memberid);
+            var memberDirectorylist = _context.Members.Include(md => md.Directory);
+
+            var memberInfo = GetMemberInstance(memberDirectorylist, req.memberid);
 
             //取得用戶朋友的memberid
             string frinedId = memberInfo.Directory.ContactList;
             if (isAdd)
             {
-                frinedId += $"、{req.friendid}";
+                frinedId += $",{req.friendid}";
             }
             else
             {
-                string[] frinedList = frinedId.Split('、');
-                frinedId = string.Join("、", frinedList.Where(i=> i != req.friendid.ToString()).Select(m=>m));
+                string[] frinedList = frinedId.Split(',');
+                frinedId = string.Join(",", frinedList.Where(i=> i != req.friendid.ToString()).Select(m=>m));
             }
             
             //更新值
@@ -440,7 +382,7 @@ namespace SocialMedia.Service
             var member = _context.Members.Include(mf => mf.MemberInfo)
                                       .Include(mp => mp.Password)
                                       .AsNoTracking()
-                                      .FirstOrDefault(m => m.Name == req.username);
+                                      .FirstOrDefault(m => string.Equals(m.Name, req.username, StringComparison.Ordinal));
             return member;
         }
 
@@ -472,6 +414,7 @@ namespace SocialMedia.Service
                                       .ThenInclude(i => i.Interest)
                                     .Include(mt => mt.PreferTypes)
                                       .ThenInclude(k => k.Personality)
+                                    .Include(md => md.Directory)
                                     .AsNoTracking();
             return memberList;
         }
@@ -497,6 +440,7 @@ namespace SocialMedia.Service
                 //var friendInfo = memberInfo.FirstOrDefault(m => m.ID == int.Parse(frinedId));
                 frinedlist.Add(new FriendData()
                 {
+                    memberID =item.ID,
                     gender = item.Gender,
                     job = item.MemberInfo.Job,
                     state = item.MemberInfo.State,
@@ -547,23 +491,23 @@ namespace SocialMedia.Service
 
 
         //返回 preferType personality字典
-        public Dictionary<int,string> PreferTypeDic(IQueryable<PreferType> preferType)
+        public Dictionary<int,string> PreferTypeDic(IQueryable<Personality> preferType)
         {
             var preferTypeDic = new Dictionary<int, string>();
             foreach (var item in preferType)
             {
-                preferTypeDic.Add(item.Personality.ID, item.Personality.Kind);
+                preferTypeDic.Add(item.ID, item.Kind);
             }
             return preferTypeDic;
         }
 
         //返回 interest personality字典
-        public Dictionary<int, string> MemberInterestDic(IQueryable<MemberInterest> memberInterest)
+        public Dictionary<int, string> MemberInterestDic(IQueryable<Interest> memberInterest)
         {
             var preferTypeDic = new Dictionary<int, string>();
             foreach (var item in memberInterest)
             {
-                preferTypeDic.Add(item.Interest.ID, item.Interest.Name);
+                preferTypeDic.Add(item.ID, item.Name);
             }
             return preferTypeDic;
         }
@@ -589,22 +533,15 @@ namespace SocialMedia.Service
 
         //返回 memberInterest、 prefertype 這種 多對多關連資料表 對應的id
         //可以返回兩個值
-        public (List<int>addList, List<int> delList) GetIdListTest<T>(IList<T> inputList, IList<T> inputList2, Dictionary<int, string> preferTypeDic)
+        public (IEnumerable<int>addList, IEnumerable<int> delList) GetAddDelTest<T>(IList<T> inputList, IList<T> NowList, Dictionary<int, string> Dic)
         {
-            var idList = new List<int>();
-            foreach (var i in inputList)
-            {
-                foreach (var x in preferTypeDic)
-                {
-                    if (x.Value == i.ToString())
-                    {
-                        //[1,2,6]
-                        idList.Add(x.Key);
-                    }
-                }
-            }
+            //類似tuple 的東西
+            //可以存多個值
+            //取得對應的id 值
+            var tuple = (GetIdList(inputList, Dic), GetIdList(NowList, Dic));
 
-            return (idList,idList);
+            //取差集
+            return GetTwoExcept(tuple.Item1,tuple.Item2);
 
         }
 

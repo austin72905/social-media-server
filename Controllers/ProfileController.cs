@@ -20,9 +20,9 @@ namespace SocialMedia.Controllers
         public IActionResult Index()
         {
             int memberID = Convert.ToInt32(Request.Query["memberid"]);
-            string username = Request.Query["username"].ToString();
+            int userid = Convert.ToInt32(Request.Query["userid"]);
 
-            var memberInfo = _profile.GetMemberDetail(memberID, username);
+            var memberInfo = _profile.GetMemberDetail(memberID, userid);
             return Json(memberInfo);
         }
     }

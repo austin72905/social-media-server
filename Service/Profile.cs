@@ -25,7 +25,7 @@ namespace SocialMedia.Service
         /// <param name="id"></param>
         /// <param name="username"></param>
         /// <returns></returns>
-        public ProfileResp GetMemberDetail(int id,string username)
+        public ProfileResp GetMemberDetail(int id,int userid)
         {
             ProfileResp resp = new ProfileResp();
             var memberInfo = base.GetMemberListInstance();
@@ -39,8 +39,15 @@ namespace SocialMedia.Service
             }
 
             //取得對應用戶的資料
-            var memInfo = base.GetMemberInstance(memberInfo,Convert.ToInt32(username));
+            var memInfo = base.GetMemberInstance(memberInfo,userid);
             
+            //查詢的用戶不存在
+            if(memInfo == null)
+            {
+                resp.code = (int)RespCode.FAIL;
+                resp.msg = "此用戶不存在";
+                return resp;
+            }
 
             // 返回對應用戶資料
             ProfileData da = new ProfileData()

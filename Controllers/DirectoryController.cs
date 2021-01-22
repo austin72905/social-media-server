@@ -17,9 +17,10 @@ namespace SocialMedia.Controllers
             _directory = directory;
         }
         //get
-        public IActionResult Index(int id)
+        public IActionResult Index()
         {
-            var checkresult = _directory.GetFrinedList(id);
+            int memberID = Convert.ToInt32(Request.Query["memberid"]);
+            var checkresult = _directory.GetFrinedList(memberID);
             return Json(checkresult);
         }
 

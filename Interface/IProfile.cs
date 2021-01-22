@@ -8,7 +8,7 @@ namespace SocialMedia.Interface
 {
     public interface IProfile
     {
-        public ProfileResp GetMemberDetail(int id, string username);
+        public ProfileResp GetMemberDetail(int id, int userid);
 
     }
 }

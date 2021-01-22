@@ -42,7 +42,8 @@ namespace SocialMedia.Service
             //返回個人訊息
             PersonalData da = new PersonalData()
             {
-                username= memInfo.ID.ToString(),
+                memberID =memInfo.ID,
+                username= memInfo.Name.ToString(),
                 nickname=memInfo.MemberInfo.NickName,
                 gender =memInfo.Gender,
                 job =memInfo.MemberInfo.Job,
@@ -92,7 +93,8 @@ namespace SocialMedia.Service
             //返回個人訊息
             PersonalData da = new PersonalData()
             {
-                username = memInfo.ID.ToString(),
+                memberID = memInfo.ID,
+                username = memInfo.Name.ToString(),
                 nickname = memInfo.MemberInfo.NickName,
                 gender = memInfo.Gender,
                 job = memInfo.MemberInfo.Job,

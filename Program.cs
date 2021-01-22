@@ -34,6 +34,8 @@ namespace SocialMedia
                 .AddScoped<ILogin, Login>()
                 .AddScoped<IMemberinfo,MemberInfo>()
                 .AddScoped<IDirectory, Service.Directory>()
+                .AddScoped<IPersonal, Service.Personal>()
+                .AddScoped<IProfile, Service.Profile>()
                 //----- 
                 )
 
