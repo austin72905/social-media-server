@@ -31,7 +31,7 @@ namespace SocialMedia.Service
             //var memberInfo = base.GetMemberListInstance();
 
 
-            var memberInfo = base.GetMemberInstance(id);
+            var memberInfo = base.GetMemberListInstance().FirstOrDefault(m => m.ID == id);
             //var correctId = CheckMemberId(memberInfo, id);
             if (memberInfo == null)
             {
@@ -41,7 +41,7 @@ namespace SocialMedia.Service
             }
 
             //取得對應用戶的資料
-            var QueryMemInfo = base.GetMemberInstance(userid);
+            var QueryMemInfo = base.GetMemberListInstance().FirstOrDefault(m => m.ID == userid);
             
             //查詢的用戶不存在
             if(QueryMemInfo == null)

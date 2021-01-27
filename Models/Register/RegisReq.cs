@@ -5,11 +5,11 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Models
 {
-    public class RegisReq 
+    public class RegisReq :BasicReq
     {
-        public string username { get; set; }
+        public override string username { get; set; }
 
-        public string password { get; set; }
+        public override string password { get; set; }
 
         public string gender { get; set; }
     }

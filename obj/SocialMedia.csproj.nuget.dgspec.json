@@ -1,23 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\JIN78\\Desktop\\littleBlackWindows\\SocialMedia\\SocialMedia.csproj": {}
+    "C:\\Users\\USER\\Social_media_server\\SocialMedia.csproj": {}
   },
   "projects": {
-    "C:\\Users\\JIN78\\Desktop\\littleBlackWindows\\SocialMedia\\SocialMedia.csproj": {
+    "C:\\Users\\USER\\Social_media_server\\SocialMedia.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\JIN78\\Desktop\\littleBlackWindows\\SocialMedia\\SocialMedia.csproj",
+        "projectUniqueName": "C:\\Users\\USER\\Social_media_server\\SocialMedia.csproj",
         "projectName": "SocialMedia",
-        "projectPath": "C:\\Users\\JIN78\\Desktop\\littleBlackWindows\\SocialMedia\\SocialMedia.csproj",
-        "packagesPath": "C:\\Users\\JIN78\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\JIN78\\Desktop\\littleBlackWindows\\SocialMedia\\obj\\",
+        "projectPath": "C:\\Users\\USER\\Social_media_server\\SocialMedia.csproj",
+        "packagesPath": "C:\\Users\\USER\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\USER\\Social_media_server\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
-        ],
         "configFilePaths": [
-          "C:\\Users\\JIN78\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\USER\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -72,7 +69,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.302\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\3.1.301\\RuntimeIdentifierGraph.json"
         }
       }
     }

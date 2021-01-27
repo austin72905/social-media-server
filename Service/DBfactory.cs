@@ -3,6 +3,7 @@ using SocialMedia.Dbcontext;
 using SocialMedia.Models;
 using SocialMedia.Models.DbModels;
 using SocialMedia.Models.Friends;
+using SocialMedia.Models.Message;
 using SocialMedia.Models.Personal;
 using SocialMedia.Models.Setting;
 using System;
@@ -22,6 +23,7 @@ namespace SocialMedia.Service
         }
 
         
+
 
         /// <summary>
         /// 檢查ID
@@ -140,87 +142,87 @@ namespace SocialMedia.Service
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        private Member SetMember(RegisReq req)
-        {
-            var password = SetPassword(req);
-            var directory = SetDirectory(req);
-            var memberInfo = SetMemberInfo(req);
+        //private Member SetMember(RegisReq req)
+        //{
+        //    var password = SetPassword(req);
+        //    var directory = SetDirectory(req);
+        //    var memberInfo = SetMemberInfo(req);
             
-            var member = new Member()
-            {
-                Name= req.username,
-                Gender =req.gender,
-                Password = password,
-                Directory= directory,
-                MemberInfo= memberInfo,
+        //    var member = new Member()
+        //    {
+        //        Name= req.username,
+        //        Gender =req.gender,
+        //        Password = password,
+        //        Directory= directory,
+        //        MemberInfo= memberInfo,
 
-            };
+        //    };
 
-            return member;
-        }
+        //    return member;
+        //}
 
         /// <summary>
         /// 提供password 實體
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        private  Password SetPassword(RegisReq req)
-        {
-            var password = new Password()
-            {
-                Code = req.password,
-            };
+        //private  Password SetPassword(RegisReq req)
+        //{
+        //    var password = new Password()
+        //    {
+        //        Code = req.password,
+        //    };
 
-            return password;
-        }
+        //    return password;
+        //}
 
         
 
-        //第一次建立
-        private  Models.DbModels.MemberInfo SetMemberInfo(RegisReq req)
-        {
-            var memberInfo = new Models.DbModels.MemberInfo()
-            {
+        ////第一次建立
+        //private  Models.DbModels.MemberInfo SetMemberInfo(RegisReq req)
+        //{
+        //    var memberInfo = new Models.DbModels.MemberInfo()
+        //    {
                 
-            };
-            return memberInfo;
-        }
+        //    };
+        //    return memberInfo;
+        //}
 
 
-        private  Models.DbModels.Directory SetDirectory(RegisReq req)
-        {
+        //private  Models.DbModels.Directory SetDirectory(RegisReq req)
+        //{
 
-            var directory = new Models.DbModels.Directory()
-            {
-                ContactList="",
-            };
-            return directory;
+        //    var directory = new Models.DbModels.Directory()
+        //    {
+        //        ContactList="",
+        //    };
+        //    return directory;
 
-        }
-
-
-        public virtual Models.DbModels.PreferType SetPreferData(PersonalReq req , int personalityid)
-        {
-            var prefer = new Models.DbModels.PreferType
-            {
-                MemberID = req.memberid,
-                PersonalityID = personalityid
-            };
-            return prefer;
+        //}
 
 
-        }
+        //public virtual Models.DbModels.PreferType SetPreferData(PersonalReq req , int personalityid)
+        //{
+        //    var prefer = new Models.DbModels.PreferType
+        //    {
+        //        MemberID = req.memberid,
+        //        PersonalityID = personalityid
+        //    };
+        //    return prefer;
+
+
+        //}
 
         
-        public virtual Models.DbModels.MemberInterest MemberInterestData(PersonalReq req, int interestid)
-        {
-            var inter = new Models.DbModels.MemberInterest
-            {
-                MemberID = req.memberid,
-                InterestID = interestid
-            };
-            return inter;
-        }
+        //public virtual Models.DbModels.MemberInterest MemberInterestData(PersonalReq req, int interestid)
+        //{
+        //    var inter = new Models.DbModels.MemberInterest
+        //    {
+        //        MemberID = req.memberid,
+        //        InterestID = interestid
+        //    };
+        //    return inter;
+        //}
 
         /// <summary>
         /// 用戶基本資訊
@@ -229,7 +231,7 @@ namespace SocialMedia.Service
         protected virtual void SaveMemberData(RegisReq req)
         {
             //註冊的時候把資料都建立起來
-            var member = SetMember(req);
+            var member = SetInstance.SetMember(req);
             SaveMemberData(member);
         }
 
@@ -265,7 +267,7 @@ namespace SocialMedia.Service
             //添加
             foreach (var i in result.addList)
             {
-                var prefer =SetPreferData(req,i);
+                var prefer =SetInstance.SetPreferData(req,i);
                 _context.Add(prefer);
             }
             //刪除
@@ -298,7 +300,7 @@ namespace SocialMedia.Service
             //添加
             foreach (var i in result.addList)
             {
-                var inter = MemberInterestData(req, i);
+                var inter = SetInstance.MemberInterestData(req, i);
                 _context.Add(inter);
             }
             //刪除
@@ -339,26 +341,65 @@ namespace SocialMedia.Service
             _context.SaveChanges();
         }
 
+
+        //存放聊天訊息
+        protected void SaveChatMsg(string userid, string recieveid, string input ,bool unread =false)
+        {
+            //發送者要存入的資料
+            var message = new ChatMsg()
+            {
+                MemberID = Convert.ToInt32(userid),
+                ChatID = Convert.ToInt32(recieveid),
+                SpeakerID = Convert.ToInt32(userid),
+                Text = input,
+                Time = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString(),
+
+            };
+
+            //接收者要存入的資料
+            var recieverMsg = new ChatMsg()
+            {
+                MemberID = Convert.ToInt32(recieveid),
+                ChatID = Convert.ToInt32(userid),
+                SpeakerID = Convert.ToInt32(userid),
+                Text = input,
+                Unread =true
+            };
+
+            _context.ChatMsgs.Add(message);
+            _context.ChatMsgs.Add(recieverMsg);
+            _context.SaveChanges();
+        }
+
         /// <summary>
         /// 註冊時取得用戶實體
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public virtual Member GetMemberInstance(RegisReq req)
-        {
-            var member = _context.Members.Include(mf => mf.MemberInfo)
-                                      .Include(mp => mp.Password)
-                                      .AsNoTracking()
-                                      .FirstOrDefault(m => string.Equals(m.Name, req.username, StringComparison.Ordinal));
-            return member;
-        }
+        //public virtual Member GetMemberInstance(RegisReq req)
+        //{
+        //    var member = _context.Members.Include(mf => mf.MemberInfo)
+        //                              .Include(mp => mp.Password)
+        //                              .AsNoTracking()
+        //                              .FirstOrDefault(m => string.Equals(m.Name, req.username, StringComparison.Ordinal));
+        //    return member;
+        //}
 
         /// <summary>
         /// 登入取得用戶實體
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public virtual Member GetMemberInstance(LoginReq req)
+        //public virtual Member GetMemberInstance(LoginReq req)
+        //{
+        //    var member = _context.Members.Include(mf => mf.MemberInfo)
+        //                              .Include(mp => mp.Password)
+        //                              .AsNoTracking()
+        //                              .FirstOrDefault(m => string.Equals(m.Name, req.username, StringComparison.Ordinal));
+        //    return member;
+        //}
+
+        public virtual Member GetMemberInstance(BasicReq req)
         {
             var member = _context.Members.Include(mf => mf.MemberInfo)
                                       .Include(mp => mp.Password)
@@ -373,17 +414,17 @@ namespace SocialMedia.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public virtual Member GetMemberInstance(int id)
-        {
-            var member = _context.Members.Include(mf => mf.MemberInfo)
-                                      .Include(mi => mi.MemberInterests)
-                                        .ThenInclude(i => i.Interest)
-                                      .Include(mt => mt.PreferTypes)
-                                        .ThenInclude(k => k.Personality)
-                                      .AsNoTracking()
-                                      .FirstOrDefault(m => m.ID == id);
-            return member;
-        }
+        //public virtual Member GetMemberInstance(int id)
+        //{
+        //    var member = _context.Members.Include(mf => mf.MemberInfo)
+        //                              .Include(mi => mi.MemberInterests)
+        //                                .ThenInclude(i => i.Interest)
+        //                              .Include(mt => mt.PreferTypes)
+        //                                .ThenInclude(k => k.Personality)
+        //                              .AsNoTracking()
+        //                              .FirstOrDefault(m => m.ID == id);
+        //    return member;
+        //}
 
 
         /// <summary>
@@ -449,6 +490,96 @@ namespace SocialMedia.Service
             return interests;
         }
 
+        //取得要傳給聊天室的資料
+        public virtual ChatResp GetMsgToChat(string userid)
+        {
+            var speakerData = GetMemberListInstance().FirstOrDefault(m => m.ID == Convert.ToInt32(userid));
+            var speakerChatData = new ChatResp() 
+            {
+                memberid = speakerData.ID,
+                username =speakerData.MemberInfo.NickName,
+                gender =speakerData.Gender
+            };
+
+            return speakerChatData;
+        }
+
+        //取得要傳給message組件的資料
+        public virtual (ChatMsgLastData forSpeaker, ChatMsgLastData forReciever) GetLastMsgData(string userid, string recieveid, string input) 
+        {
+
+            var speakerData =GetMemberListInstance().FirstOrDefault(m => m.ID == Convert.ToInt32(userid));
+            
+            var recieverData= GetMemberListInstance().FirstOrDefault(m => m.ID == Convert.ToInt32(recieveid));
+            
+            
+            var forSpeaker = new ChatMsgLastData() 
+            {
+                memberid = speakerData.ID,
+                gender = recieverData.Gender,
+                username = speakerData.Name,
+                text = input,
+                //是對哪個用戶的msg
+                chatname = recieverData.MemberInfo.NickName,
+                //傳這個是要讓點訊息時可以到該聊天室
+                chatid = recieverData.ID.ToString(),
+            };
+
+            var forReciever = new ChatMsgLastData()
+            {
+                memberid = speakerData.ID,
+                gender = speakerData.Gender,
+                username = speakerData.MemberInfo.NickName,
+                text = input,
+                //是對哪個用戶的msg
+                chatname = speakerData.MemberInfo.NickName,
+                //傳這個是要讓點訊息時可以到該聊天室
+                chatid = speakerData.ID.ToString(),
+                unreadcount = 1
+            };
+
+            return (forSpeaker, forReciever);
+        }
+
+        //修改資料庫為已讀
+        public void UpdateDBToRead(string userid, string recieveid)
+        {
+            var updateItem = _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(userid) && m.ChatID == Convert.ToInt32(recieveid));
+        
+            foreach(var item in updateItem)
+            {
+                //修改成已讀
+                item.Unread = false;
+            }
+
+            _context.SaveChanges();
+        }
+
+        protected List<ChatMsgData> GetMsgList(string memberid,string recieveid)
+        {
+            var msgItem = _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(memberid) && m.ChatID == Convert.ToInt32(recieveid)).OrderBy(m =>long.Parse( m.Time));
+            var Msglist = new List<ChatMsgData>();
+
+            //用戶及他正在聊天的用戶的基本資料
+            //var userData = GetMemberListInstance().FirstOrDefault(m => m.ID == Convert.ToInt32(memberid));
+            //var recieverData = GetMemberListInstance().FirstOrDefault(m => m.ID == Convert.ToInt32(recieveid));
+            foreach (var item in msgItem)
+            {
+                string speakerName = _context.Members.FirstOrDefault(m => m.ID == Convert.ToInt32(item.SpeakerID)).Name;
+                string gender = _context.Members.FirstOrDefault(m => m.ID == Convert.ToInt32(item.SpeakerID)).Gender;
+
+                Msglist.Add(new ChatMsgData 
+                {
+                    username = speakerName,
+                    memberid =item.SpeakerID,
+                    gender= gender,
+                    text=item.Text,
+                    unread=item.Unread
+                });
+            }
+
+            return Msglist;
+        }
 
         //新增興趣
         public object AddInterest(Interest interest)
@@ -533,5 +664,6 @@ namespace SocialMedia.Service
             return (inputIdList.Except(NowIdList), NowIdList.Except(inputIdList));
         }
 
+        
     }
 }

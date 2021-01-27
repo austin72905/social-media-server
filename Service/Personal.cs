@@ -38,7 +38,7 @@ namespace SocialMedia.Service
             //    return resp;
             //}
 
-            var memInfo = base.GetMemberInstance(id);
+            var memInfo = base.GetMemberListInstance().FirstOrDefault(m => m.ID == id);
             if ( memInfo == null)
             {
                 resp.code = (int)RespCode.FAIL;

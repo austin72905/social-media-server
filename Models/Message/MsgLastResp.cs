@@ -5,10 +5,11 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Models.Message
 {
-    public class MsgListResp
+    public class MsgLastResp
     {
         public int code { get; set; }
-        //public List<ChatMsgListData> data { get; set; }
+        
+        public List<ChatMsgLastData> data { get; set; }
         public string msg { get; set; }
 
     }

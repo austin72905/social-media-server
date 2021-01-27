@@ -25,6 +25,8 @@ namespace SocialMedia.Dbcontext
         public DbSet<PreferType> PreferTypes { get; set; }
         public DbSet<MemberInterest> MemberInterests { get; set; }
 
+        public DbSet<ChatMsg> ChatMsgs { get; set; }
+
         //可以使用 OnModelCreating 覆寫成想要的資料表名稱
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,6 +40,8 @@ namespace SocialMedia.Dbcontext
             modelBuilder.Entity<Personality>().ToTable("Personality");
             modelBuilder.Entity<PreferType>().ToTable("PreferType");
             modelBuilder.Entity<MemberInterest>().ToTable("MemberInterest");
+
+            modelBuilder.Entity<ChatMsg>().ToTable("ChatMsg");
         }
     }
 }
