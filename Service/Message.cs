@@ -2,6 +2,7 @@
 using SocialMedia.Enum;
 using SocialMedia.Interface;
 using SocialMedia.Models.Message;
+using SocialMedia.Models.SetCache;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Service
 {
-    public class Message : DBfactory,IMessage
+    public class Message : DBfactory,IMessage, IChat
     {
         public Message(MemberContext context) : base(context)
         {
@@ -57,8 +58,26 @@ namespace SocialMedia.Service
 
             };
             //之前寫的要再加一個時間戳，不然沒辦法排序
+            //取得訊息符合memberid 的 newest == true 的
+            //搞成list
+            var msgList = base.GetAllLastMsgList(memberid);
+            resp.data = msgList;
             return resp;
 
+        }
+
+        public MsgCountResp GetUnreadMsg(string memberid)
+        {
+            var resp = new MsgCountResp() 
+            {
+                code = 0,
+                msg = "獲取未讀訊息成功"
+            };
+            Dictionary<string,int> resultDic = base.GetUnreadDic(memberid);
+
+            resp.data = resultDic;
+
+            return resp;
         }
 
         //實作存放聊天訊息
@@ -74,6 +93,28 @@ namespace SocialMedia.Service
 
             return (chatSpeakerdata, speakerData.forSpeaker,speakerData.forReciever);
         }
+
+        //存放訊息(chathub 轉移了以後用這個)
+        public void SaveMsgData(string userid, string recieveid, string input)
+        {
+            base.SaveChatMsg(userid, recieveid, input);
+        }
+
+
+        public ChatMemResp GetChatMemList()
+        {
+            var resp = new ChatMemResp
+            {
+                code = 0,
+                msg ="刷新快取成功"
+            };
+
+            var memlist = base.GetMemListToChat();
+            resp.data = memlist;
+            return resp;
+
+        }
+
 
         //實作已讀時修改資料庫
         public void UpdateToRead(string userid, string recieveid)

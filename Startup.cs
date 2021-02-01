@@ -7,6 +7,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using SocialMedia.Chathub;
 using SocialMedia.Dbcontext;
+using Microsoft.Extensions.Hosting;
+using System;
 
 namespace SocialMedia
 {
@@ -42,7 +44,14 @@ namespace SocialMedia
             //註冊資料庫
             services.AddDbContext<MemberContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             //signalR
-            services.AddSignalR();
+            services.AddSignalR(hubOptions => 
+            {
+                hubOptions.EnableDetailedErrors = true;
+                hubOptions.KeepAliveInterval = TimeSpan.FromMinutes(100);
+                
+            });
+            
+
 
             services.AddMvc();
 
@@ -52,16 +61,23 @@ namespace SocialMedia
                 //自訂義同源政策
                 options.AddPolicy(MyCorsPolicy, policy =>
                 {
-                    policy.WithOrigins("允許的網域")
+                    policy.WithOrigins("http://localhost:3000")
                           .AllowAnyHeader()
                           .AllowAnyMethod()
                           .AllowCredentials();
+
+                    //chathub 位置
+                    policy.WithOrigins("http://localhost:52906")
+                          .AllowAnyHeader()
+                          .AllowAnyMethod()
+                          .AllowCredentials();
+
                 });
             });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -75,9 +91,11 @@ namespace SocialMedia
             }
             //使用同源服務
             app.UseCors(MyCorsPolicy);
-            app.UseHttpsRedirection();
+            //app.UseHttpsRedirection();
             app.UseStaticFiles();
-            app.UseCookiePolicy();
+            //app.UseCookiePolicy();
+            app.UseRouting();
+            //app.UseAuthorization();
 
             //2.x 版本
             //app.UseMvc(routes =>

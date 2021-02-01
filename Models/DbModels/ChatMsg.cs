@@ -27,6 +27,9 @@ namespace SocialMedia.Models.DbModels
 
         public bool Unread { get; set; }
 
+        //最新的訊息
+        public bool Newest { get; set; }
+
         public Member Member { get; set; }
     }
 }

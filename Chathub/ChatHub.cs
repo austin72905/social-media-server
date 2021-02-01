@@ -1,38 +1,34 @@
 ﻿using Microsoft.AspNetCore.SignalR;
+using Microsoft.Extensions.DependencyInjection;
 using SocialMedia.Dbcontext;
 using SocialMedia.Interface;
+using SocialMedia.Models.Message;
 using SocialMedia.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using static SocialMedia.Chathub.ConnectionList;
 
 namespace SocialMedia.Chathub
 {
     public class ChatHub : Hub
     {
         //注入DbContext
-        private readonly MemberContext _context;
-        public ChatHub(MemberContext context)
+        private readonly IChat _iChat;
+        public ChatHub(IChat chat)
         {
-            _context = context;
+            _iChat = chat;
         }
 
-        private static Dictionary<string, List<string>> _onnectList;
-        //連線id 列表
-        public static Dictionary<string, List<string>> ConnectList
-        {
-            get
-            {
-                if (_onnectList == null)
-                {
-                    var newdic = new Dictionary<string, List<string>>();
-                    _onnectList = newdic;
-                }
-                return _onnectList;
-            }
-            
-        }
+
+        //private IServiceProvider _serviceProvider;
+        //public ChatHub(IServiceProvider serviceProvider)
+        //{
+        //    _serviceProvider = serviceProvider;
+        //}
+
+
         public async Task SendAllMsg(string user,string input) 
         {
             var content = $"{user} 說了 {input}";
@@ -47,19 +43,27 @@ namespace SocialMedia.Chathub
             await Clients.Group("").SendAsync("", content);
         }
 
-        public async Task SendOneMsg(string user, string input)
+        public async Task SendOneMsg(string userid, string recieveid, string input)
         {
-            var content = $"{user} 說了 {input}";
+            var content = $"{userid} 說了 {input}";
 
-            await Clients.Client(Context.ConnectionId).SendAsync("", content);
+            await Clients.Client(Context.ConnectionId).SendAsync("RecieveBothMsg", content);
         }
 
         //主要是這個方法
         public async Task SendBothMsg(string userid, string recieveid, string input)
         {
             //調用這個方法去實作
-            var result = new Message(_context).SaveChatMsg(userid, recieveid, input);
-        
+            //(ChatResp chatSpeakerdata, ChatMsgLastData forSpeaker, ChatMsgLastData forReciever) result ;
+            //using (var scope = _serviceProvider.CreateScope())
+            //{
+            //    var msg = scope.ServiceProvider.GetRequiredService<Service.Message>();
+
+            //    result = msg.SaveChatMsg(userid, recieveid, input);
+
+            //}
+            var result = _iChat.SaveChatMsg(userid, recieveid, input);
+
             //取得要傳送的id 列表
             //member 的 connectionid list
             var useridList = ConnectList[userid];
@@ -74,11 +78,11 @@ namespace SocialMedia.Chathub
 
             var resultList = useridList.Concat(recieveidList).ToList();
             //傳到聊天室的訊息
-            await Clients.Clients(resultList).SendAsync("RecieveBothMsg", result.chatSpeakerdata, input);
+            await Clients.Clients(resultList).SendAsync("RecieveBothMsg",new ChatResp(), input);//result.chatSpeakerdata
 
             //傳訊息到message 組件 (最後訊息)
-            await Clients.Clients(useridList).SendAsync("SendLastMsg", result.forSpeaker);
-            await Clients.Clients(recieveidList).SendAsync("SendLastMsg", result.forReciever);
+            await Clients.Clients(useridList).SendAsync("SendLastMsg",new ChatMsgLastData() ); //result.forSpeaker
+            await Clients.Clients(recieveidList).SendAsync("SendLastMsg",new ChatMsgLastData() );//result.forReciever
 
             //修改未讀總數
             //改變footer 未讀總數
@@ -88,7 +92,7 @@ namespace SocialMedia.Chathub
         }
 
         //連線時觸發這個方法，把連線id 加入
-        public async Task AddConnectList(string userid, string recieveid)
+        public  async Task AddConnectList(string userid, string recieveid)
         {
 
             var recieveidList = new List<string>();
@@ -123,7 +127,14 @@ namespace SocialMedia.Chathub
         public async Task ReadMsg(string userid, string recieveid)
         {
             //把數據庫的屬性改成unread=false
-            new Message(_context).UpdateToRead(userid, recieveid);
+            //using (var scope = _serviceProvider.CreateScope())
+            //{
+            //    var msg = scope.ServiceProvider.GetRequiredService<Service.Message>();
+
+            //    msg.UpdateToRead(userid, recieveid);
+
+            //}
+            //_iChat.UpdateToRead(userid, recieveid);
             //member 的 connectionid list
             var useridList = ConnectList[userid];
             //改變footer 未讀總數
@@ -131,14 +142,14 @@ namespace SocialMedia.Chathub
         }
 
         //解除連線時
-        public override Task OnDisconnectedAsync(Exception exception)
+        public override  Task OnDisconnectedAsync(Exception exception)
         {
             foreach (var connectList in ConnectList)
             {
                 //斷線把連線ID刪掉
                 connectList.Value.Remove(Context.ConnectionId);
             }
-            return base.OnDisconnectedAsync(exception);
+            return  base.OnDisconnectedAsync(exception);
         }
     }
 }

@@ -30,14 +30,23 @@ namespace SocialMedia
                 .ConfigureServices((_, services) =>
                 //-----
                 //註冊方法
-                services.AddScoped<IRegister, Register>()
+                services
+                .AddScoped<IRegister, Register>()
                 .AddScoped<ILogin, Login>()
                 .AddScoped<IMemberinfo,MemberInfo>()
                 .AddScoped<IDirectory, Service.Directory>()
                 .AddScoped<IPersonal, Service.Personal>()
                 .AddScoped<IProfile, Service.Profile>()
+                .AddScoped<IMessage, Service.Message>()
+                .AddScoped<IChat, Service.Message>()
                 //----- 
+                //.AddSingleton<IChat, Service.Message>()
+                
                 )
+                
+                
+
+            
 
                 .UseStartup<Startup>();
 

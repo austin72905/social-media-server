@@ -5,6 +5,7 @@ using SocialMedia.Models.DbModels;
 using SocialMedia.Models.Friends;
 using SocialMedia.Models.Message;
 using SocialMedia.Models.Personal;
+using SocialMedia.Models.SetCache;
 using SocialMedia.Models.Setting;
 using System;
 using System.Collections.Generic;
@@ -345,6 +346,29 @@ namespace SocialMedia.Service
         //存放聊天訊息
         protected void SaveChatMsg(string userid, string recieveid, string input ,bool unread =false)
         {
+            
+
+
+            
+            
+            //把原本最新的塗銷
+            var nowNewest=_context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(userid) && m.ChatID == Convert.ToInt32(recieveid) && m.Newest==true).FirstOrDefault();
+            //要先判斷如果是第一次聊天要先加
+            if(nowNewest != null)
+            {
+                nowNewest.Newest = false;
+            }
+
+            
+            var newNewestRecieve = _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(recieveid) && m.ChatID == Convert.ToInt32(userid) && m.Newest == true).FirstOrDefault();
+            //要先判斷如果是第一次聊天要先加
+            if (newNewestRecieve != null)
+            {
+                newNewestRecieve.Newest = false;
+            }
+            
+
+
             //發送者要存入的資料
             var message = new ChatMsg()
             {
@@ -353,6 +377,7 @@ namespace SocialMedia.Service
                 SpeakerID = Convert.ToInt32(userid),
                 Text = input,
                 Time = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString(),
+                Newest =true
 
             };
 
@@ -363,7 +388,9 @@ namespace SocialMedia.Service
                 ChatID = Convert.ToInt32(userid),
                 SpeakerID = Convert.ToInt32(userid),
                 Text = input,
-                Unread =true
+                Time = new DateTimeOffset(DateTime.UtcNow).ToUnixTimeSeconds().ToString(),
+                Unread =true,
+                Newest = true
             };
 
             _context.ChatMsgs.Add(message);
@@ -494,6 +521,8 @@ namespace SocialMedia.Service
         public virtual ChatResp GetMsgToChat(string userid)
         {
             var speakerData = GetMemberListInstance().FirstOrDefault(m => m.ID == Convert.ToInt32(userid));
+            
+            
             var speakerChatData = new ChatResp() 
             {
                 memberid = speakerData.ID,
@@ -541,15 +570,40 @@ namespace SocialMedia.Service
             return (forSpeaker, forReciever);
         }
 
+
+        //刷新chathub 緩存
+        public List<MemberData> GetMemListToChat()
+        {
+            var chatmemlist = new List<MemberData>();
+            var memlist = _context.Members.Include(m => m.MemberInfo);
+
+            foreach(var item in memlist)
+            {
+                chatmemlist.Add(new MemberData 
+                {
+                    username =item.Name,
+                    memberid =item.ID,
+                    gender =item.Gender,
+                    nickname =item.MemberInfo.NickName
+                });
+            }
+
+            return chatmemlist;
+        }
+
         //修改資料庫為已讀
         public void UpdateDBToRead(string userid, string recieveid)
         {
-            var updateItem = _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(userid) && m.ChatID == Convert.ToInt32(recieveid));
+            var updateItem = _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(userid));
         
             foreach(var item in updateItem)
             {
-                //修改成已讀
-                item.Unread = false;
+                if(item.ChatID == Convert.ToInt32(recieveid))
+                {
+                    //修改成已讀
+                    item.Unread = false;
+                }
+                
             }
 
             _context.SaveChanges();
@@ -557,7 +611,7 @@ namespace SocialMedia.Service
 
         protected List<ChatMsgData> GetMsgList(string memberid,string recieveid)
         {
-            var msgItem = _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(memberid) && m.ChatID == Convert.ToInt32(recieveid)).OrderBy(m =>long.Parse( m.Time));
+            var msgItem = _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(memberid) && m.ChatID == Convert.ToInt32(recieveid));//.OrderBy(m =>long.Parse( m.Time))
             var Msglist = new List<ChatMsgData>();
 
             //用戶及他正在聊天的用戶的基本資料
@@ -580,6 +634,98 @@ namespace SocialMedia.Service
 
             return Msglist;
         }
+
+        protected List<ChatMsgLastData> GetAllLastMsgList(string memberid)
+        {
+            //之前寫的要再加一個時間戳，不然沒辦法排序
+            //取得訊息符合memberid 的 newest == true 的
+            //搞成list
+            var memMsg = _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(memberid) && m.Newest == true);
+
+            var userData = GetMemberListInstance();
+
+            //最後要回傳的list
+            List<ChatMsgLastData> msgLastList = new List<ChatMsgLastData>();
+            
+            foreach (var item in memMsg)
+            {
+                int unreadCount = 0;
+                Member chatUser = userData.Where(user =>user.ID == item.ChatID).FirstOrDefault();
+                //找到每個對應的訊息組
+                var chatMsgSet = _context.ChatMsgs.Where(msg => msg.MemberID == Convert.ToInt32(memberid) && msg.ChatID == item.ChatID);
+                foreach(var msg in chatMsgSet)
+                {
+                    if (msg.Unread == true)
+                    {
+                        unreadCount += 1;
+                    }
+                }
+
+                msgLastList.Add(new ChatMsgLastData 
+                { 
+                    username = chatUser.Name,
+                    memberid = item.SpeakerID,
+                    gender =chatUser.Gender,
+                    text =item.Text,
+                    chatname = chatUser.MemberInfo.NickName,
+                    chatid = chatUser.ID.ToString(),
+                    unreadcount = unreadCount
+
+                });
+            }
+
+            return msgLastList;
+        }
+
+
+        protected int GetUnreadCount(string memberid)
+        {
+            var msgList = _context.ChatMsgs.Where(msg => msg.MemberID == Convert.ToInt32(memberid));
+            int unReadCount = 0;
+            foreach(var msg in msgList)
+            {
+                if(msg.Unread == true)
+                {
+                    unReadCount += 1;
+                }
+            }
+
+            return unReadCount;
+        }
+
+        protected Dictionary<string,int> GetUnreadDic(string memberid)
+        {
+            var msgList = _context.ChatMsgs.Where(msg => msg.MemberID == Convert.ToInt32(memberid));
+
+            var tempSet = new HashSet<string>();
+
+            //取得每個聊天室id (hashset 會去到重複值)
+            foreach(var item in msgList)
+            {
+                tempSet.Add(item.ChatID.ToString());
+            }
+
+            //最後要返回的未讀數量 (每個id 的未讀數量個別計算)
+            var resultDic = new Dictionary<string, int>();
+
+            foreach(var key in tempSet)
+            {
+                resultDic.Add(key, 0);
+            }
+
+            foreach(var item in msgList)
+            {
+                if (resultDic.ContainsKey(item.ChatID.ToString()))
+                {
+                    resultDic[item.ChatID.ToString()] += 1;
+                }
+            }
+
+            return resultDic;
+
+
+        }
+
 
         //新增興趣
         public object AddInterest(Interest interest)
