@@ -9,7 +9,7 @@ namespace SocialMedia.Interface
 {
     public interface IChat
     {
-        public (ChatResp chatSpeakerdata, ChatMsgLastData forSpeaker, ChatMsgLastData forReciever) SaveChatMsg(string userid, string recieveid, string input);
+        //public (ChatResp chatSpeakerdata, ChatMsgLastData forSpeaker, ChatMsgLastData forReciever) SaveChatMsg(string userid, string recieveid, string input);
 
         public void UpdateToRead(string userid, string recieveid);
 

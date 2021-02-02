@@ -5,12 +5,13 @@ using SocialMedia.Enum;
 using SocialMedia.Interface;
 using SocialMedia.Models;
 using SocialMedia.Models.Login;
+using SocialMedia.Service.Repository;
 using System;
 using System.Linq;
 
 namespace SocialMedia.Service
 {
-    public class Login :DBfactory,ILogin
+    public class Login : PasswordRepository, ILogin
     {
         //注入DbContext
         //private readonly MemberContext _context;

@@ -2,8 +2,10 @@
 using SocialMedia.Dbcontext;
 using SocialMedia.Enum;
 using SocialMedia.Interface;
+using SocialMedia.Interface.Repository;
 using SocialMedia.Models.DbModels;
 using SocialMedia.Models.Personal;
+using SocialMedia.Service.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,13 +13,18 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Service
 {
-    public class Personal: DBfactory,IPersonal
+    public class Personal: MemInfoRespository, IPersonal
     {
         //注入DbContext
         //private readonly MemberContext _context;
-        public Personal(MemberContext context):base(context)
+
+        private readonly IPersonalRepository _personalRepository;
+        private readonly IInterestRepository _interestRepository;
+        public Personal(MemberContext context, IPersonalRepository personalRepository, IInterestRepository interestRepository) :base(context)
         {
             //_context = context;
+            _personalRepository = personalRepository;
+            _interestRepository = interestRepository;
         }
 
         /// <summary>
@@ -91,10 +98,10 @@ namespace SocialMedia.Service
             }
 
             //修改資料
-            base.SaveMemberInfoData(req);
+            base.UpdateMemberInfoData(req);
             //修改prefertype 跟 interest
-            base.SavePreferType(req);
-            base.SaveMemberInterest(req);
+            _personalRepository.SavePreferType(req);
+            _interestRepository.SaveMemberInterest(req);
 
             var memInfo = memberListInfo.FirstOrDefault(m => m.ID == req.memberid);
 
@@ -128,8 +135,8 @@ namespace SocialMedia.Service
         {
             SOResp resp = new SOResp();
             //取得選項
-            var types = base.GetPersonalInstance();
-            var interests = base.GetInterestInstance();
+            var types = _personalRepository.GetPersonalInstance();
+            var interests = _interestRepository.GetInterestInstance();
 
             List<string> typelist = new List<string>();
             List<string> interlist = new List<string>();

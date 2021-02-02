@@ -51,45 +51,45 @@ namespace SocialMedia.Chathub
         }
 
         //主要是這個方法
-        public async Task SendBothMsg(string userid, string recieveid, string input)
-        {
-            //調用這個方法去實作
-            //(ChatResp chatSpeakerdata, ChatMsgLastData forSpeaker, ChatMsgLastData forReciever) result ;
-            //using (var scope = _serviceProvider.CreateScope())
-            //{
-            //    var msg = scope.ServiceProvider.GetRequiredService<Service.Message>();
+        //public async Task SendBothMsg(string userid, string recieveid, string input)
+        //{
+        //    //調用這個方法去實作
+        //    //(ChatResp chatSpeakerdata, ChatMsgLastData forSpeaker, ChatMsgLastData forReciever) result ;
+        //    //using (var scope = _serviceProvider.CreateScope())
+        //    //{
+        //    //    var msg = scope.ServiceProvider.GetRequiredService<Service.Message>();
 
-            //    result = msg.SaveChatMsg(userid, recieveid, input);
+        //    //    result = msg.SaveChatMsg(userid, recieveid, input);
 
-            //}
-            var result = _iChat.SaveChatMsg(userid, recieveid, input);
+        //    //}
+        //    var result = _iChat.SaveChatMsg(userid, recieveid, input);
 
-            //取得要傳送的id 列表
-            //member 的 connectionid list
-            var useridList = ConnectList[userid];
-            //reciever 的 connectionid list
-            var recieveidList = new List<string>();
-            if (ConnectList.ContainsKey(recieveid))
-            {
-                //reciever 的 connectionid list
+        //    //取得要傳送的id 列表
+        //    //member 的 connectionid list
+        //    var useridList = ConnectList[userid];
+        //    //reciever 的 connectionid list
+        //    var recieveidList = new List<string>();
+        //    if (ConnectList.ContainsKey(recieveid))
+        //    {
+        //        //reciever 的 connectionid list
 
-                recieveidList = ConnectList[recieveid];
-            }
+        //        recieveidList = ConnectList[recieveid];
+        //    }
 
-            var resultList = useridList.Concat(recieveidList).ToList();
-            //傳到聊天室的訊息
-            await Clients.Clients(resultList).SendAsync("RecieveBothMsg",new ChatResp(), input);//result.chatSpeakerdata
+        //    var resultList = useridList.Concat(recieveidList).ToList();
+        //    //傳到聊天室的訊息
+        //    await Clients.Clients(resultList).SendAsync("RecieveBothMsg",new ChatResp(), input);//result.chatSpeakerdata
 
-            //傳訊息到message 組件 (最後訊息)
-            await Clients.Clients(useridList).SendAsync("SendLastMsg",new ChatMsgLastData() ); //result.forSpeaker
-            await Clients.Clients(recieveidList).SendAsync("SendLastMsg",new ChatMsgLastData() );//result.forReciever
+        //    //傳訊息到message 組件 (最後訊息)
+        //    await Clients.Clients(useridList).SendAsync("SendLastMsg",new ChatMsgLastData() ); //result.forSpeaker
+        //    await Clients.Clients(recieveidList).SendAsync("SendLastMsg",new ChatMsgLastData() );//result.forReciever
 
-            //修改未讀總數
-            //改變footer 未讀總數
-            //讓接收者知道是誰傳的
-            await Clients.Clients(recieveidList).SendAsync("ChangeTotal", userid, 1);
+        //    //修改未讀總數
+        //    //改變footer 未讀總數
+        //    //讓接收者知道是誰傳的
+        //    await Clients.Clients(recieveidList).SendAsync("ChangeTotal", userid, 1);
 
-        }
+        //}
 
         //連線時觸發這個方法，把連線id 加入
         public  async Task AddConnectList(string userid, string recieveid)

@@ -4,12 +4,13 @@ using SocialMedia.Enum;
 using SocialMedia.Interface;
 using SocialMedia.Models.DbModels;
 using SocialMedia.Models.Friends;
+using SocialMedia.Service.Repository;
 using System.Collections.Generic;
 using System.Linq;
 
 namespace SocialMedia.Service
 {
-    public class Directory : DBfactory,IDirectory
+    public class Directory : DirectoryRepository, IDirectory
     {
         //注入DbContext
         //private readonly MemberContext _context;

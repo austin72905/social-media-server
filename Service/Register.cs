@@ -11,10 +11,11 @@ using SocialMedia.Enum;
 using SocialMedia.Models.Register;
 using Microsoft.EntityFrameworkCore;
 using SocialMedia.Models.DbModels;
+using SocialMedia.Service.Repository;
 
 namespace SocialMedia.Service
 {
-    public class Register : DBfactory,IRegister
+    public class Register : PasswordRepository, IRegister
     {
         //注入DbContext
         //private readonly MemberContext _context;

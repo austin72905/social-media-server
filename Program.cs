@@ -10,7 +10,9 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using SocialMedia.Dbcontext;
 using SocialMedia.Interface;
+using SocialMedia.Interface.Repository;
 using SocialMedia.Service;
+using SocialMedia.Service.Repository;
 
 namespace SocialMedia
 {
@@ -41,7 +43,9 @@ namespace SocialMedia
                 .AddScoped<IChat, Service.Message>()
                 //----- 
                 //.AddSingleton<IChat, Service.Message>()
-                
+                // 資料庫實作
+                .AddScoped<IInterestRepository, InterestRepository>()
+                .AddScoped<IPersonalRepository, PersonalRepository>()
                 )
                 
                 

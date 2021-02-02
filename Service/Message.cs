@@ -3,6 +3,7 @@ using SocialMedia.Enum;
 using SocialMedia.Interface;
 using SocialMedia.Models.Message;
 using SocialMedia.Models.SetCache;
+using SocialMedia.Service.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Service
 {
-    public class Message : DBfactory,IMessage, IChat
+    public class Message : ChatMsgRepository, IMessage, IChat
     {
         public Message(MemberContext context) : base(context)
         {
@@ -80,19 +81,19 @@ namespace SocialMedia.Service
             return resp;
         }
 
-        //實作存放聊天訊息
-        public (ChatResp chatSpeakerdata, ChatMsgLastData forSpeaker, ChatMsgLastData forReciever) SaveChatMsg(string userid, string recieveid, string input)
-        {
-            //1. 先取得 message 實體 m==userid
-            var chatSpeakerdata = GetMsgToChat(userid);
-            //2. 新增訊息進去 新增一個 setChatMsg 方法 準備要存入的資料
-            base.SaveChatMsg(userid, recieveid, input);
-            //2. 取得 member 實體  UserName  跟 Gender 準備好， 之後要回傳訊息
-            var speakerData = base.GetLastMsgData(userid, recieveid, input);
+        ////實作存放聊天訊息
+        //public (ChatResp chatSpeakerdata, ChatMsgLastData forSpeaker, ChatMsgLastData forReciever) SaveChatMsg(string userid, string recieveid, string input)
+        //{
+        //    //1. 先取得 message 實體 m==userid
+        //    var chatSpeakerdata = GetMsgToChat(userid);
+        //    //2. 新增訊息進去 新增一個 setChatMsg 方法 準備要存入的資料
+        //    base.SaveChatMsg(userid, recieveid, input);
+        //    //2. 取得 member 實體  UserName  跟 Gender 準備好， 之後要回傳訊息
+        //    var speakerData = base.GetLastMsgData(userid, recieveid, input);
 
 
-            return (chatSpeakerdata, speakerData.forSpeaker,speakerData.forReciever);
-        }
+        //    return (chatSpeakerdata, speakerData.forSpeaker,speakerData.forReciever);
+        //}
 
         //存放訊息(chathub 轉移了以後用這個)
         public void SaveMsgData(string userid, string recieveid, string input)

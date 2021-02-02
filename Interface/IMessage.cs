@@ -14,6 +14,6 @@ namespace SocialMedia.Interface
 
         public MsgCountResp GetUnreadMsg(string memberid);
         public void UpdateToRead(string userid, string recieveid);
-        public (ChatResp chatSpeakerdata, ChatMsgLastData forSpeaker, ChatMsgLastData forReciever) SaveChatMsg(string userid, string recieveid, string input);
+        //public (ChatResp chatSpeakerdata, ChatMsgLastData forSpeaker, ChatMsgLastData forReciever) SaveChatMsg(string userid, string recieveid, string input);
     }
 }
