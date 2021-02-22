@@ -93,7 +93,7 @@ namespace SocialMedia.Service
         {
             var prefer = new Models.DbModels.PreferType
             {
-                MemberID = req.memberid,
+                MemberID = Convert.ToInt32(req.memberid),
                 PersonalityID = personalityid
             };
             return prefer;
@@ -111,7 +111,7 @@ namespace SocialMedia.Service
         {
             var inter = new Models.DbModels.MemberInterest
             {
-                MemberID = req.memberid,
+                MemberID = Convert.ToInt32(req.memberid),
                 InterestID = interestid
             };
             return inter;

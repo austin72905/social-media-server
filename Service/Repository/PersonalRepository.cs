@@ -3,6 +3,7 @@ using SocialMedia.Dbcontext;
 using SocialMedia.Interface.Repository;
 using SocialMedia.Models.DbModels;
 using SocialMedia.Models.Personal;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using static SocialMedia.Common.DbUtil;
@@ -29,7 +30,7 @@ namespace SocialMedia.Service.Repository
         {
             //取得實體
             var memInfo = _context.PreferTypes.Include(pp => pp.Personality)
-                .Where(p => p.MemberID == req.memberid);
+                .Where(p => p.MemberID == Convert.ToInt32(req.memberid));
 
             //personality 字典
             Dictionary<int, string> personalDic = PreferTypeDic(_context.Personalitys);

@@ -5,6 +5,7 @@ using SocialMedia.Interface;
 using SocialMedia.Models.DbModels;
 using SocialMedia.Models.Friends;
 using SocialMedia.Service.Repository;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -60,7 +61,7 @@ namespace SocialMedia.Service
             FriendResp resp = new FriendResp();
 
             var memberInfo = base.GetMemberListInstance();
-            var correctId = CheckMemberId(memberInfo, req.memberid);        
+            var correctId = CheckMemberId(memberInfo, Convert.ToInt32(req.memberid));        
             if (!correctId)
             {
                 resp.code = (int)RespCode.FAIL;
@@ -71,7 +72,7 @@ namespace SocialMedia.Service
             //儲存朋友
             base.SaveDirectoryData(req);
 
-            List<FriendData> friendlist = base.GetFrinedList(memberInfo,req.memberid);
+            List<FriendData> friendlist = base.GetFrinedList(memberInfo,Convert.ToInt32(req.memberid));
             //回到用戶列表
             resp.code = (int)RespCode.SUCCESS;
             resp.msg = "取得用戶成功";
@@ -91,7 +92,7 @@ namespace SocialMedia.Service
         {
             FriendResp resp = new FriendResp();
             var memberInfo = base.GetMemberListInstance();
-            var correctId = CheckMemberId(memberInfo, req.memberid);
+            var correctId = CheckMemberId(memberInfo, Convert.ToInt32(req.memberid));
             if (!correctId)
             {
                 resp.code = (int)RespCode.FAIL;
@@ -101,7 +102,7 @@ namespace SocialMedia.Service
             //刪除朋友
             base.SaveDirectoryData(req,false);
 
-            List<FriendData> friendlist = base.GetFrinedList(memberInfo, req.memberid);
+            List<FriendData> friendlist = base.GetFrinedList(memberInfo, Convert.ToInt32(req.memberid));
             //回到用戶列表
             resp.code = (int)RespCode.SUCCESS;
             resp.msg = "取得用戶成功";

@@ -14,6 +14,7 @@ namespace SocialMedia.Models.Profile
 
     public class ProfileData
     {
+        public int memberID { get; set; }
         public string username { get; set; }
 
         public string nickname { get; set; }

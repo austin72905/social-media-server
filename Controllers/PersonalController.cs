@@ -34,6 +34,7 @@ namespace SocialMedia.Controllers
 
         public IActionResult Update([FromBody] PersonalReq req)
         {
+
             var memberInfo = _personal.UpdatePersonalInfo(req);
             return Json(memberInfo);
         }

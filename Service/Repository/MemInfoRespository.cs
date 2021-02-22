@@ -22,7 +22,7 @@ namespace SocialMedia.Service.Repository
         //修改個人資料
         public void UpdateMemberInfoData(PersonalReq req)
         {
-            var memberInfo = _context.Members.Include(mf => mf.MemberInfo).FirstOrDefault(m => m.ID == req.memberid);
+            var memberInfo = _context.Members.Include(mf => mf.MemberInfo).FirstOrDefault(m => m.ID == Convert.ToInt32(req.memberid));
             //var memberInfo = GetMemberInstance(memberlist, req.memberid);
             //修改值
             memberInfo.MemberInfo.NickName = req.data.nickname;

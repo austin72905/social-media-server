@@ -7,7 +7,7 @@ namespace SocialMedia.Models.Personal
 {
     public class PersonalReq
     {
-        public int memberid { get; set; }
+        public string memberid { get; set; }
 
         public UpdatePersonalData data { get; set; }
     }
@@ -18,7 +18,7 @@ namespace SocialMedia.Models.Personal
 
         public string nickname { get; set; }
 
-        public string gender { get; set; }
+        //public string gender { get; set; }
         public string job { get; set; }
 
         public string state { get; set; }

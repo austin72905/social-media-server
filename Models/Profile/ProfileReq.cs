@@ -5,9 +5,9 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Models.Profile
 {
-    public class ProfileReq: RequestModel
+    public class ProfileReq
     {
-        public override string username { get; set; }
-        public override string password { get; set; }   
+        public  string username { get; set; }
+        public  string password { get; set; }   
     }
 }

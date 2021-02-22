@@ -19,6 +19,7 @@ namespace SocialMedia.Controllers
         {
             string memberid = Request.Query["memberid"].ToString();
             string recieveid = Request.Query["recieveid"].ToString();
+            
             var result = _message.GetMsg(memberid, recieveid);
             return Json(result);
         }

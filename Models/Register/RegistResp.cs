@@ -8,6 +8,8 @@ namespace SocialMedia.Models.Register
     public class RegistResp
     {
         public int code { get; set; }
+
+        public string token { get; set; }
         public RegistData data { get; set; }
         public string msg { get; set; }
 

@@ -9,6 +9,7 @@ using SocialMedia.Chathub;
 using SocialMedia.Dbcontext;
 using Microsoft.Extensions.Hosting;
 using System;
+using SocialMedia.MiddleWares;
 
 namespace SocialMedia
 {
@@ -114,6 +115,10 @@ namespace SocialMedia
             //});
             //3.1 後可以用endpoint
             app.UseRouting();
+
+            //驗證簽名
+            app.UseMiddleware<VerifySign>();
+
             app.UseEndpoints(endpoints=> 
             {
                 endpoints.MapControllerRoute(

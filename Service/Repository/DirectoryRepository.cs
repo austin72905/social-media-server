@@ -38,6 +38,8 @@ namespace SocialMedia.Service.Repository
                 //var friendInfo = memberInfo.FirstOrDefault(m => m.ID == int.Parse(frinedId));
                 frinedlist.Add(new FriendData()
                 {
+                    username=item.Name,
+                    nickname=item.MemberInfo.NickName,
                     memberID = item.ID,
                     gender = item.Gender,
                     job = item.MemberInfo.Job,
@@ -56,7 +58,7 @@ namespace SocialMedia.Service.Repository
         /// <param name="req"></param>
         public  void SaveDirectoryData(FriendReq req, bool isAdd = true)
         {
-            var memberInfo = _context.Members.Include(md => md.Directory).FirstOrDefault(m => m.ID == req.memberid);
+            var memberInfo = _context.Members.Include(md => md.Directory).FirstOrDefault(m => m.ID == Convert.ToInt32(req.memberid));
 
             //var memberInfo = GetMemberInstance(memberDirectorylist, req.memberid);
 

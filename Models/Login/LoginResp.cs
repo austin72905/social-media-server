@@ -12,6 +12,8 @@ namespace SocialMedia.Models.Login
         public  string msg { get; set; }
       
         public LoginData data { get; set; }
+
+        public string token { get; set; }
     }
 
     public class LoginData

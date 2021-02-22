@@ -7,7 +7,7 @@ namespace SocialMedia.Models.Friends
 {
     public class FriendReq
     {
-        public int memberid { get; set; }
+        public string memberid { get; set; }
 
         public int friendid { get; set; }
     }

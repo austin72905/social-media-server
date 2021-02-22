@@ -89,7 +89,7 @@ namespace SocialMedia.Service
             var memberListInfo = base.GetMemberListInstance();
 
             //驗證id
-            var correctId = DBfactory.CheckMemberId(memberListInfo, req.memberid);
+            var correctId = DBfactory.CheckMemberId(memberListInfo, Convert.ToInt32(req.memberid));
             if (!correctId)
             {
                 resp.code = (int)RespCode.FAIL;
@@ -103,7 +103,7 @@ namespace SocialMedia.Service
             _personalRepository.SavePreferType(req);
             _interestRepository.SaveMemberInterest(req);
 
-            var memInfo = memberListInfo.FirstOrDefault(m => m.ID == req.memberid);
+            var memInfo = memberListInfo.FirstOrDefault(m => m.ID == Convert.ToInt32(req.memberid));
 
             //返回個人訊息
             PersonalData da = new PersonalData()

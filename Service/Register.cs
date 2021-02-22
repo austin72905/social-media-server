@@ -12,6 +12,7 @@ using SocialMedia.Models.Register;
 using Microsoft.EntityFrameworkCore;
 using SocialMedia.Models.DbModels;
 using SocialMedia.Service.Repository;
+using SocialMedia.MiddleWares;
 
 namespace SocialMedia.Service
 {
@@ -57,11 +58,15 @@ namespace SocialMedia.Service
             resp.msg = "註冊成功";
             RegistData da = new RegistData() 
             { 
+                username=member.Name,
                 gender= member.Gender,
                 memberID= member.ID,
                 isRegist=true,
             };            
             resp.data = da;
+            //加入token
+            string sign = VerifySign.GenerateSign(da.username);
+            resp.token = sign;
 
             return resp;
         }

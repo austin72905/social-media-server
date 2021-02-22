@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using SocialMedia.Common;
 using SocialMedia.Dbcontext;
 using SocialMedia.Enum;
 using SocialMedia.Interface;
+using SocialMedia.MiddleWares;
 using SocialMedia.Models;
 using SocialMedia.Models.Login;
 using SocialMedia.Service.Repository;
@@ -49,10 +51,14 @@ namespace SocialMedia.Service
                 resp.msg = "登入成功";
                 LoginData da = new LoginData() 
                 {
+                    username=member.Name,
                     gender= member.Gender,
                     memberID= member.ID,
                     isRegist = false,
-                };          
+                };
+                //加入token
+                string sign = VerifySign.GenerateSign(da.username);
+                resp.token = sign;
                 resp.data = da;
             }
             return resp;
