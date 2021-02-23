@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace SocialMedia.MiddleWares
@@ -38,11 +39,17 @@ namespace SocialMedia.MiddleWares
 
                     string requestContent;
                     var reqbody = context.Request.Body;
-                    var reader = new StreamReader(reqbody); //這邊有bug 用using 會報錯， cannot access dispose obj               
-                    requestContent = await reader.ReadToEndAsync();
-                    context.Request.Body.Seek(0, SeekOrigin.Begin);
-                    //context.Request.Body.Position = 0;
-                    
+                    //這邊有bug 用using 會報錯， cannot access dispose obj  
+                    //最後一個參數 leave open 要設置為true ，using 完 dispose 會自動把reqbody 也釋放掉，造成後面讀不到
+                    using (var reader = new StreamReader(reqbody,Encoding.UTF8,true,1024,true))
+                    {
+                        requestContent = await reader.ReadToEndAsync();
+                        context.Request.Body.Seek(0, SeekOrigin.Begin);
+                        //context.Request.Body.Position = 0;
+                    }
+                                 
+
+
 
                     Dictionary<string, object> dic = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(requestContent);
 
