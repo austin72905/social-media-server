@@ -32,7 +32,7 @@ namespace SocialMedia.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public PersonalResp GetPersonalInfo(int id)
+        public async Task<PersonalResp> GetPersonalInfo(int id)
         {
             PersonalResp resp = new PersonalResp();
             //var memberInfo = base.GetMemberListInstance();
@@ -45,7 +45,7 @@ namespace SocialMedia.Service
             //    return resp;
             //}
 
-            var memInfo = base.GetMemberListInstance().FirstOrDefault(m => m.ID == id);
+            var memInfo =await base.GetMemberListInstance().FirstOrDefaultAsync(m => m.ID == id);
             if ( memInfo == null)
             {
                 resp.code = (int)RespCode.FAIL;
@@ -82,7 +82,7 @@ namespace SocialMedia.Service
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public PersonalResp UpdatePersonalInfo(PersonalReq req)
+        public async Task<PersonalResp> UpdatePersonalInfo(PersonalReq req)
         {
             PersonalResp resp = new PersonalResp();
 
@@ -98,12 +98,12 @@ namespace SocialMedia.Service
             }
 
             //修改資料
-            base.UpdateMemberInfoData(req);
+            await base.UpdateMemberInfoData(req);
             //修改prefertype 跟 interest
-            _personalRepository.SavePreferType(req);
-            _interestRepository.SaveMemberInterest(req);
+            await _personalRepository.SavePreferType(req);
+            await _interestRepository.SaveMemberInterest(req);
 
-            var memInfo = memberListInfo.FirstOrDefault(m => m.ID == Convert.ToInt32(req.memberid));
+            var memInfo = await memberListInfo.FirstOrDefaultAsync(m => m.ID == Convert.ToInt32(req.memberid));
 
             //返回個人訊息
             PersonalData da = new PersonalData()
@@ -131,12 +131,12 @@ namespace SocialMedia.Service
         /// 實作獲取興趣、類型取項
         /// </summary>
         /// <returns></returns>
-        public SOResp GetSelectOption()
+        public async  Task<SOResp> GetSelectOption()
         {
             SOResp resp = new SOResp();
             //取得選項
-            var types = _personalRepository.GetPersonalInstance();
-            var interests = _interestRepository.GetInterestInstance();
+            var types =await  _personalRepository.GetPersonalInstance().ToListAsync();
+            var interests =await _interestRepository.GetInterestInstance().ToListAsync();
 
             List<string> typelist = new List<string>();
             List<string> interlist = new List<string>();

@@ -8,10 +8,10 @@ namespace SocialMedia.Interface
 {
     public interface IDirectory
     {
-        FriendResp GetFrinedList(int id);
+        Task<FriendResp> GetFrinedList(int id);
 
-        FriendResp AddFrined(FriendReq req);
+        Task<FriendResp> AddFrined(FriendReq req);
 
-        FriendResp DeleteFrined(FriendReq req);
+        Task<FriendResp> DeleteFrined(FriendReq req);
     }
 }

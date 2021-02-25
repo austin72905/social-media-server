@@ -17,13 +17,13 @@ namespace SocialMedia.Service.Repository
             _context = context;
         }
 
-        public Member GetMemberInstance(BasicReq req)
+        public async Task<Member> GetMemberInstance(BasicReq req)
         {
-            var member = _context.Members.Include(mf => mf.MemberInfo)
+            var member =  _context.Members.Include(mf => mf.MemberInfo)
                                       .Include(mp => mp.Password)
                                       .AsNoTracking()
-                                      .FirstOrDefault(m => string.Equals(m.Name, req.username, StringComparison.Ordinal));
-            return member;
+                                      .FirstOrDefaultAsync(m => string.Equals(m.Name, req.username, StringComparison.Ordinal));
+            return await member;
         }
 
         /// <summary>

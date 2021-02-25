@@ -6,6 +6,7 @@ using SocialMedia.Models.Personal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using static SocialMedia.Common.DbUtil;
 
 namespace SocialMedia.Service.Repository
@@ -26,11 +27,11 @@ namespace SocialMedia.Service.Repository
         }
 
         //修改偏好類型
-        public void SavePreferType(PersonalReq req)
+        public async Task SavePreferType(PersonalReq req)
         {
             //取得實體
-            var memInfo = _context.PreferTypes.Include(pp => pp.Personality)
-                .Where(p => p.MemberID == Convert.ToInt32(req.memberid));
+            var memInfo =await  _context.PreferTypes.Include(pp => pp.Personality)
+                .Where(p => p.MemberID == Convert.ToInt32(req.memberid)).ToListAsync();
 
             //personality 字典
             Dictionary<int, string> personalDic = PreferTypeDic(_context.Personalitys);
@@ -52,7 +53,7 @@ namespace SocialMedia.Service.Repository
                 _context.PreferTypes.Remove(delItem);
             }
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
         }
 

@@ -8,6 +8,7 @@ using SocialMedia.Service.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace SocialMedia.Service
 {
@@ -25,11 +26,11 @@ namespace SocialMedia.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public FriendResp GetFrinedList(int id)
+        public async Task<FriendResp> GetFrinedList(int id)
         {
             FriendResp resp = new FriendResp();
 
-            var memberInfo = base.GetMemberListInstance();
+            var memberInfo =await base.GetMemberListInstance().ToListAsync();
             
             var correctId = CheckMemberId(memberInfo, id);
             
@@ -56,7 +57,7 @@ namespace SocialMedia.Service
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public FriendResp AddFrined(FriendReq req)
+        public async Task<FriendResp> AddFrined(FriendReq req)
         {
             FriendResp resp = new FriendResp();
 
@@ -70,7 +71,7 @@ namespace SocialMedia.Service
             }
 
             //儲存朋友
-            base.SaveDirectoryData(req);
+            await base.SaveDirectoryData(req);
 
             List<FriendData> friendlist = base.GetFrinedList(memberInfo,Convert.ToInt32(req.memberid));
             //回到用戶列表
@@ -88,7 +89,7 @@ namespace SocialMedia.Service
         /// <param name="req"></param>
         /// <returns></returns>
 
-        public FriendResp DeleteFrined(FriendReq req)
+        public async Task<FriendResp> DeleteFrined(FriendReq req)
         {
             FriendResp resp = new FriendResp();
             var memberInfo = base.GetMemberListInstance();
@@ -100,7 +101,7 @@ namespace SocialMedia.Service
                 return resp;
             }
             //刪除朋友
-            base.SaveDirectoryData(req,false);
+            await base.SaveDirectoryData(req,false);
 
             List<FriendData> friendlist = base.GetFrinedList(memberInfo, Convert.ToInt32(req.memberid));
             //回到用戶列表

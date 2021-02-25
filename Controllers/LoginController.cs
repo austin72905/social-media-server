@@ -16,9 +16,10 @@ namespace SocialMedia.Controllers
         {
             _login = login;
         }
-        public IActionResult Index([FromBody] LoginReq reqbody)
+        public async Task<IActionResult> Index([FromBody] LoginReq reqbody)
         {
-            var checkresult = _login.CheckUserExisted(reqbody);
+
+            var checkresult = await _login.CheckUserExisted(reqbody);
             return Json(checkresult);
         }
     }

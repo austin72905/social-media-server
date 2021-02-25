@@ -19,7 +19,7 @@ namespace SocialMedia.Service
         }
 
         //獲取聊天訊息
-        public MsgResp GetMsg(string memberid,string recieveid) 
+        public async Task<MsgResp> GetMsg(string memberid,string recieveid) 
         {
             var resp = new MsgResp();
 
@@ -36,7 +36,7 @@ namespace SocialMedia.Service
                 return resp;
             }
 
-            var msgList = base.GetMsgList(memberid, recieveid);
+            var msgList = await base.GetMsgList(memberid, recieveid);
 
 
             resp.code = (int)RespCode.SUCCESS;
@@ -50,7 +50,7 @@ namespace SocialMedia.Service
 
         //要傳到message 組件的資訊
         //對所有對話紀錄的最後一筆對話
-        public MsgLastResp GetAllLastMsg(string memberid) 
+        public async Task<MsgLastResp> GetAllLastMsg(string memberid) 
         {
             var resp = new MsgLastResp
             {
@@ -61,20 +61,20 @@ namespace SocialMedia.Service
             //之前寫的要再加一個時間戳，不然沒辦法排序
             //取得訊息符合memberid 的 newest == true 的
             //搞成list
-            var msgList = base.GetAllLastMsgList(memberid);
+            var msgList =await base.GetAllLastMsgList(memberid);
             resp.data = msgList;
             return resp;
 
         }
 
-        public MsgCountResp GetUnreadMsg(string memberid)
+        public async Task<MsgCountResp> GetUnreadMsg(string memberid)
         {
             var resp = new MsgCountResp() 
             {
                 code = 0,
                 msg = "獲取未讀訊息成功"
             };
-            Dictionary<string,int> resultDic = base.GetUnreadDic(memberid);
+            Dictionary<string,int> resultDic =await  base.GetUnreadDic(memberid);
 
             resp.data = resultDic;
 
@@ -96,13 +96,13 @@ namespace SocialMedia.Service
         //}
 
         //存放訊息(chathub 轉移了以後用這個)
-        public void SaveMsgData(string userid, string recieveid, string input)
+        public async Task SaveMsgData(string userid, string recieveid, string input)
         {
-            base.SaveChatMsg(userid, recieveid, input);
+            await base.SaveChatMsg(userid, recieveid, input);
         }
 
 
-        public ChatMemResp GetChatMemList()
+        public async Task<ChatMemResp> GetChatMemList()
         {
             var resp = new ChatMemResp
             {
@@ -110,7 +110,7 @@ namespace SocialMedia.Service
                 msg ="刷新快取成功"
             };
 
-            var memlist = base.GetMemListToChat();
+            var memlist =await  base.GetMemListToChat();
             resp.data = memlist;
             return resp;
 
@@ -118,9 +118,9 @@ namespace SocialMedia.Service
 
 
         //實作已讀時修改資料庫
-        public void UpdateToRead(string userid, string recieveid)
+        public async Task UpdateToRead(string userid, string recieveid)
         {
-            base.UpdateDBToRead(userid, recieveid);
+            await base.UpdateDBToRead(userid, recieveid);
         }
 
     }

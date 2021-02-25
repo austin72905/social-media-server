@@ -11,6 +11,6 @@ namespace SocialMedia.Interface.Repository
     {
         public IQueryable<Personality> GetPersonalInstance();
 
-        public void SavePreferType(PersonalReq req);
+        public Task SavePreferType(PersonalReq req);
     }
 }

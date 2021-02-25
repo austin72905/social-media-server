@@ -9,7 +9,7 @@ namespace SocialMedia.Interface
 {
     public interface IRegister
     {
-        RegistResp CheckUserExisted(RegisReq req);
+        Task<RegistResp> CheckUserExisted(RegisReq req);
 
     }
 }

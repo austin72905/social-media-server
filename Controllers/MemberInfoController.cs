@@ -28,11 +28,11 @@ namespace SocialMedia.Controllers
 
         //get
         //用戶列表
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             int memberID = Convert.ToInt32(Request.Query["memberid"]);
             //var checkresult = _setting.GetMemberInfo(reqbody.memberid);
-            var checkresult = _setting.GetMemberList(memberID);
+            var checkresult =await _setting.GetMemberList(memberID);
             return Json(checkresult);
         }
 

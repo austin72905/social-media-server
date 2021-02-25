@@ -9,6 +9,6 @@ namespace SocialMedia.Interface
 {
     public interface ILogin
     {
-        LoginResp CheckUserExisted(LoginReq req);
+        Task<LoginResp> CheckUserExisted(LoginReq req);
     }
 }

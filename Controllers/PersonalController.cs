@@ -18,24 +18,24 @@ namespace SocialMedia.Controllers
         }
 
         //個人訊息
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             int memberID = Convert.ToInt32(Request.Query["memberid"]);
-            var memberInfo = _personal.GetPersonalInfo(memberID);
+            var memberInfo =await _personal.GetPersonalInfo(memberID);
             return Json(memberInfo);
         }
 
         //選項
-        public IActionResult SelectOption()
+        public async Task<IActionResult> SelectOption()
         {
-            var selectOption = _personal.GetSelectOption();
+            var selectOption =await _personal.GetSelectOption();
             return Json(selectOption);
         }
 
-        public IActionResult Update([FromBody] PersonalReq req)
+        public async Task<IActionResult> Update([FromBody] PersonalReq req)
         {
 
-            var memberInfo = _personal.UpdatePersonalInfo(req);
+            var memberInfo =await _personal.UpdatePersonalInfo(req);
             return Json(memberInfo);
         }
 

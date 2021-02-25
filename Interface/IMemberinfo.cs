@@ -19,7 +19,7 @@ namespace SocialMedia.Interface
         //TypeResp GetSelectOption();
 
 
-        MemberinfoResp GetMemberList(int id);
+        Task<MemberinfoResp> GetMemberList(int id);
         object AddInterest1(Interest interest);
 
         object AddPersonality1(Personality personality);

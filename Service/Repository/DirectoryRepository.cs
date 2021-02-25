@@ -53,12 +53,47 @@ namespace SocialMedia.Service.Repository
         }
 
         /// <summary>
+        /// 取得朋友資訊(task使用的)
+        /// </summary>
+        /// <param name="memberInfo"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public List<FriendData> GetFrinedList(IList<Member> memberInfo, int id)
+        {
+            //取得用戶資料
+            var memInfo = memberInfo.FirstOrDefault(m => m.ID == id);
+            //取得用戶朋友的memberid
+            string[] frinedId = memInfo.Directory.ContactList.Split(',');
+            //取得朋友列表       
+            var friendInfos = memberInfo.Where(m => frinedId.Contains(m.ID.ToString())).Select(m => m);
+
+            List<FriendData> frinedlist = new List<FriendData>();
+            foreach (var item in friendInfos)
+            {
+                //var friendInfo = memberInfo.FirstOrDefault(m => m.ID == int.Parse(frinedId));
+                frinedlist.Add(new FriendData()
+                {
+                    username = item.Name,
+                    nickname = item.MemberInfo.NickName,
+                    memberID = item.ID,
+                    gender = item.Gender,
+                    job = item.MemberInfo.Job,
+                    state = item.MemberInfo.State,
+                    introduce = item.MemberInfo.Introduce,
+                });
+            }
+
+            return frinedlist;
+
+        }
+
+        /// <summary>
         /// 新增好友
         /// </summary>
         /// <param name="req"></param>
-        public  void SaveDirectoryData(FriendReq req, bool isAdd = true)
+        public  async Task SaveDirectoryData(FriendReq req, bool isAdd = true)
         {
-            var memberInfo = _context.Members.Include(md => md.Directory).FirstOrDefault(m => m.ID == Convert.ToInt32(req.memberid));
+            var memberInfo =await  _context.Members.Include(md => md.Directory).FirstOrDefaultAsync(m => m.ID == Convert.ToInt32(req.memberid));
 
             //var memberInfo = GetMemberInstance(memberDirectorylist, req.memberid);
 
@@ -76,7 +111,7 @@ namespace SocialMedia.Service.Repository
 
             //更新值
             memberInfo.Directory.ContactList = frinedId;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

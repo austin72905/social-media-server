@@ -19,10 +19,10 @@ namespace SocialMedia.Service.Repository
         }
 
         //存放聊天訊息
-        public void SaveChatMsg(string userid, string recieveid, string input, bool unread = false)
+        public  async Task SaveChatMsg(string userid, string recieveid, string input, bool unread = false)
         {
             //把原本最新的塗銷
-            var nowNewest = _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(userid) && m.ChatID == Convert.ToInt32(recieveid) && m.Newest == true).FirstOrDefault();
+            var nowNewest =await  _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(userid) && m.ChatID == Convert.ToInt32(recieveid) && m.Newest == true).FirstOrDefaultAsync();
             //要先判斷如果是第一次聊天要先加
             if (nowNewest != null)
             {
@@ -30,7 +30,7 @@ namespace SocialMedia.Service.Repository
             }
 
 
-            var newNewestRecieve = _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(recieveid) && m.ChatID == Convert.ToInt32(userid) && m.Newest == true).FirstOrDefault();
+            var newNewestRecieve = await _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(recieveid) && m.ChatID == Convert.ToInt32(userid) && m.Newest == true).FirstOrDefaultAsync();
             //要先判斷如果是第一次聊天要先加
             if (newNewestRecieve != null)
             {
@@ -63,12 +63,12 @@ namespace SocialMedia.Service.Repository
 
             _context.ChatMsgs.Add(message);
             _context.ChatMsgs.Add(recieverMsg);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        protected Dictionary<string, int> GetUnreadDic(string memberid)
+        protected async Task<Dictionary<string, int>> GetUnreadDic(string memberid)
         {
-            var msgList = _context.ChatMsgs.Where(msg => msg.MemberID == Convert.ToInt32(memberid));
+            var msgList =await  _context.ChatMsgs.Where(msg => msg.MemberID == Convert.ToInt32(memberid)).ToListAsync();
 
             var tempSet = new HashSet<string>();
 
@@ -115,14 +115,14 @@ namespace SocialMedia.Service.Repository
             return unReadCount;
         }
 
-        public List<ChatMsgLastData> GetAllLastMsgList(string memberid)
+        public async Task<List<ChatMsgLastData>> GetAllLastMsgList(string memberid)
         {
             //之前寫的要再加一個時間戳，不然沒辦法排序
             //取得訊息符合memberid 的 newest == true 的
             //搞成list
-            var memMsg = _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(memberid) && m.Newest == true);
+            var memMsg =await  _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(memberid) && m.Newest == true).ToListAsync();
 
-            var userData = GetMemberListInstance();
+            var userData = await GetMemberListInstance().ToListAsync();
 
             //最後要回傳的list
             List<ChatMsgLastData> msgLastList = new List<ChatMsgLastData>();
@@ -132,7 +132,7 @@ namespace SocialMedia.Service.Repository
                 int unreadCount = 0;
                 Member chatUser = userData.Where(user => user.ID == item.ChatID).FirstOrDefault();
                 //找到每個對應的訊息組
-                var chatMsgSet = _context.ChatMsgs.Where(msg => msg.MemberID == Convert.ToInt32(memberid) && msg.ChatID == item.ChatID);
+                var chatMsgSet =await  _context.ChatMsgs.Where(msg => msg.MemberID == Convert.ToInt32(memberid) && msg.ChatID == item.ChatID).ToListAsync();
                 foreach (var msg in chatMsgSet)
                 {
                     if (msg.Unread == true)
@@ -157,7 +157,7 @@ namespace SocialMedia.Service.Repository
             return msgLastList;
         }
 
-        protected List<ChatMsgData> GetMsgList(string memberid, string recieveid)
+        protected async Task<List<ChatMsgData>> GetMsgList(string memberid, string recieveid)
         {
             var msgItem = _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(memberid) && m.ChatID == Convert.ToInt32(recieveid));//.OrderBy(m =>long.Parse( m.Time))
             var Msglist = new List<ChatMsgData>();
@@ -167,14 +167,14 @@ namespace SocialMedia.Service.Repository
             //var recieverData = GetMemberListInstance().FirstOrDefault(m => m.ID == Convert.ToInt32(recieveid));
             foreach (var item in msgItem)
             {
-                string speakerName = _context.Members.FirstOrDefault(m => m.ID == Convert.ToInt32(item.SpeakerID)).Name;
-                string gender = _context.Members.FirstOrDefault(m => m.ID == Convert.ToInt32(item.SpeakerID)).Gender;
+                var speaker =await  _context.Members.FirstOrDefaultAsync(m => m.ID == Convert.ToInt32(item.SpeakerID));
+                //var gender = await _context.Members.FirstOrDefaultAsync(m => m.ID == Convert.ToInt32(item.SpeakerID));
 
                 Msglist.Add(new ChatMsgData
                 {
-                    username = speakerName,
+                    username = speaker.Name,
                     memberid = item.SpeakerID,
-                    gender = gender,
+                    gender = speaker.Gender,
                     text = item.Text,
                     unread = item.Unread
                 });
@@ -184,9 +184,9 @@ namespace SocialMedia.Service.Repository
         }
 
         //修改資料庫為已讀
-        public void UpdateDBToRead(string userid, string recieveid)
+        public async Task UpdateDBToRead(string userid, string recieveid)
         {
-            var updateItem = _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(userid));
+            var updateItem =await  _context.ChatMsgs.Where(m => m.MemberID == Convert.ToInt32(userid)).ToListAsync();
 
             foreach (var item in updateItem)
             {
@@ -198,14 +198,14 @@ namespace SocialMedia.Service.Repository
 
             }
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         //刷新chathub 緩存
-        public List<MemberData> GetMemListToChat()
+        public async Task<List<MemberData>> GetMemListToChat()
         {
             var chatmemlist = new List<MemberData>();
-            var memlist = _context.Members.Include(m => m.MemberInfo);
+            var memlist =await  _context.Members.Include(m => m.MemberInfo).ToListAsync();
 
             foreach (var item in memlist)
             {

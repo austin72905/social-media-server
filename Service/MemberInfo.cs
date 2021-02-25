@@ -26,11 +26,11 @@ namespace SocialMedia.Service
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
-        public MemberinfoResp GetMemberList(int id)
+        public async Task<MemberinfoResp> GetMemberList(int id)
         {
             MemberinfoResp resp = new MemberinfoResp();
 
-            var memberInfo = base.GetMemberListInstance();           
+            var memberInfo =await base.GetMemberListInstance().ToListAsync();           
 
             var correctId = DBfactory.CheckMemberId(memberInfo, id);
             if (!correctId)

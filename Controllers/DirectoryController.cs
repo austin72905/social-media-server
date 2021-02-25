@@ -17,24 +17,24 @@ namespace SocialMedia.Controllers
             _directory = directory;
         }
         //get
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             int memberID = Convert.ToInt32(Request.Query["memberid"]);
-            var checkresult = _directory.GetFrinedList(memberID);
+            var checkresult =await  _directory.GetFrinedList(memberID);
             return Json(checkresult);
         }
 
         //新增好友
-        public IActionResult Add([FromBody] FriendReq req)
+        public async Task<IActionResult> Add([FromBody] FriendReq req)
         {
-            var checjresult = _directory.AddFrined(req);
+            var checjresult =await _directory.AddFrined(req);
             return Json(checjresult);
         }
 
         //刪除好友
-        public IActionResult Delete([FromBody] FriendReq req)
+        public async Task<IActionResult> Delete([FromBody] FriendReq req)
         {
-            var checjresult = _directory.DeleteFrined(req);
+            var checjresult =await _directory.DeleteFrined(req);
             return Json(checjresult);
         }
     }

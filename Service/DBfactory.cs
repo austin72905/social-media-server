@@ -36,6 +36,19 @@ namespace SocialMedia.Service
             return correctId;
         }
 
+        /// <summary>
+        /// 檢查ID (task 使用的版本)
+        /// </summary>
+        /// <param name="context"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public static bool CheckMemberId(IList<Member> context, int? id)
+        {
+            var correctId = context.Any(m => m.ID == id);
+
+            return correctId;
+        }
+
 
         /// <summary>
         /// 個人訊息
@@ -86,7 +99,7 @@ namespace SocialMedia.Service
         /// 獲取用戶列表實體
         /// </summary>
         /// <returns></returns>
-        public virtual IQueryable<Member> GetMemberListInstance()
+        public  virtual IQueryable<Member> GetMemberListInstance()
         {
             var memberList = _context.Members.Include(mf => mf.MemberInfo)
                                     .Include(mi => mi.MemberInterests)

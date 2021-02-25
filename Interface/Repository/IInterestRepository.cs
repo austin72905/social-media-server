@@ -11,7 +11,7 @@ namespace SocialMedia.Interface.Repository
     {
         public IQueryable<Interest> GetInterestInstance();
 
-        public void SaveMemberInterest(PersonalReq req);
+        public Task SaveMemberInterest(PersonalReq req);
 
     }
 }

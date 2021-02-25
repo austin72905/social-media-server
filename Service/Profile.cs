@@ -25,13 +25,13 @@ namespace SocialMedia.Service
         /// <param name="id"></param>
         /// <param name="username"></param>
         /// <returns></returns>
-        public ProfileResp GetMemberDetail(int id,string username)
+        public async Task<ProfileResp> GetMemberDetail(int id,string username)
         {
             ProfileResp resp = new ProfileResp();
             //var memberInfo = base.GetMemberListInstance();
 
 
-            var memberInfo = base.GetMemberListInstance().FirstOrDefault(m => string.Equals(m.Name,username, StringComparison.Ordinal));
+            var memberInfo =await base.GetMemberListInstance().FirstOrDefaultAsync(m => string.Equals(m.Name,username, StringComparison.Ordinal));
             //var correctId = CheckMemberId(memberInfo, id);
             if (memberInfo == null)
             {
@@ -41,7 +41,7 @@ namespace SocialMedia.Service
             }
 
             //取得對應用戶的資料
-            var QueryMemInfo = base.GetMemberListInstance().FirstOrDefault(m => string.Equals(m.Name, username, StringComparison.Ordinal));
+            var QueryMemInfo = await base.GetMemberListInstance().FirstOrDefaultAsync(m => string.Equals(m.Name, username, StringComparison.Ordinal));
             
             //查詢的用戶不存在
             if(QueryMemInfo == null)

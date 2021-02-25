@@ -27,11 +27,11 @@ namespace SocialMedia.Service.Repository
         }
 
         //修改興趣
-        public void SaveMemberInterest(PersonalReq req)
+        public async Task SaveMemberInterest(PersonalReq req)
         {
             //取得實體
-            var memInfo = _context.MemberInterests.Include(mi => mi.Interest)
-                .Where(p => p.MemberID == Convert.ToInt32(req.memberid));
+            var memInfo =await _context.MemberInterests.Include(mi => mi.Interest)
+                .Where(p => p.MemberID == Convert.ToInt32(req.memberid)).ToListAsync();
 
             //interest 字典
             Dictionary<int, string> MemberItDic = MemberInterestDic(_context.Interests);
@@ -54,7 +54,7 @@ namespace SocialMedia.Service.Repository
                 _context.MemberInterests.Remove(delItem);
             }
 
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
 
         }
 

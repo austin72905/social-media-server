@@ -15,7 +15,7 @@ namespace SocialMedia.MiddleWares
     {
         private readonly RequestDelegate _next;
         //不用驗證的路由
-        private List<string> NoVerifyPath =>new List<string> { "/login", "/register", "/personal/selectoption","/home","/" };
+        private List<string> NoVerifyPath =>new List<string> { "/login", "/register", "/personal/selectoption","/chat","/home","/" };
 
         //=> {get;} 同意
         public static string MD5Key => "jhkhjkqwkafjkcvkasdkfpewrerewr";

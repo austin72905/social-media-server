@@ -18,10 +18,10 @@ namespace SocialMedia.Controllers
         }
 
         //get 好友列表
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             int memberID = Convert.ToInt32(Request.Query["memberid"]);
-            var result=_directory.GetFrinedList(memberID);
+            var result=await _directory.GetFrinedList(memberID);
             return Json(result);
         }
 

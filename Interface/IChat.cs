@@ -11,10 +11,10 @@ namespace SocialMedia.Interface
     {
         //public (ChatResp chatSpeakerdata, ChatMsgLastData forSpeaker, ChatMsgLastData forReciever) SaveChatMsg(string userid, string recieveid, string input);
 
-        public void UpdateToRead(string userid, string recieveid);
+        public Task UpdateToRead(string userid, string recieveid);
 
-        public void SaveMsgData(string userid, string recieveid,string input);
+        public Task SaveMsgData(string userid, string recieveid,string input);
 
-        public ChatMemResp GetChatMemList();
+        public Task<ChatMemResp> GetChatMemList();
     }
 }

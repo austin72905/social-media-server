@@ -17,13 +17,13 @@ namespace SocialMedia.Controllers
         }
 
         //獲取用戶訊息
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
             int memberID = Convert.ToInt32(Request.Query["memberid"]);
             //這邊用的是username
             string username = Request.Query["userprofile"].ToString();
 
-            var memberInfo = _profile.GetMemberDetail(memberID, username);
+            var memberInfo =await _profile.GetMemberDetail(memberID, username);
             return Json(memberInfo);
         }
     }

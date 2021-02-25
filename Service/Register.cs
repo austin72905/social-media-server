@@ -30,7 +30,7 @@ namespace SocialMedia.Service
         /// </summary>
         /// <param name="req"></param>
         /// <returns></returns>
-        public RegistResp CheckUserExisted(RegisReq req) 
+        public async Task<RegistResp> CheckUserExisted(RegisReq req) 
         {
             RegistResp resp = new RegistResp();
 
@@ -52,7 +52,7 @@ namespace SocialMedia.Service
             base.SaveMemberData(req);                                 
             
             //取得用戶實體
-            var member = base.GetMemberInstance(req);
+            var member =await base.GetMemberInstance(req);
 
             resp.code = (int)RespCode.SUCCESS;
             resp.msg = "註冊成功";

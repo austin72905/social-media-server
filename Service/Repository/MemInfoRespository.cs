@@ -20,16 +20,16 @@ namespace SocialMedia.Service.Repository
             
         }
         //修改個人資料
-        public void UpdateMemberInfoData(PersonalReq req)
+        public async Task UpdateMemberInfoData(PersonalReq req)
         {
-            var memberInfo = _context.Members.Include(mf => mf.MemberInfo).FirstOrDefault(m => m.ID == Convert.ToInt32(req.memberid));
+            var memberInfo =await _context.Members.Include(mf => mf.MemberInfo).FirstOrDefaultAsync(m => m.ID == Convert.ToInt32(req.memberid));
             //var memberInfo = GetMemberInstance(memberlist, req.memberid);
             //修改值
             memberInfo.MemberInfo.NickName = req.data.nickname;
             memberInfo.MemberInfo.Job = req.data.job;
             memberInfo.MemberInfo.State = req.data.state;
             memberInfo.MemberInfo.Introduce = req.data.introduce;
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
        

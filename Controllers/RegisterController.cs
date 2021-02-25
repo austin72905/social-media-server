@@ -21,9 +21,9 @@ namespace SocialMedia.Controllers
 
 
         //post
-        public IActionResult Index([FromBody] RegisReq reqbody)
+        public async Task<IActionResult> Index([FromBody] RegisReq reqbody)
         {
-            var checkresult=_register.CheckUserExisted(reqbody);
+            var checkresult=await  _register.CheckUserExisted(reqbody);
             return Json(checkresult);
         }
     }
