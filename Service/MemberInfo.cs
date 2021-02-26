@@ -29,42 +29,51 @@ namespace SocialMedia.Service
         public async Task<MemberinfoResp> GetMemberList(int id)
         {
             MemberinfoResp resp = new MemberinfoResp();
-
-            var memberInfo =await base.GetMemberListInstance().ToListAsync();           
-
-            var correctId = DBfactory.CheckMemberId(memberInfo, id);
-            if (!correctId)
+            try
             {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = "用戶不存在，請重新登入";
+                var memberInfo = await base.GetMemberListInstance().ToListAsync();
+
+                var correctId = DBfactory.CheckMemberId(memberInfo, id);
+                if (!correctId)
+                {
+                    resp.code = (int)RespCode.FAIL;
+                    resp.msg = "用戶不存在，請重新登入";
+                    return resp;
+                }
+
+                //要返回的列表
+                var memberlist = new List<Models.Memberinfo.MemberinfoData>();
+                foreach (var item in memberInfo)
+                {
+                    memberlist.Add(new Models.Memberinfo.MemberinfoData()
+                    {
+                        username = item.Name,
+                        nickname = item.MemberInfo.NickName,
+                        gender = item.Gender,
+                        memberID = item.ID,
+                        job = item.MemberInfo.Job,
+                        state = item.MemberInfo.State,
+                        introduce = item.MemberInfo.Introduce,
+                        //intersert = string.Join("、", item.MemberInterests.Where(mi => mi.MemberID == item.ID).Select(mi => mi.Interest.Name)),
+                        //preferType = string.Join("、", item.PreferTypes.Where(mi => mi.MemberID == item.ID).Select(mi => mi.Personality.Kind)),
+                    });
+                }
+
+                resp.code = (int)RespCode.SUCCESS;
+                resp.msg = "取得用戶成功";
+                resp.data = memberlist;
+
                 return resp;
             }
-
-            //要返回的列表
-            var memberlist = new List<Models.Memberinfo.MemberinfoData>();
-            foreach (var item in memberInfo)
+            catch (Exception ex)
             {
-                memberlist.Add(new Models.Memberinfo.MemberinfoData()
-                {
-                    username =item.Name,
-                    nickname =item.MemberInfo.NickName,
-                    gender = item.Gender,
-                    memberID = item.ID,
-                    job = item.MemberInfo.Job,
-                    state = item.MemberInfo.State,
-                    introduce = item.MemberInfo.Introduce,
-                    //intersert = string.Join("、", item.MemberInterests.Where(mi => mi.MemberID == item.ID).Select(mi => mi.Interest.Name)),
-                    //preferType = string.Join("、", item.PreferTypes.Where(mi => mi.MemberID == item.ID).Select(mi => mi.Personality.Kind)),
-                });
+                resp.code = (int)RespCode.FAIL;
+                resp.msg = ex.Message;
+                return resp;
             }
+            
 
-            resp.code = (int)RespCode.SUCCESS;
-            resp.msg = "取得用戶成功";
-            resp.data = memberlist;
-
-            return resp;
-
-            ;
+            
         }
 
         

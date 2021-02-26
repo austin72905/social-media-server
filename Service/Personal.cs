@@ -36,7 +36,7 @@ namespace SocialMedia.Service
         {
             PersonalResp resp = new PersonalResp();
             //var memberInfo = base.GetMemberListInstance();
-            
+
             //var correctId = DBfactory.CheckMemberId(memberInfo, id);
             //if (!correctId)
             //{
@@ -45,7 +45,9 @@ namespace SocialMedia.Service
             //    return resp;
             //}
 
-            var memInfo =await base.GetMemberListInstance().FirstOrDefaultAsync(m => m.ID == id);
+            try
+            {
+                 var memInfo =await base.GetMemberListInstance().FirstOrDefaultAsync(m => m.ID == id);
             if ( memInfo == null)
             {
                 resp.code = (int)RespCode.FAIL;
@@ -75,6 +77,15 @@ namespace SocialMedia.Service
 
 
             return resp;
+            }
+            catch (Exception ex)
+            {
+                resp.code = (int)RespCode.FAIL;
+                resp.msg = ex.Message;
+                return resp;
+            }
+
+           
         }
 
         /// <summary>
@@ -86,45 +97,55 @@ namespace SocialMedia.Service
         {
             PersonalResp resp = new PersonalResp();
 
-            var memberListInfo = base.GetMemberListInstance();
-
-            //驗證id
-            var correctId = DBfactory.CheckMemberId(memberListInfo, Convert.ToInt32(req.memberid));
-            if (!correctId)
+            try
             {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = "用戶不存在，請重新登入";
+                var memberListInfo = base.GetMemberListInstance();
+
+                //驗證id
+                var correctId = DBfactory.CheckMemberId(memberListInfo, Convert.ToInt32(req.memberid));
+                if (!correctId)
+                {
+                    resp.code = (int)RespCode.FAIL;
+                    resp.msg = "用戶不存在，請重新登入";
+                    return resp;
+                }
+
+                //修改資料
+                await base.UpdateMemberInfoData(req);
+                //修改prefertype 跟 interest
+                await _personalRepository.SavePreferType(req);
+                await _interestRepository.SaveMemberInterest(req);
+
+                var memInfo = await memberListInfo.FirstOrDefaultAsync(m => m.ID == Convert.ToInt32(req.memberid));
+
+                //返回個人訊息
+                PersonalData da = new PersonalData()
+                {
+                    memberID = memInfo.ID,
+                    username = memInfo.Name.ToString(),
+                    nickname = memInfo.MemberInfo.NickName,
+                    gender = memInfo.Gender,
+                    job = memInfo.MemberInfo.Job,
+                    state = memInfo.MemberInfo.State,
+                    introduce = memInfo.MemberInfo.Introduce,
+                    interest = string.Join("、", memInfo.MemberInterests.Where(mi => mi.MemberID == memInfo.ID).Select(mi => mi.Interest.Name)),
+                    preferType = string.Join("、", memInfo.PreferTypes.Where(mi => mi.MemberID == memInfo.ID).Select(mi => mi.Personality.Kind)),
+                };
+
+                resp.code = (int)RespCode.SUCCESS;
+                resp.msg = "取得用戶成功";
+                resp.data = da;
+
+
                 return resp;
             }
-
-            //修改資料
-            await base.UpdateMemberInfoData(req);
-            //修改prefertype 跟 interest
-            await _personalRepository.SavePreferType(req);
-            await _interestRepository.SaveMemberInterest(req);
-
-            var memInfo = await memberListInfo.FirstOrDefaultAsync(m => m.ID == Convert.ToInt32(req.memberid));
-
-            //返回個人訊息
-            PersonalData da = new PersonalData()
+            catch (Exception ex)
             {
-                memberID = memInfo.ID,
-                username = memInfo.Name.ToString(),
-                nickname = memInfo.MemberInfo.NickName,
-                gender = memInfo.Gender,
-                job = memInfo.MemberInfo.Job,
-                state = memInfo.MemberInfo.State,
-                introduce = memInfo.MemberInfo.Introduce,
-                interest = string.Join("、", memInfo.MemberInterests.Where(mi => mi.MemberID == memInfo.ID).Select(mi => mi.Interest.Name)),
-                preferType = string.Join("、", memInfo.PreferTypes.Where(mi => mi.MemberID == memInfo.ID).Select(mi => mi.Personality.Kind)),
-            };
-
-            resp.code = (int)RespCode.SUCCESS;
-            resp.msg = "取得用戶成功";
-            resp.data = da;
-
-
-            return resp;
+                resp.code = (int)RespCode.FAIL;
+                resp.msg = ex.Message;
+                return resp;
+            }
+            
         }
 
         /// <summary>
@@ -134,34 +155,45 @@ namespace SocialMedia.Service
         public async  Task<SOResp> GetSelectOption()
         {
             SOResp resp = new SOResp();
-            //取得選項
-            var types =await  _personalRepository.GetPersonalInstance().ToListAsync();
-            var interests =await _interestRepository.GetInterestInstance().ToListAsync();
 
-            List<string> typelist = new List<string>();
-            List<string> interlist = new List<string>();
-
-            foreach (var t in types)
+            try
             {
-                typelist.Add(t.Kind);
+                //取得選項
+                var types = await _personalRepository.GetPersonalInstance().ToListAsync();
+                var interests = await _interestRepository.GetInterestInstance().ToListAsync();
+
+                List<string> typelist = new List<string>();
+                List<string> interlist = new List<string>();
+
+                foreach (var t in types)
+                {
+                    typelist.Add(t.Kind);
+                }
+                foreach (var i in interests)
+                {
+                    interlist.Add(i.Name);
+                }
+
+                SOData dalists = new SOData()
+                {
+                    interests = interlist,
+                    preferTypes = typelist
+                };
+
+                //返回訊息
+                resp.code = (int)RespCode.SUCCESS;
+                resp.msg = "取得選項成功";
+                resp.data = dalists;
+
+                return resp;
             }
-            foreach (var i in interests)
+            catch (Exception ex)
             {
-                interlist.Add(i.Name);
+                resp.code = (int)RespCode.FAIL;
+                resp.msg = ex.Message;
+                return resp;
             }
-
-            SOData dalists = new SOData() 
-            {
-                interests= interlist,
-                preferTypes = typelist
-            };
             
-            //返回訊息
-            resp.code = (int)RespCode.SUCCESS;
-            resp.msg = "取得選項成功";
-            resp.data = dalists;
-
-            return resp;
         }
 
         

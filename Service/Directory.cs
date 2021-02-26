@@ -29,27 +29,36 @@ namespace SocialMedia.Service
         public async Task<FriendResp> GetFrinedList(int id)
         {
             FriendResp resp = new FriendResp();
-
-            var memberInfo =await base.GetMemberListInstance().ToListAsync();
-            
-            var correctId = CheckMemberId(memberInfo, id);
-            
-            if (!correctId)
+            try
             {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = "用戶不存在，請重新登入";
+                var memberInfo = await base.GetMemberListInstance().ToListAsync();
+
+                var correctId = CheckMemberId(memberInfo, id);
+
+                if (!correctId)
+                {
+                    resp.code = (int)RespCode.FAIL;
+                    resp.msg = "用戶不存在，請重新登入";
+                    return resp;
+                }
+
+                List<FriendData> friendlist = base.GetFrinedList(memberInfo, id);
+
+                //回到用戶列表
+                resp.code = (int)RespCode.SUCCESS;
+                resp.msg = "取得用戶成功";
+                resp.data = friendlist;
+                //回到個人頁面
+
                 return resp;
             }
-
-            List<FriendData> friendlist = base.GetFrinedList(memberInfo,id);
-   
-            //回到用戶列表
-            resp.code = (int)RespCode.SUCCESS;
-            resp.msg = "取得用戶成功";
-            resp.data = friendlist;
-            //回到個人頁面
-
-            return resp;
+            catch (Exception ex)
+            {
+                resp.code = (int)RespCode.FAIL;
+                resp.msg = ex.Message;
+                return resp;
+            }
+            
         }
 
         /// <summary>
@@ -60,26 +69,35 @@ namespace SocialMedia.Service
         public async Task<FriendResp> AddFrined(FriendReq req)
         {
             FriendResp resp = new FriendResp();
-
-            var memberInfo = base.GetMemberListInstance();
-            var correctId = CheckMemberId(memberInfo, Convert.ToInt32(req.memberid));        
-            if (!correctId)
+            try
             {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = "用戶不存在，請重新登入";
+                var memberInfo = base.GetMemberListInstance();
+                var correctId = CheckMemberId(memberInfo, Convert.ToInt32(req.memberid));
+                if (!correctId)
+                {
+                    resp.code = (int)RespCode.FAIL;
+                    resp.msg = "用戶不存在，請重新登入";
+                    return resp;
+                }
+
+                //儲存朋友
+                await base.SaveDirectoryData(req);
+
+                List<FriendData> friendlist = base.GetFrinedList(memberInfo, Convert.ToInt32(req.memberid));
+                //回到用戶列表
+                resp.code = (int)RespCode.SUCCESS;
+                resp.msg = "取得用戶成功";
+                resp.data = friendlist;
+
                 return resp;
             }
-
-            //儲存朋友
-            await base.SaveDirectoryData(req);
-
-            List<FriendData> friendlist = base.GetFrinedList(memberInfo,Convert.ToInt32(req.memberid));
-            //回到用戶列表
-            resp.code = (int)RespCode.SUCCESS;
-            resp.msg = "取得用戶成功";
-            resp.data = friendlist;
-
-            return resp;
+            catch (Exception ex)
+            {
+                resp.code = (int)RespCode.FAIL;
+                resp.msg = ex.Message;
+                return resp;
+            }
+            
 
         }
 
@@ -92,24 +110,34 @@ namespace SocialMedia.Service
         public async Task<FriendResp> DeleteFrined(FriendReq req)
         {
             FriendResp resp = new FriendResp();
-            var memberInfo = base.GetMemberListInstance();
-            var correctId = CheckMemberId(memberInfo, Convert.ToInt32(req.memberid));
-            if (!correctId)
+            try
             {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = "用戶不存在，請重新登入";
+                var memberInfo = base.GetMemberListInstance();
+                var correctId = CheckMemberId(memberInfo, Convert.ToInt32(req.memberid));
+                if (!correctId)
+                {
+                    resp.code = (int)RespCode.FAIL;
+                    resp.msg = "用戶不存在，請重新登入";
+                    return resp;
+                }
+                //刪除朋友
+                await base.SaveDirectoryData(req, false);
+
+                List<FriendData> friendlist = base.GetFrinedList(memberInfo, Convert.ToInt32(req.memberid));
+                //回到用戶列表
+                resp.code = (int)RespCode.SUCCESS;
+                resp.msg = "取得用戶成功";
+                resp.data = friendlist;
+
                 return resp;
             }
-            //刪除朋友
-            await base.SaveDirectoryData(req,false);
-
-            List<FriendData> friendlist = base.GetFrinedList(memberInfo, Convert.ToInt32(req.memberid));
-            //回到用戶列表
-            resp.code = (int)RespCode.SUCCESS;
-            resp.msg = "取得用戶成功";
-            resp.data = friendlist;
-
-            return resp;
+            catch (Exception ex)
+            {
+                resp.code = (int)RespCode.FAIL;
+                resp.msg = ex.Message;
+                return resp;
+            }
+            
 
         }
 

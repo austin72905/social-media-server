@@ -38,37 +38,47 @@ namespace SocialMedia.Service
 
             ////用 == 會忽略大小寫
             //var memberExisted = memberInfo.Any(m => string.Equals(m.Name, req.username, StringComparison.Ordinal));
-            var memberExisted = base.CheckMemberExisted(req);
-
-            if (memberExisted)
+            try
             {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = "用戶已存在";
+                var memberExisted = base.CheckMemberExisted(req);
+
+                if (memberExisted)
+                {
+                    resp.code = (int)RespCode.FAIL;
+                    resp.msg = "用戶已存在";
+                    return resp;
+                }
+
+
+                //如果用戶不存在就新增
+                base.SaveMemberData(req);
+
+                //取得用戶實體
+                var member = await base.GetMemberInstance(req);
+
+                resp.code = (int)RespCode.SUCCESS;
+                resp.msg = "註冊成功";
+                RegistData da = new RegistData()
+                {
+                    username = member.Name,
+                    gender = member.Gender,
+                    memberID = member.ID,
+                    isRegist = true,
+                };
+                resp.data = da;
+                //加入token
+                string sign = VerifySign.GenerateSign(da.username);
+                resp.token = sign;
+
                 return resp;
             }
-
+            catch (Exception ex)
+            {
+                resp.code = (int)RespCode.FAIL;
+                resp.msg = ex.Message;
+                return resp;
+            }
             
-            //如果用戶不存在就新增
-            base.SaveMemberData(req);                                 
-            
-            //取得用戶實體
-            var member =await base.GetMemberInstance(req);
-
-            resp.code = (int)RespCode.SUCCESS;
-            resp.msg = "註冊成功";
-            RegistData da = new RegistData() 
-            { 
-                username=member.Name,
-                gender= member.Gender,
-                memberID= member.ID,
-                isRegist=true,
-            };            
-            resp.data = da;
-            //加入token
-            string sign = VerifySign.GenerateSign(da.username);
-            resp.token = sign;
-
-            return resp;
         }
     }
 }

@@ -29,50 +29,59 @@ namespace SocialMedia.Service
         {
             ProfileResp resp = new ProfileResp();
             //var memberInfo = base.GetMemberListInstance();
+            try
+            {
+                var memberInfo = await base.GetMemberListInstance().FirstOrDefaultAsync(m => string.Equals(m.Name, username, StringComparison.Ordinal));
+                //var correctId = CheckMemberId(memberInfo, id);
+                if (memberInfo == null)
+                {
+                    resp.code = (int)RespCode.FAIL;
+                    resp.msg = "用戶不存在，請重新登入";
+                    return resp;
+                }
+
+                //取得對應用戶的資料
+                var QueryMemInfo = await base.GetMemberListInstance().FirstOrDefaultAsync(m => string.Equals(m.Name, username, StringComparison.Ordinal));
+
+                //查詢的用戶不存在
+                if (QueryMemInfo == null)
+                {
+                    resp.code = (int)RespCode.FAIL;
+                    resp.msg = "此用戶不存在";
+                    return resp;
+                }
+
+                // 返回對應用戶資料
+                ProfileData da = new ProfileData()
+                {
+                    memberID = QueryMemInfo.ID,
+                    username = QueryMemInfo.Name.ToString(),
+                    nickname = QueryMemInfo.MemberInfo.NickName,
+                    gender = QueryMemInfo.Gender,
+                    job = QueryMemInfo.MemberInfo.Job,
+                    state = QueryMemInfo.MemberInfo.State,
+                    introduce = QueryMemInfo.MemberInfo.Introduce,
+                    interest = string.Join("、", QueryMemInfo.MemberInterests.Where(mi => mi.MemberID == QueryMemInfo.ID).Select(mi => mi.Interest.Name)),
+                    preferType = string.Join("、", QueryMemInfo.PreferTypes.Where(mi => mi.MemberID == QueryMemInfo.ID).Select(mi => mi.Personality.Kind)),
+                };
+
+                //回到用戶列表
+                resp.code = (int)RespCode.SUCCESS;
+                resp.msg = "取得用戶成功";
+                resp.data = da;
+                //回到個人頁面
 
 
-            var memberInfo =await base.GetMemberListInstance().FirstOrDefaultAsync(m => string.Equals(m.Name,username, StringComparison.Ordinal));
-            //var correctId = CheckMemberId(memberInfo, id);
-            if (memberInfo == null)
+                return resp;
+            }
+            catch (Exception ex)
             {
                 resp.code = (int)RespCode.FAIL;
-                resp.msg = "用戶不存在，請重新登入";
+                resp.msg = ex.Message;
                 return resp;
             }
 
-            //取得對應用戶的資料
-            var QueryMemInfo = await base.GetMemberListInstance().FirstOrDefaultAsync(m => string.Equals(m.Name, username, StringComparison.Ordinal));
             
-            //查詢的用戶不存在
-            if(QueryMemInfo == null)
-            {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = "此用戶不存在";
-                return resp;
-            }
-
-            // 返回對應用戶資料
-            ProfileData da = new ProfileData()
-            {
-                memberID =QueryMemInfo.ID,
-                username = QueryMemInfo.Name.ToString(),
-                nickname = QueryMemInfo.MemberInfo.NickName,
-                gender = QueryMemInfo.Gender,
-                job = QueryMemInfo.MemberInfo.Job,
-                state = QueryMemInfo.MemberInfo.State,
-                introduce = QueryMemInfo.MemberInfo.Introduce,
-                interest = string.Join("、", QueryMemInfo.MemberInterests.Where(mi => mi.MemberID == QueryMemInfo.ID).Select(mi => mi.Interest.Name)),
-                preferType = string.Join("、", QueryMemInfo.PreferTypes.Where(mi => mi.MemberID == QueryMemInfo.ID).Select(mi => mi.Personality.Kind)),
-            };
-
-            //回到用戶列表
-            resp.code = (int)RespCode.SUCCESS;
-            resp.msg = "取得用戶成功";
-            resp.data = da;
-            //回到個人頁面
-
-
-            return resp;
         }
     }
 }
