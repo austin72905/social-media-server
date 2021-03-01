@@ -1,0 +1,28 @@
+**********START**********
+Time : 2021-02-28 22:12:39
+Req : memberinfo
+Resp : SocialMedia.Models.Memberinfo.MemberinfoResp
+
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:08
+Req : memberinfo
+Resp : SocialMedia.Models.Memberinfo.MemberinfoResp
+
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Req : memberinfo
+Resp : {"code":0,"data":[{"username":"Austin","nickname":"\u53F0\u4E2D\u5C0F\u592A\u967D","memberID":1,"gender":"\u7537","job":"Teacher","state":"hungry","introduce":"I like big ass","intersert":null,"preferType":null,"isRegist":false},{"username":"mandy","nickname":null,"memberID":2,"gender":"\u5973","job":null,"state":null,"introduce":null,"intersert":null,"preferType":null,"isRegist":false},{"username":"jojo","nickname":null,"memberID":6,"gender":null,"job":null,"state":null,"introduce":null,"intersert":null,"preferType":null,"isRegist":false},{"username":"ggg","nickname":null,"memberID":7,"gender":null,"job":null,"state":null,"introduce":null,"intersert":null,"preferType":null,"isRegist":false},{"username":"add","nickname":null,"memberID":8,"gender":"\u5973","job":null,"state":null,"introduce":null,"intersert":null,"preferType":null,"isRegist":false},{"username":"plus","nickname":"aaAA","memberID":9,"gender":"\u5973","job":"\u8B77\u7406\u5E2B","state":"\u60F3\u7761\u89BAa","introduce":"\u6211\u53EB\u52A0\u52A0\u4E0D\u662F\u4F73\u4F73\uFF0C\u8766","intersert":null,"preferType":null,"isRegist":false}],"msg":"\u53D6\u5F97\u7528\u6236\u6210\u529F"}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Req : memberinfo
+Resp : {"code":0,"data":[{"username":"Austin","nickname":"\u53F0\u4E2D\u5C0F\u592A\u967D","memberID":1,"gender":"\u7537","job":"Teacher","state":"hungry","introduce":"I like big ass","intersert":null,"preferType":null,"isRegist":false},{"username":"mandy","nickname":null,"memberID":2,"gender":"\u5973","job":null,"state":null,"introduce":null,"intersert":null,"preferType":null,"isRegist":false},{"username":"jojo","nickname":null,"memberID":6,"gender":null,"job":null,"state":null,"introduce":null,"intersert":null,"preferType":null,"isRegist":false},{"username":"ggg","nickname":null,"memberID":7,"gender":null,"job":null,"state":null,"introduce":null,"intersert":null,"preferType":null,"isRegist":false},{"username":"add","nickname":null,"memberID":8,"gender":"\u5973","job":null,"state":null,"introduce":null,"intersert":null,"preferType":null,"isRegist":false},{"username":"plus","nickname":"aaAA","memberID":9,"gender":"\u5973","job":"\u8B77\u7406\u5E2B","state":"\u60F3\u7761\u89BAa","introduce":"\u6211\u53EB\u52A0\u52A0\u4E0D\u662F\u4F73\u4F73\uFF0C\u8766","intersert":null,"preferType":null,"isRegist":false}],"msg":"\u53D6\u5F97\u7528\u6236\u6210\u529F"}
+
+-----------END-----------
+

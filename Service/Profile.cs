@@ -2,10 +2,12 @@
 using SocialMedia.Dbcontext;
 using SocialMedia.Enum;
 using SocialMedia.Interface;
+using SocialMedia.Models;
 using SocialMedia.Models.Profile;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 
 namespace SocialMedia.Service
@@ -14,9 +16,14 @@ namespace SocialMedia.Service
     {
         //注入DbContext
         //private readonly MemberContext _context;
-        public Profile(MemberContext context):base(context)
+
+        private readonly ILogMan _logMan;
+        private readonly IErrorHandler _errorHandler;
+        public Profile(MemberContext context, ILogMan logMan,IErrorHandler errorHandler) :base(context)
         {
-           // _context = context;
+            // _context = context;
+            _logMan = logMan;
+            _errorHandler = errorHandler;
         }
 
         /// <summary>
@@ -70,18 +77,18 @@ namespace SocialMedia.Service
                 resp.msg = "取得用戶成功";
                 resp.data = da;
                 //回到個人頁面
-
+                
 
                 return resp;
             }
             catch (Exception ex)
-            {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = ex.Message;
-                return resp;
+            {              
+                return _errorHandler.SysError(resp,ex.Message);
             }
 
             
         }
+
+        
     }
 }

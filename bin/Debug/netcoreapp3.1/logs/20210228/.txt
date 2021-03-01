@@ -1,0 +1,1206 @@
+**********START**********
+Time : 2021-02-28 22:12:32
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:33
+Executed DbCommand (54ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:33
+Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Member] AS [m])
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:34
+User profile is available. Using 'C:\Users\USER\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:34
+Request starting HTTP/1.1 GET http://localhost:62001/  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:34
+Executing endpoint 'SocialMedia.Controllers.HomeController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:34
+Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller SocialMedia.Controllers.HomeController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:34
+Executing ViewResult, running view Index.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:34
+Executed ViewResult - view Index executed in 121.8486ms.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:34
+Executed action SocialMedia.Controllers.HomeController.Index (SocialMedia) in 138.7904ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:34
+Executed endpoint 'SocialMedia.Controllers.HomeController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:34
+Request finished in 247.1073ms 200 text/html; charset=utf-8
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:38
+Request starting HTTP/1.1 GET http://localhost:62001/personal?memberid=1&username=Austin&token=d199227814dd21572e027a6d857cdd85  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:38
+CORS policy execution successful.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:38
+Executing endpoint 'SocialMedia.Controllers.PersonalController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:38
+Route matched with {action = "Index", controller = "Personal"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller SocialMedia.Controllers.PersonalController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:38
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executed DbCommand (36ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [mf].[ID], [mf].[Gender], [mf].[Name], [mf.Directory].[ID], [mf.Directory].[ContactList], [mf.Directory].[MemberID], [mf.MemberInfo].[MemberID], [mf.MemberInfo].[HeadPhoto], [mf.MemberInfo].[Introduce], [mf.MemberInfo].[Job], [mf.MemberInfo].[NickName], [mf.MemberInfo].[State]
+FROM [Member] AS [mf]
+LEFT JOIN [Directory] AS [mf.Directory] ON [mf].[ID] = [mf.Directory].[MemberID]
+LEFT JOIN [MemberInfo] AS [mf.MemberInfo] ON [mf].[ID] = [mf.MemberInfo].[MemberID]
+WHERE [mf].[ID] = @__id_0
+ORDER BY [mf].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [mf.MemberInterests].[ID], [mf.MemberInterests].[InterestID], [mf.MemberInterests].[MemberID], [m.Interest].[ID], [m.Interest].[Name]
+FROM [MemberInterest] AS [mf.MemberInterests]
+INNER JOIN [Interest] AS [m.Interest] ON [mf.MemberInterests].[InterestID] = [m.Interest].[ID]
+INNER JOIN (
+    SELECT DISTINCT [t].*
+    FROM (
+        SELECT TOP(1) [mf0].[ID]
+        FROM [Member] AS [mf0]
+        LEFT JOIN [Directory] AS [mf.Directory0] ON [mf0].[ID] = [mf.Directory0].[MemberID]
+        LEFT JOIN [MemberInfo] AS [mf.MemberInfo0] ON [mf0].[ID] = [mf.MemberInfo0].[MemberID]
+        WHERE [mf0].[ID] = @__id_0
+        ORDER BY [mf0].[ID]
+    ) AS [t]
+) AS [t0] ON [mf.MemberInterests].[MemberID] = [t0].[ID]
+ORDER BY [t0].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [mf.PreferTypes].[ID], [mf.PreferTypes].[MemberID], [mf.PreferTypes].[PersonalityID], [p.Personality].[ID], [p.Personality].[Kind]
+FROM [PreferType] AS [mf.PreferTypes]
+INNER JOIN [Personality] AS [p.Personality] ON [mf.PreferTypes].[PersonalityID] = [p.Personality].[ID]
+INNER JOIN (
+    SELECT DISTINCT [t1].*
+    FROM (
+        SELECT TOP(1) [mf1].[ID]
+        FROM [Member] AS [mf1]
+        LEFT JOIN [Directory] AS [mf.Directory1] ON [mf1].[ID] = [mf.Directory1].[MemberID]
+        LEFT JOIN [MemberInfo] AS [mf.MemberInfo1] ON [mf1].[ID] = [mf.MemberInfo1].[MemberID]
+        WHERE [mf1].[ID] = @__id_0
+        ORDER BY [mf1].[ID]
+    ) AS [t1]
+) AS [t2] ON [mf.PreferTypes].[MemberID] = [t2].[ID]
+ORDER BY [t2].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executing JsonResult, writing value of type 'SocialMedia.Models.Personal.PersonalResp'.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executed action SocialMedia.Controllers.PersonalController.Index (SocialMedia) in 477.7141ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executed endpoint 'SocialMedia.Controllers.PersonalController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Request finished in 559.3999ms 200 application/json; charset=utf-8
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Request starting HTTP/1.1 GET http://localhost:62001/memberinfo?memberid=1&username=Austin&token=d199227814dd21572e027a6d857cdd85  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Request starting HTTP/1.1 GET http://localhost:62001/message/UnreadMsg?memberid=1&username=Austin&token=d199227814dd21572e027a6d857cdd85  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+CORS policy execution successful.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+CORS policy execution successful.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executing endpoint 'SocialMedia.Controllers.MemberInfoController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executing endpoint 'SocialMedia.Controllers.MessageController.UnreadMsg (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Route matched with {action = "Index", controller = "MemberInfo"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller SocialMedia.Controllers.MemberInfoController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Route matched with {action = "UnreadMsg", controller = "Message"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UnreadMsg() on controller SocialMedia.Controllers.MessageController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executed DbCommand (4ms) [Parameters=[@__ToInt32_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [msg].[ID], [msg].[ChatID], [msg].[MemberID], [msg].[Newest], [msg].[SpeakerID], [msg].[Text], [msg].[Time], [msg].[Unread]
+FROM [ChatMsg] AS [msg]
+WHERE [msg].[MemberID] = @__ToInt32_0
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executed DbCommand (2ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf].[ID], [mf].[Gender], [mf].[Name], [mf.Directory].[ID], [mf.Directory].[ContactList], [mf.Directory].[MemberID], [mf.MemberInfo].[MemberID], [mf.MemberInfo].[HeadPhoto], [mf.MemberInfo].[Introduce], [mf.MemberInfo].[Job], [mf.MemberInfo].[NickName], [mf.MemberInfo].[State]
+FROM [Member] AS [mf]
+LEFT JOIN [Directory] AS [mf.Directory] ON [mf].[ID] = [mf.Directory].[MemberID]
+LEFT JOIN [MemberInfo] AS [mf.MemberInfo] ON [mf].[ID] = [mf.MemberInfo].[MemberID]
+ORDER BY [mf].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf.MemberInterests].[ID], [mf.MemberInterests].[InterestID], [mf.MemberInterests].[MemberID], [m.Interest].[ID], [m.Interest].[Name]
+FROM [MemberInterest] AS [mf.MemberInterests]
+INNER JOIN [Interest] AS [m.Interest] ON [mf.MemberInterests].[InterestID] = [m.Interest].[ID]
+INNER JOIN (
+    SELECT DISTINCT [mf0].[ID]
+    FROM [Member] AS [mf0]
+    LEFT JOIN [Directory] AS [mf.Directory0] ON [mf0].[ID] = [mf.Directory0].[MemberID]
+    LEFT JOIN [MemberInfo] AS [mf.MemberInfo0] ON [mf0].[ID] = [mf.MemberInfo0].[MemberID]
+) AS [t] ON [mf.MemberInterests].[MemberID] = [t].[ID]
+ORDER BY [t].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executing JsonResult, writing value of type 'SocialMedia.Models.Message.MsgCountResp'.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf.PreferTypes].[ID], [mf.PreferTypes].[MemberID], [mf.PreferTypes].[PersonalityID], [p.Personality].[ID], [p.Personality].[Kind]
+FROM [PreferType] AS [mf.PreferTypes]
+INNER JOIN [Personality] AS [p.Personality] ON [mf.PreferTypes].[PersonalityID] = [p.Personality].[ID]
+INNER JOIN (
+    SELECT DISTINCT [mf1].[ID]
+    FROM [Member] AS [mf1]
+    LEFT JOIN [Directory] AS [mf.Directory1] ON [mf1].[ID] = [mf.Directory1].[MemberID]
+    LEFT JOIN [MemberInfo] AS [mf.MemberInfo1] ON [mf1].[ID] = [mf.MemberInfo1].[MemberID]
+) AS [t0] ON [mf.PreferTypes].[MemberID] = [t0].[ID]
+ORDER BY [t0].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executed action SocialMedia.Controllers.MessageController.UnreadMsg (SocialMedia) in 131.6783ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executed endpoint 'SocialMedia.Controllers.MessageController.UnreadMsg (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executing JsonResult, writing value of type 'SocialMedia.Models.Memberinfo.MemberinfoResp'.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Request finished in 229.9918ms 200 application/json; charset=utf-8
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executed action SocialMedia.Controllers.MemberInfoController.Index (SocialMedia) in 181.9114ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Executed endpoint 'SocialMedia.Controllers.MemberInfoController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:12:39
+Request finished in 264.3686ms 200 application/json; charset=utf-8
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:05
+Request starting HTTP/1.1 GET http://localhost:62001/friend?memberid=1&username=Austin&token=d199227814dd21572e027a6d857cdd85  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:05
+CORS policy execution successful.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:05
+Executing endpoint 'SocialMedia.Controllers.FriendController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:05
+Route matched with {action = "Index", controller = "Friend"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller SocialMedia.Controllers.FriendController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:05
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:05
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf].[ID], [mf].[Gender], [mf].[Name], [mf.Directory].[ID], [mf.Directory].[ContactList], [mf.Directory].[MemberID], [mf.MemberInfo].[MemberID], [mf.MemberInfo].[HeadPhoto], [mf.MemberInfo].[Introduce], [mf.MemberInfo].[Job], [mf.MemberInfo].[NickName], [mf.MemberInfo].[State]
+FROM [Member] AS [mf]
+LEFT JOIN [Directory] AS [mf.Directory] ON [mf].[ID] = [mf.Directory].[MemberID]
+LEFT JOIN [MemberInfo] AS [mf.MemberInfo] ON [mf].[ID] = [mf.MemberInfo].[MemberID]
+ORDER BY [mf].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:05
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf.MemberInterests].[ID], [mf.MemberInterests].[InterestID], [mf.MemberInterests].[MemberID], [m.Interest].[ID], [m.Interest].[Name]
+FROM [MemberInterest] AS [mf.MemberInterests]
+INNER JOIN [Interest] AS [m.Interest] ON [mf.MemberInterests].[InterestID] = [m.Interest].[ID]
+INNER JOIN (
+    SELECT DISTINCT [mf0].[ID]
+    FROM [Member] AS [mf0]
+    LEFT JOIN [Directory] AS [mf.Directory0] ON [mf0].[ID] = [mf.Directory0].[MemberID]
+    LEFT JOIN [MemberInfo] AS [mf.MemberInfo0] ON [mf0].[ID] = [mf.MemberInfo0].[MemberID]
+) AS [t] ON [mf.MemberInterests].[MemberID] = [t].[ID]
+ORDER BY [t].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:05
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf.PreferTypes].[ID], [mf.PreferTypes].[MemberID], [mf.PreferTypes].[PersonalityID], [p.Personality].[ID], [p.Personality].[Kind]
+FROM [PreferType] AS [mf.PreferTypes]
+INNER JOIN [Personality] AS [p.Personality] ON [mf.PreferTypes].[PersonalityID] = [p.Personality].[ID]
+INNER JOIN (
+    SELECT DISTINCT [mf1].[ID]
+    FROM [Member] AS [mf1]
+    LEFT JOIN [Directory] AS [mf.Directory1] ON [mf1].[ID] = [mf.Directory1].[MemberID]
+    LEFT JOIN [MemberInfo] AS [mf.MemberInfo1] ON [mf1].[ID] = [mf.MemberInfo1].[MemberID]
+) AS [t0] ON [mf.PreferTypes].[MemberID] = [t0].[ID]
+ORDER BY [t0].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:06
+Executing JsonResult, writing value of type 'SocialMedia.Models.Friends.FriendResp'.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:06
+Executed action SocialMedia.Controllers.FriendController.Index (SocialMedia) in 55.5416ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:06
+Executed endpoint 'SocialMedia.Controllers.FriendController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:06
+Request finished in 122.9658ms 200 application/json; charset=utf-8
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:06
+Request starting HTTP/1.1 GET http://localhost:62001/message/LastMsgs?memberid=1&username=Austin&token=d199227814dd21572e027a6d857cdd85  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:06
+CORS policy execution successful.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:06
+Executing endpoint 'SocialMedia.Controllers.MessageController.LastMsgs (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Route matched with {action = "LastMsgs", controller = "Message"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] LastMsgs() on controller SocialMedia.Controllers.MessageController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed DbCommand (2ms) [Parameters=[@__ToInt32_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [m].[ID], [m].[ChatID], [m].[MemberID], [m].[Newest], [m].[SpeakerID], [m].[Text], [m].[Time], [m].[Unread]
+FROM [ChatMsg] AS [m]
+WHERE ([m].[MemberID] = @__ToInt32_0) AND ([m].[Newest] = 1)
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf].[ID], [mf].[Gender], [mf].[Name], [mf.Directory].[ID], [mf.Directory].[ContactList], [mf.Directory].[MemberID], [mf.MemberInfo].[MemberID], [mf.MemberInfo].[HeadPhoto], [mf.MemberInfo].[Introduce], [mf.MemberInfo].[Job], [mf.MemberInfo].[NickName], [mf.MemberInfo].[State]
+FROM [Member] AS [mf]
+LEFT JOIN [Directory] AS [mf.Directory] ON [mf].[ID] = [mf.Directory].[MemberID]
+LEFT JOIN [MemberInfo] AS [mf.MemberInfo] ON [mf].[ID] = [mf.MemberInfo].[MemberID]
+ORDER BY [mf].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf.MemberInterests].[ID], [mf.MemberInterests].[InterestID], [mf.MemberInterests].[MemberID], [m.Interest].[ID], [m.Interest].[Name]
+FROM [MemberInterest] AS [mf.MemberInterests]
+INNER JOIN [Interest] AS [m.Interest] ON [mf.MemberInterests].[InterestID] = [m.Interest].[ID]
+INNER JOIN (
+    SELECT DISTINCT [mf0].[ID]
+    FROM [Member] AS [mf0]
+    LEFT JOIN [Directory] AS [mf.Directory0] ON [mf0].[ID] = [mf.Directory0].[MemberID]
+    LEFT JOIN [MemberInfo] AS [mf.MemberInfo0] ON [mf0].[ID] = [mf.MemberInfo0].[MemberID]
+) AS [t] ON [mf.MemberInterests].[MemberID] = [t].[ID]
+ORDER BY [t].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf.PreferTypes].[ID], [mf.PreferTypes].[MemberID], [mf.PreferTypes].[PersonalityID], [p.Personality].[ID], [p.Personality].[Kind]
+FROM [PreferType] AS [mf.PreferTypes]
+INNER JOIN [Personality] AS [p.Personality] ON [mf.PreferTypes].[PersonalityID] = [p.Personality].[ID]
+INNER JOIN (
+    SELECT DISTINCT [mf1].[ID]
+    FROM [Member] AS [mf1]
+    LEFT JOIN [Directory] AS [mf.Directory1] ON [mf1].[ID] = [mf.Directory1].[MemberID]
+    LEFT JOIN [MemberInfo] AS [mf.MemberInfo1] ON [mf1].[ID] = [mf.MemberInfo1].[MemberID]
+) AS [t0] ON [mf.PreferTypes].[MemberID] = [t0].[ID]
+ORDER BY [t0].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed DbCommand (1ms) [Parameters=[@__ToInt32_0='?' (DbType = Int32), @__item_ChatID_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [msg].[ID], [msg].[ChatID], [msg].[MemberID], [msg].[Newest], [msg].[SpeakerID], [msg].[Text], [msg].[Time], [msg].[Unread]
+FROM [ChatMsg] AS [msg]
+WHERE ([msg].[MemberID] = @__ToInt32_0) AND ([msg].[ChatID] = @__item_ChatID_1)
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed DbCommand (1ms) [Parameters=[@__ToInt32_0='?' (DbType = Int32), @__item_ChatID_1='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [msg].[ID], [msg].[ChatID], [msg].[MemberID], [msg].[Newest], [msg].[SpeakerID], [msg].[Text], [msg].[Time], [msg].[Unread]
+FROM [ChatMsg] AS [msg]
+WHERE ([msg].[MemberID] = @__ToInt32_0) AND ([msg].[ChatID] = @__item_ChatID_1)
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executing JsonResult, writing value of type 'SocialMedia.Models.Message.MsgLastResp'.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed action SocialMedia.Controllers.MessageController.LastMsgs (SocialMedia) in 105.6998ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed endpoint 'SocialMedia.Controllers.MessageController.LastMsgs (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Request finished in 175.1458ms 200 application/json; charset=utf-8
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Request starting HTTP/1.1 GET http://localhost:62001/personal?memberid=1&username=Austin&token=d199227814dd21572e027a6d857cdd85  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+CORS policy execution successful.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executing endpoint 'SocialMedia.Controllers.PersonalController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Route matched with {action = "Index", controller = "Personal"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller SocialMedia.Controllers.PersonalController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed DbCommand (2ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [mf].[ID], [mf].[Gender], [mf].[Name], [mf.Directory].[ID], [mf.Directory].[ContactList], [mf.Directory].[MemberID], [mf.MemberInfo].[MemberID], [mf.MemberInfo].[HeadPhoto], [mf.MemberInfo].[Introduce], [mf.MemberInfo].[Job], [mf.MemberInfo].[NickName], [mf.MemberInfo].[State]
+FROM [Member] AS [mf]
+LEFT JOIN [Directory] AS [mf.Directory] ON [mf].[ID] = [mf.Directory].[MemberID]
+LEFT JOIN [MemberInfo] AS [mf.MemberInfo] ON [mf].[ID] = [mf.MemberInfo].[MemberID]
+WHERE [mf].[ID] = @__id_0
+ORDER BY [mf].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [mf.MemberInterests].[ID], [mf.MemberInterests].[InterestID], [mf.MemberInterests].[MemberID], [m.Interest].[ID], [m.Interest].[Name]
+FROM [MemberInterest] AS [mf.MemberInterests]
+INNER JOIN [Interest] AS [m.Interest] ON [mf.MemberInterests].[InterestID] = [m.Interest].[ID]
+INNER JOIN (
+    SELECT DISTINCT [t].*
+    FROM (
+        SELECT TOP(1) [mf0].[ID]
+        FROM [Member] AS [mf0]
+        LEFT JOIN [Directory] AS [mf.Directory0] ON [mf0].[ID] = [mf.Directory0].[MemberID]
+        LEFT JOIN [MemberInfo] AS [mf.MemberInfo0] ON [mf0].[ID] = [mf.MemberInfo0].[MemberID]
+        WHERE [mf0].[ID] = @__id_0
+        ORDER BY [mf0].[ID]
+    ) AS [t]
+) AS [t0] ON [mf.MemberInterests].[MemberID] = [t0].[ID]
+ORDER BY [t0].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed DbCommand (1ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [mf.PreferTypes].[ID], [mf.PreferTypes].[MemberID], [mf.PreferTypes].[PersonalityID], [p.Personality].[ID], [p.Personality].[Kind]
+FROM [PreferType] AS [mf.PreferTypes]
+INNER JOIN [Personality] AS [p.Personality] ON [mf.PreferTypes].[PersonalityID] = [p.Personality].[ID]
+INNER JOIN (
+    SELECT DISTINCT [t1].*
+    FROM (
+        SELECT TOP(1) [mf1].[ID]
+        FROM [Member] AS [mf1]
+        LEFT JOIN [Directory] AS [mf.Directory1] ON [mf1].[ID] = [mf.Directory1].[MemberID]
+        LEFT JOIN [MemberInfo] AS [mf.MemberInfo1] ON [mf1].[ID] = [mf.MemberInfo1].[MemberID]
+        WHERE [mf1].[ID] = @__id_0
+        ORDER BY [mf1].[ID]
+    ) AS [t1]
+) AS [t2] ON [mf.PreferTypes].[MemberID] = [t2].[ID]
+ORDER BY [t2].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executing JsonResult, writing value of type 'SocialMedia.Models.Personal.PersonalResp'.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed action SocialMedia.Controllers.PersonalController.Index (SocialMedia) in 47.9493ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed endpoint 'SocialMedia.Controllers.PersonalController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Request finished in 107.8787ms 200 application/json; charset=utf-8
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Request starting HTTP/1.1 GET http://localhost:62001/personal/SelectOption  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+CORS policy execution successful.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executing endpoint 'SocialMedia.Controllers.PersonalController.SelectOption (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Route matched with {action = "SelectOption", controller = "Personal"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] SelectOption() on controller SocialMedia.Controllers.PersonalController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [type].[ID], [type].[Kind]
+FROM [Personality] AS [type]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [interest].[ID], [interest].[Name]
+FROM [Interest] AS [interest]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executing JsonResult, writing value of type 'SocialMedia.Models.Personal.SOResp'.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed action SocialMedia.Controllers.PersonalController.SelectOption (SocialMedia) in 55.2099ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Executed endpoint 'SocialMedia.Controllers.PersonalController.SelectOption (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:07
+Request finished in 110.7177ms 200 application/json; charset=utf-8
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:08
+Request starting HTTP/1.1 GET http://localhost:62001/memberinfo?memberid=1&username=Austin&token=d199227814dd21572e027a6d857cdd85  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:08
+CORS policy execution successful.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:08
+Executing endpoint 'SocialMedia.Controllers.MemberInfoController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:08
+Route matched with {action = "Index", controller = "MemberInfo"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller SocialMedia.Controllers.MemberInfoController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:08
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:08
+Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf].[ID], [mf].[Gender], [mf].[Name], [mf.Directory].[ID], [mf.Directory].[ContactList], [mf.Directory].[MemberID], [mf.MemberInfo].[MemberID], [mf.MemberInfo].[HeadPhoto], [mf.MemberInfo].[Introduce], [mf.MemberInfo].[Job], [mf.MemberInfo].[NickName], [mf.MemberInfo].[State]
+FROM [Member] AS [mf]
+LEFT JOIN [Directory] AS [mf.Directory] ON [mf].[ID] = [mf.Directory].[MemberID]
+LEFT JOIN [MemberInfo] AS [mf.MemberInfo] ON [mf].[ID] = [mf.MemberInfo].[MemberID]
+ORDER BY [mf].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:08
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf.MemberInterests].[ID], [mf.MemberInterests].[InterestID], [mf.MemberInterests].[MemberID], [m.Interest].[ID], [m.Interest].[Name]
+FROM [MemberInterest] AS [mf.MemberInterests]
+INNER JOIN [Interest] AS [m.Interest] ON [mf.MemberInterests].[InterestID] = [m.Interest].[ID]
+INNER JOIN (
+    SELECT DISTINCT [mf0].[ID]
+    FROM [Member] AS [mf0]
+    LEFT JOIN [Directory] AS [mf.Directory0] ON [mf0].[ID] = [mf.Directory0].[MemberID]
+    LEFT JOIN [MemberInfo] AS [mf.MemberInfo0] ON [mf0].[ID] = [mf.MemberInfo0].[MemberID]
+) AS [t] ON [mf.MemberInterests].[MemberID] = [t].[ID]
+ORDER BY [t].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:08
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf.PreferTypes].[ID], [mf.PreferTypes].[MemberID], [mf.PreferTypes].[PersonalityID], [p.Personality].[ID], [p.Personality].[Kind]
+FROM [PreferType] AS [mf.PreferTypes]
+INNER JOIN [Personality] AS [p.Personality] ON [mf.PreferTypes].[PersonalityID] = [p.Personality].[ID]
+INNER JOIN (
+    SELECT DISTINCT [mf1].[ID]
+    FROM [Member] AS [mf1]
+    LEFT JOIN [Directory] AS [mf.Directory1] ON [mf1].[ID] = [mf.Directory1].[MemberID]
+    LEFT JOIN [MemberInfo] AS [mf.MemberInfo1] ON [mf1].[ID] = [mf.MemberInfo1].[MemberID]
+) AS [t0] ON [mf.PreferTypes].[MemberID] = [t0].[ID]
+ORDER BY [t0].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:08
+Executing JsonResult, writing value of type 'SocialMedia.Models.Memberinfo.MemberinfoResp'.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:08
+Executed action SocialMedia.Controllers.MemberInfoController.Index (SocialMedia) in 61.719ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:08
+Executed endpoint 'SocialMedia.Controllers.MemberInfoController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:13:08
+Request finished in 124.9992ms 200 application/json; charset=utf-8
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:07
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:08
+Executed DbCommand (33ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:08
+Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Member] AS [m])
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:08
+User profile is available. Using 'C:\Users\USER\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:08
+Request starting HTTP/1.1 GET http://localhost:62001/  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:08
+Executing endpoint 'SocialMedia.Controllers.HomeController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:08
+Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller SocialMedia.Controllers.HomeController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:08
+Executing ViewResult, running view Index.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:08
+Executed ViewResult - view Index executed in 98.0711ms.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:08
+Executed action SocialMedia.Controllers.HomeController.Index (SocialMedia) in 113.6802ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:08
+Executed endpoint 'SocialMedia.Controllers.HomeController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:08
+Request finished in 221.6259ms 200 text/html; charset=utf-8
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:11
+Request starting HTTP/1.1 GET http://localhost:62001/personal?memberid=1&username=Austin&token=d199227814dd21572e027a6d857cdd85  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:11
+CORS policy execution successful.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:11
+Executing endpoint 'SocialMedia.Controllers.PersonalController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:11
+Route matched with {action = "Index", controller = "Personal"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller SocialMedia.Controllers.PersonalController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:11
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executed DbCommand (34ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT TOP(1) [mf].[ID], [mf].[Gender], [mf].[Name], [mf.Directory].[ID], [mf.Directory].[ContactList], [mf.Directory].[MemberID], [mf.MemberInfo].[MemberID], [mf.MemberInfo].[HeadPhoto], [mf.MemberInfo].[Introduce], [mf.MemberInfo].[Job], [mf.MemberInfo].[NickName], [mf.MemberInfo].[State]
+FROM [Member] AS [mf]
+LEFT JOIN [Directory] AS [mf.Directory] ON [mf].[ID] = [mf.Directory].[MemberID]
+LEFT JOIN [MemberInfo] AS [mf.MemberInfo] ON [mf].[ID] = [mf.MemberInfo].[MemberID]
+WHERE [mf].[ID] = @__id_0
+ORDER BY [mf].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executed DbCommand (4ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [mf.MemberInterests].[ID], [mf.MemberInterests].[InterestID], [mf.MemberInterests].[MemberID], [m.Interest].[ID], [m.Interest].[Name]
+FROM [MemberInterest] AS [mf.MemberInterests]
+INNER JOIN [Interest] AS [m.Interest] ON [mf.MemberInterests].[InterestID] = [m.Interest].[ID]
+INNER JOIN (
+    SELECT DISTINCT [t].*
+    FROM (
+        SELECT TOP(1) [mf0].[ID]
+        FROM [Member] AS [mf0]
+        LEFT JOIN [Directory] AS [mf.Directory0] ON [mf0].[ID] = [mf.Directory0].[MemberID]
+        LEFT JOIN [MemberInfo] AS [mf.MemberInfo0] ON [mf0].[ID] = [mf.MemberInfo0].[MemberID]
+        WHERE [mf0].[ID] = @__id_0
+        ORDER BY [mf0].[ID]
+    ) AS [t]
+) AS [t0] ON [mf.MemberInterests].[MemberID] = [t0].[ID]
+ORDER BY [t0].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executed DbCommand (3ms) [Parameters=[@__id_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [mf.PreferTypes].[ID], [mf.PreferTypes].[MemberID], [mf.PreferTypes].[PersonalityID], [p.Personality].[ID], [p.Personality].[Kind]
+FROM [PreferType] AS [mf.PreferTypes]
+INNER JOIN [Personality] AS [p.Personality] ON [mf.PreferTypes].[PersonalityID] = [p.Personality].[ID]
+INNER JOIN (
+    SELECT DISTINCT [t1].*
+    FROM (
+        SELECT TOP(1) [mf1].[ID]
+        FROM [Member] AS [mf1]
+        LEFT JOIN [Directory] AS [mf.Directory1] ON [mf1].[ID] = [mf.Directory1].[MemberID]
+        LEFT JOIN [MemberInfo] AS [mf.MemberInfo1] ON [mf1].[ID] = [mf.MemberInfo1].[MemberID]
+        WHERE [mf1].[ID] = @__id_0
+        ORDER BY [mf1].[ID]
+    ) AS [t1]
+) AS [t2] ON [mf.PreferTypes].[MemberID] = [t2].[ID]
+ORDER BY [t2].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executing JsonResult, writing value of type 'SocialMedia.Models.Personal.PersonalResp'.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executed action SocialMedia.Controllers.PersonalController.Index (SocialMedia) in 477.9332ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executed endpoint 'SocialMedia.Controllers.PersonalController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Request finished in 566.6226ms 200 application/json; charset=utf-8
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Request starting HTTP/1.1 GET http://localhost:62001/message/UnreadMsg?memberid=1&username=Austin&token=d199227814dd21572e027a6d857cdd85  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Request starting HTTP/1.1 GET http://localhost:62001/memberinfo?memberid=1&username=Austin&token=d199227814dd21572e027a6d857cdd85  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+CORS policy execution successful.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+CORS policy execution successful.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executing endpoint 'SocialMedia.Controllers.MessageController.UnreadMsg (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executing endpoint 'SocialMedia.Controllers.MemberInfoController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Route matched with {action = "UnreadMsg", controller = "Message"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] UnreadMsg() on controller SocialMedia.Controllers.MessageController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Route matched with {action = "Index", controller = "MemberInfo"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller SocialMedia.Controllers.MemberInfoController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executed DbCommand (12ms) [Parameters=[@__ToInt32_0='?' (DbType = Int32)], CommandType='Text', CommandTimeout='30']
+SELECT [msg].[ID], [msg].[ChatID], [msg].[MemberID], [msg].[Newest], [msg].[SpeakerID], [msg].[Text], [msg].[Time], [msg].[Unread]
+FROM [ChatMsg] AS [msg]
+WHERE [msg].[MemberID] = @__ToInt32_0
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf].[ID], [mf].[Gender], [mf].[Name], [mf.Directory].[ID], [mf.Directory].[ContactList], [mf.Directory].[MemberID], [mf.MemberInfo].[MemberID], [mf.MemberInfo].[HeadPhoto], [mf.MemberInfo].[Introduce], [mf.MemberInfo].[Job], [mf.MemberInfo].[NickName], [mf.MemberInfo].[State]
+FROM [Member] AS [mf]
+LEFT JOIN [Directory] AS [mf.Directory] ON [mf].[ID] = [mf.Directory].[MemberID]
+LEFT JOIN [MemberInfo] AS [mf.MemberInfo] ON [mf].[ID] = [mf.MemberInfo].[MemberID]
+ORDER BY [mf].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf.MemberInterests].[ID], [mf.MemberInterests].[InterestID], [mf.MemberInterests].[MemberID], [m.Interest].[ID], [m.Interest].[Name]
+FROM [MemberInterest] AS [mf.MemberInterests]
+INNER JOIN [Interest] AS [m.Interest] ON [mf.MemberInterests].[InterestID] = [m.Interest].[ID]
+INNER JOIN (
+    SELECT DISTINCT [mf0].[ID]
+    FROM [Member] AS [mf0]
+    LEFT JOIN [Directory] AS [mf.Directory0] ON [mf0].[ID] = [mf.Directory0].[MemberID]
+    LEFT JOIN [MemberInfo] AS [mf.MemberInfo0] ON [mf0].[ID] = [mf.MemberInfo0].[MemberID]
+) AS [t] ON [mf.MemberInterests].[MemberID] = [t].[ID]
+ORDER BY [t].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executing JsonResult, writing value of type 'SocialMedia.Models.Message.MsgCountResp'.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf.PreferTypes].[ID], [mf.PreferTypes].[MemberID], [mf.PreferTypes].[PersonalityID], [p.Personality].[ID], [p.Personality].[Kind]
+FROM [PreferType] AS [mf.PreferTypes]
+INNER JOIN [Personality] AS [p.Personality] ON [mf.PreferTypes].[PersonalityID] = [p.Personality].[ID]
+INNER JOIN (
+    SELECT DISTINCT [mf1].[ID]
+    FROM [Member] AS [mf1]
+    LEFT JOIN [Directory] AS [mf.Directory1] ON [mf1].[ID] = [mf.Directory1].[MemberID]
+    LEFT JOIN [MemberInfo] AS [mf.MemberInfo1] ON [mf1].[ID] = [mf.MemberInfo1].[MemberID]
+) AS [t0] ON [mf.PreferTypes].[MemberID] = [t0].[ID]
+ORDER BY [t0].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executed action SocialMedia.Controllers.MessageController.UnreadMsg (SocialMedia) in 147.4169ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executed endpoint 'SocialMedia.Controllers.MessageController.UnreadMsg (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executing JsonResult, writing value of type 'SocialMedia.Models.Memberinfo.MemberinfoResp'.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Request finished in 245.7045ms 200 application/json; charset=utf-8
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executed action SocialMedia.Controllers.MemberInfoController.Index (SocialMedia) in 178.1654ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Executed endpoint 'SocialMedia.Controllers.MemberInfoController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:12
+Request finished in 287.2822ms 200 application/json; charset=utf-8
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Request starting HTTP/1.1 GET http://localhost:62001/friend?memberid=1&username=Austin&token=d199227814dd21572e027a6d857cdd85  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+CORS policy execution successful.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Executing endpoint 'SocialMedia.Controllers.FriendController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Route matched with {action = "Index", controller = "Friend"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller SocialMedia.Controllers.FriendController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf].[ID], [mf].[Gender], [mf].[Name], [mf.Directory].[ID], [mf.Directory].[ContactList], [mf.Directory].[MemberID], [mf.MemberInfo].[MemberID], [mf.MemberInfo].[HeadPhoto], [mf.MemberInfo].[Introduce], [mf.MemberInfo].[Job], [mf.MemberInfo].[NickName], [mf.MemberInfo].[State]
+FROM [Member] AS [mf]
+LEFT JOIN [Directory] AS [mf.Directory] ON [mf].[ID] = [mf.Directory].[MemberID]
+LEFT JOIN [MemberInfo] AS [mf.MemberInfo] ON [mf].[ID] = [mf.MemberInfo].[MemberID]
+ORDER BY [mf].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf.MemberInterests].[ID], [mf.MemberInterests].[InterestID], [mf.MemberInterests].[MemberID], [m.Interest].[ID], [m.Interest].[Name]
+FROM [MemberInterest] AS [mf.MemberInterests]
+INNER JOIN [Interest] AS [m.Interest] ON [mf.MemberInterests].[InterestID] = [m.Interest].[ID]
+INNER JOIN (
+    SELECT DISTINCT [mf0].[ID]
+    FROM [Member] AS [mf0]
+    LEFT JOIN [Directory] AS [mf.Directory0] ON [mf0].[ID] = [mf.Directory0].[MemberID]
+    LEFT JOIN [MemberInfo] AS [mf.MemberInfo0] ON [mf0].[ID] = [mf.MemberInfo0].[MemberID]
+) AS [t] ON [mf.MemberInterests].[MemberID] = [t].[ID]
+ORDER BY [t].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Executed DbCommand (0ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf.PreferTypes].[ID], [mf.PreferTypes].[MemberID], [mf.PreferTypes].[PersonalityID], [p.Personality].[ID], [p.Personality].[Kind]
+FROM [PreferType] AS [mf.PreferTypes]
+INNER JOIN [Personality] AS [p.Personality] ON [mf.PreferTypes].[PersonalityID] = [p.Personality].[ID]
+INNER JOIN (
+    SELECT DISTINCT [mf1].[ID]
+    FROM [Member] AS [mf1]
+    LEFT JOIN [Directory] AS [mf.Directory1] ON [mf1].[ID] = [mf.Directory1].[MemberID]
+    LEFT JOIN [MemberInfo] AS [mf.MemberInfo1] ON [mf1].[ID] = [mf.MemberInfo1].[MemberID]
+) AS [t0] ON [mf.PreferTypes].[MemberID] = [t0].[ID]
+ORDER BY [t0].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Executing JsonResult, writing value of type 'SocialMedia.Models.Friends.FriendResp'.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Executed action SocialMedia.Controllers.FriendController.Index (SocialMedia) in 69.3802ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Executed endpoint 'SocialMedia.Controllers.FriendController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Request finished in 144.836ms 200 application/json; charset=utf-8
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Request starting HTTP/1.1 GET http://localhost:62001/memberinfo?memberid=1&username=Austin&token=d199227814dd21572e027a6d857cdd85  
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+CORS policy execution successful.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Executing endpoint 'SocialMedia.Controllers.MemberInfoController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Route matched with {action = "Index", controller = "MemberInfo"}. Executing controller action with signature System.Threading.Tasks.Task`1[Microsoft.AspNetCore.Mvc.IActionResult] Index() on controller SocialMedia.Controllers.MemberInfoController (SocialMedia).
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf].[ID], [mf].[Gender], [mf].[Name], [mf.Directory].[ID], [mf.Directory].[ContactList], [mf.Directory].[MemberID], [mf.MemberInfo].[MemberID], [mf.MemberInfo].[HeadPhoto], [mf.MemberInfo].[Introduce], [mf.MemberInfo].[Job], [mf.MemberInfo].[NickName], [mf.MemberInfo].[State]
+FROM [Member] AS [mf]
+LEFT JOIN [Directory] AS [mf.Directory] ON [mf].[ID] = [mf.Directory].[MemberID]
+LEFT JOIN [MemberInfo] AS [mf.MemberInfo] ON [mf].[ID] = [mf.MemberInfo].[MemberID]
+ORDER BY [mf].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf.MemberInterests].[ID], [mf.MemberInterests].[InterestID], [mf.MemberInterests].[MemberID], [m.Interest].[ID], [m.Interest].[Name]
+FROM [MemberInterest] AS [mf.MemberInterests]
+INNER JOIN [Interest] AS [m.Interest] ON [mf.MemberInterests].[InterestID] = [m.Interest].[ID]
+INNER JOIN (
+    SELECT DISTINCT [mf0].[ID]
+    FROM [Member] AS [mf0]
+    LEFT JOIN [Directory] AS [mf.Directory0] ON [mf0].[ID] = [mf.Directory0].[MemberID]
+    LEFT JOIN [MemberInfo] AS [mf.MemberInfo0] ON [mf0].[ID] = [mf.MemberInfo0].[MemberID]
+) AS [t] ON [mf.MemberInterests].[MemberID] = [t].[ID]
+ORDER BY [t].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Executed DbCommand (1ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT [mf.PreferTypes].[ID], [mf.PreferTypes].[MemberID], [mf.PreferTypes].[PersonalityID], [p.Personality].[ID], [p.Personality].[Kind]
+FROM [PreferType] AS [mf.PreferTypes]
+INNER JOIN [Personality] AS [p.Personality] ON [mf.PreferTypes].[PersonalityID] = [p.Personality].[ID]
+INNER JOIN (
+    SELECT DISTINCT [mf1].[ID]
+    FROM [Member] AS [mf1]
+    LEFT JOIN [Directory] AS [mf.Directory1] ON [mf1].[ID] = [mf.Directory1].[MemberID]
+    LEFT JOIN [MemberInfo] AS [mf.MemberInfo1] ON [mf1].[ID] = [mf.MemberInfo1].[MemberID]
+) AS [t0] ON [mf.PreferTypes].[MemberID] = [t0].[ID]
+ORDER BY [t0].[ID]
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Executing JsonResult, writing value of type 'SocialMedia.Models.Memberinfo.MemberinfoResp'.
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Executed action SocialMedia.Controllers.MemberInfoController.Index (SocialMedia) in 62.4528ms
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Executed endpoint 'SocialMedia.Controllers.MemberInfoController.Index (SocialMedia)'
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:14:14
+Request finished in 128.9192ms 200 application/json; charset=utf-8
+-----------END-----------
+

@@ -1,0 +1,14 @@
+**********START**********
+Time : 2021-02-28 21:51:40
+Req : login
+LoginReq :SocialMedia.Models.LoginReq
+
+-----------END-----------
+
+**********START**********
+Time : 2021-02-28 22:01:26
+Req : login
+LoginReq :{"username":"Austin","password":"123"}
+
+-----------END-----------
+

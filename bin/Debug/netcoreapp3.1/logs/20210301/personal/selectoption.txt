@@ -1,0 +1,42 @@
+**********START**********
+Time : 2021-03-01 23:09:24
+Req : personal/selectoption
+Resp : {"code":0,"data":{"interests":["\u91E3\u9B5A"],"preferTypes":["\u967D\u5149"],"isRegist":false},"msg":"\u53D6\u5F97\u9078\u9805\u6210\u529F"}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-03-01 23:09:32
+Req : personal/selectoption
+Resp : {"code":0,"data":{"interests":["\u91E3\u9B5A"],"preferTypes":["\u967D\u5149"],"isRegist":false},"msg":"\u53D6\u5F97\u9078\u9805\u6210\u529F"}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-03-01 23:09:35
+Req : personal/selectoption
+Resp : {"code":0,"data":{"interests":["\u91E3\u9B5A"],"preferTypes":["\u967D\u5149"],"isRegist":false},"msg":"\u53D6\u5F97\u9078\u9805\u6210\u529F"}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-03-01 23:10:08
+Req : personal/selectoption
+Resp : {"code":0,"data":{"interests":["\u91E3\u9B5A"],"preferTypes":["\u967D\u5149"],"isRegist":false},"msg":"\u53D6\u5F97\u9078\u9805\u6210\u529F"}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-03-01 23:10:12
+Req : personal/selectoption
+Resp : {"code":0,"data":{"interests":["\u91E3\u9B5A"],"preferTypes":["\u967D\u5149"],"isRegist":false},"msg":"\u53D6\u5F97\u9078\u9805\u6210\u529F"}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-03-01 23:10:15
+Req : personal/selectoption
+Resp : {"code":0,"data":{"interests":["\u91E3\u9B5A"],"preferTypes":["\u967D\u5149"],"isRegist":false},"msg":"\u53D6\u5F97\u9078\u9805\u6210\u529F"}
+
+-----------END-----------
+

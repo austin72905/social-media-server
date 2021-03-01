@@ -1,0 +1,9 @@
+**********START**********
+Time : 2021-03-01 23:10:05
+Req : personal/update
+ReqBody {"memberid":"1","data":{"job":"Teacher","username":"Austin","nickname":"台中小太陽屌","state":"hungry","preferType":["陽光"],"interest":["釣魚"],"introduce":"I like big ass"},"username":"Austin","token":"d199227814dd21572e027a6d857cdd85"}
+PersonalReq :{"memberid":"1","data":{"username":"Austin","nickname":"\u53F0\u4E2D\u5C0F\u592A\u967D\u5C4C","job":"Teacher","state":"hungry","introduce":"I like big ass","interest":["\u91E3\u9B5A"],"preferType":["\u967D\u5149"]}}
+Resp : {"code":0,"data":{"username":"Austin","nickname":"\u53F0\u4E2D\u5C0F\u592A\u967D\u5C4C","gender":"\u7537","job":"Teacher","state":"hungry","introduce":"I like big ass","interest":"\u91E3\u9B5A","preferType":"\u967D\u5149","memberID":1,"isRegist":false},"msg":"\u53D6\u5F97\u7528\u6236\u6210\u529F"}
+
+-----------END-----------
+

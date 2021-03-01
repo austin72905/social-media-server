@@ -3,7 +3,6 @@ using SocialMedia.Dbcontext;
 using SocialMedia.Enum;
 using SocialMedia.Interface;
 using SocialMedia.Interface.Repository;
-using SocialMedia.Models.DbModels;
 using SocialMedia.Models.Personal;
 using SocialMedia.Service.Repository;
 using System;
@@ -13,18 +12,20 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Service
 {
-    public class Personal: MemInfoRespository, IPersonal
+    public class Personal : MemInfoRespository, IPersonal
     {
         //注入DbContext
         //private readonly MemberContext _context;
 
         private readonly IPersonalRepository _personalRepository;
         private readonly IInterestRepository _interestRepository;
-        public Personal(MemberContext context, IPersonalRepository personalRepository, IInterestRepository interestRepository) :base(context)
+        private readonly IErrorHandler _errorHandler;
+        public Personal(MemberContext context, IPersonalRepository personalRepository, IInterestRepository interestRepository, IErrorHandler errorHandler) : base(context)
         {
             //_context = context;
             _personalRepository = personalRepository;
             _interestRepository = interestRepository;
+            _errorHandler = errorHandler;
         }
 
         /// <summary>
@@ -47,45 +48,43 @@ namespace SocialMedia.Service
 
             try
             {
-                 var memInfo =await base.GetMemberListInstance().FirstOrDefaultAsync(m => m.ID == id);
-            if ( memInfo == null)
-            {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = "用戶不存在，請重新登入";
+                var memInfo = await base.GetMemberListInstance().FirstOrDefaultAsync(m => m.ID == id);
+                if (memInfo == null)
+                {
+                    resp.code = (int)RespCode.FAIL;
+                    resp.msg = "用戶不存在，請重新登入";
+                    return resp;
+                }
+
+
+                //返回個人訊息
+                PersonalData da = new PersonalData()
+                {
+                    memberID = memInfo.ID,
+                    username = memInfo.Name.ToString(),
+                    nickname = memInfo.MemberInfo.NickName,
+                    gender = memInfo.Gender,
+                    job = memInfo.MemberInfo.Job,
+                    state = memInfo.MemberInfo.State,
+                    introduce = memInfo.MemberInfo.Introduce,
+                    interest = string.Join("、", memInfo.MemberInterests.Where(mi => mi.MemberID == memInfo.ID).Select(mi => mi.Interest.Name)),
+                    preferType = string.Join("、", memInfo.PreferTypes.Where(mi => mi.MemberID == memInfo.ID).Select(mi => mi.Personality.Kind)),
+                };
+
+                resp.code = (int)RespCode.SUCCESS;
+                resp.msg = "取得用戶成功";
+                resp.data = da;
+
+
+
                 return resp;
-            }
-
-
-            //返回個人訊息
-            PersonalData da = new PersonalData()
-            {
-                memberID =memInfo.ID,
-                username= memInfo.Name.ToString(),
-                nickname=memInfo.MemberInfo.NickName,
-                gender =memInfo.Gender,
-                job =memInfo.MemberInfo.Job,
-                state=memInfo.MemberInfo.State,
-                introduce=memInfo.MemberInfo.Introduce,
-                interest = string.Join("、", memInfo.MemberInterests.Where(mi => mi.MemberID == memInfo.ID).Select(mi => mi.Interest.Name)),
-                preferType = string.Join("、", memInfo.PreferTypes.Where(mi => mi.MemberID == memInfo.ID).Select(mi => mi.Personality.Kind)),
-            };
-            
-            resp.code = (int)RespCode.SUCCESS;
-            resp.msg = "取得用戶成功";
-            resp.data = da;
-            
-
-
-            return resp;
             }
             catch (Exception ex)
-            {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = ex.Message;
-                return resp;
+            {               
+                return _errorHandler.SysError(resp,ex.Message);
             }
 
-           
+
         }
 
         /// <summary>
@@ -141,18 +140,17 @@ namespace SocialMedia.Service
             }
             catch (Exception ex)
             {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = ex.Message;
-                return resp;
+               
+                return _errorHandler.SysError(resp,ex.Message);
             }
-            
+
         }
 
         /// <summary>
         /// 實作獲取興趣、類型取項
         /// </summary>
         /// <returns></returns>
-        public async  Task<SOResp> GetSelectOption()
+        public async Task<SOResp> GetSelectOption()
         {
             SOResp resp = new SOResp();
 
@@ -189,14 +187,12 @@ namespace SocialMedia.Service
             }
             catch (Exception ex)
             {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = ex.Message;
-                return resp;
+                return _errorHandler.SysError(resp,ex.Message);
             }
-            
+
         }
 
-        
+
 
 
     }

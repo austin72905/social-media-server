@@ -1,18 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using NLog.Web;
+using SocialMedia.Common;
 using SocialMedia.Dbcontext;
 using SocialMedia.Interface;
 using SocialMedia.Interface.Repository;
 using SocialMedia.Service;
 using SocialMedia.Service.Repository;
+using System;
 
 namespace SocialMedia
 {
@@ -35,7 +32,7 @@ namespace SocialMedia
                 services
                 .AddScoped<IRegister, Register>()
                 .AddScoped<ILogin, Login>()
-                .AddScoped<IMemberinfo,MemberInfo>()
+                .AddScoped<IMemberinfo, MemberInfo>()
                 .AddScoped<IDirectory, Service.Directory>()
                 .AddScoped<IPersonal, Service.Personal>()
                 .AddScoped<IProfile, Service.Profile>()
@@ -46,13 +43,18 @@ namespace SocialMedia
                 // 資料庫實作
                 .AddScoped<IInterestRepository, InterestRepository>()
                 .AddScoped<IPersonalRepository, PersonalRepository>()
+                .AddScoped<ILogMan,LogMan>()
+                .AddScoped<IErrorHandler,ErrorHandler>()
                 )
-                
-                
 
-            
+                .UseStartup<Startup>()
+                .ConfigureLogging(logging =>
+                {
+                    logging.ClearProviders(); //會移除預設的DebugProvider 、 ConsoleProvider
+                    logging.SetMinimumLevel(LogLevel.Trace);
+                })
+                .UseNLog(); //setup NLog for Dependercy injection
 
-                .UseStartup<Startup>();
 
 
         private static void CreateDb(IWebHost host)
@@ -69,7 +71,7 @@ namespace SocialMedia
                     var context = services.GetRequiredService<MemberContext>();
                     Dbinit.Initialize(context);
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
                     //發生錯誤時打印
                     var logger = services.GetRequiredService<ILogger<Program>>();

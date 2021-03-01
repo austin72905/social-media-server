@@ -1,0 +1,71 @@
+2021-02-28 17:49:53.2728 Info Message Template Auto Format enabled
+2021-02-28 17:49:53.3025 Trace ParseRulesElement
+2021-02-28 17:49:53.3234 Debug Watching path 'C:\Users\USER\Social_media_server\bin\Debug\netcoreapp3.1' filter 'NLog.config' for changes.
+2021-02-28 17:49:53.3234 Debug --- NLog configuration dump ---
+2021-02-28 17:49:53.3234 Debug Targets:
+2021-02-28 17:49:53.3234 Debug Rules:
+2021-02-28 17:49:53.3234 Debug --- End of NLog configuration dump ---
+2021-02-28 17:49:53.3334 Trace FindReachableObject<System.Object>:
+2021-02-28 17:49:53.3334 Info Validating config: Targets=0, ConfigItems=0, FilePath=C:\Users\USER\Social_media_server\bin\Debug\netcoreapp3.1\NLog.config
+2021-02-28 17:49:53.3334 Info Configuration initialized.
+2021-02-28 17:49:53.3334 Info NLog, Version=4.0.0.0, Culture=neutral, PublicKeyToken=5120e14c03d0593c. File version: 4.7.8.12686. Product version: 4.7.8+1a738710a3e2974972abafd94d9df40f6b58035f. GlobalAssemblyCache: False
+2021-02-28 17:49:53.3334 Debug Targets not configured for logger: Microsoft.AspNetCore.Hosting.WebHost
+2021-02-28 17:49:53.3884 Debug Targets not configured for logger: Microsoft.Extensions.Caching.Memory.MemoryCache
+2021-02-28 17:49:53.4961 Debug Targets not configured for logger: Microsoft.EntityFrameworkCore.Infrastructure
+2021-02-28 17:49:53.5619 Debug Targets not configured for logger: Microsoft.EntityFrameworkCore.ChangeTracking
+2021-02-28 17:49:53.5764 Debug Targets not configured for logger: Microsoft.EntityFrameworkCore.Model
+2021-02-28 17:49:53.5764 Debug Targets not configured for logger: Microsoft.EntityFrameworkCore.Model.Validation
+2021-02-28 17:49:53.9669 Debug Targets not configured for logger: Microsoft.EntityFrameworkCore.Database.Transaction
+2021-02-28 17:49:53.9669 Debug Targets not configured for logger: Microsoft.EntityFrameworkCore.Database.Connection
+2021-02-28 17:49:53.9669 Debug Targets not configured for logger: Microsoft.EntityFrameworkCore.Query
+2021-02-28 17:49:53.9787 Debug Targets not configured for logger: Microsoft.EntityFrameworkCore.Database.Command
+2021-02-28 17:49:54.0229 Debug Targets not configured for logger: Microsoft.EntityFrameworkCore.Update
+2021-02-28 17:49:54.4256 Debug Targets not configured for logger: Microsoft.AspNetCore.Hosting.Diagnostics
+2021-02-28 17:49:54.4272 Debug Targets not configured for logger: Microsoft.AspNetCore.Hosting.ApplicationLifetime
+2021-02-28 17:49:54.4272 Debug Targets not configured for logger: Microsoft.AspNetCore.Server.IIS.Core.IISHttpServer
+2021-02-28 17:49:54.4551 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.MvcOptions
+2021-02-28 17:49:54.4593 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Formatters.SystemTextJsonInputFormatter
+2021-02-28 17:49:54.4852 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.ApplicationModels.CompiledPageRouteModelProvider
+2021-02-28 17:49:54.5434 Debug Targets not configured for logger: Microsoft.AspNetCore.Http.Connections.Internal.HttpConnectionManager
+2021-02-28 17:49:54.5434 Debug Targets not configured for logger: Microsoft.AspNetCore.Http.Connections.Internal.HttpConnectionContext
+2021-02-28 17:49:54.5434 Debug Targets not configured for logger: Microsoft.AspNetCore.Http.Connections.Internal.HttpConnectionDispatcher
+2021-02-28 17:49:54.5517 Debug Targets not configured for logger: Microsoft.AspNetCore.SignalR.DefaultHubLifetimeManager
+2021-02-28 17:49:54.5517 Debug Targets not configured for logger: Microsoft.AspNetCore.SignalR.Internal.DefaultHubProtocolResolver
+2021-02-28 17:49:54.5517 Debug Targets not configured for logger: Microsoft.AspNetCore.SignalR.HubConnectionHandler
+2021-02-28 17:49:54.5517 Debug Targets not configured for logger: Microsoft.AspNetCore.SignalR.Internal.DefaultHubDispatcher
+2021-02-28 17:49:54.5804 Debug Targets not configured for logger: Microsoft.AspNetCore.WebSockets.WebSocketMiddleware
+2021-02-28 17:49:54.5849 Debug Targets not configured for logger: Microsoft.AspNetCore.Routing.EndpointMiddleware
+2021-02-28 17:49:54.5849 Debug Targets not configured for logger: Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware
+2021-02-28 17:49:54.5849 Debug Targets not configured for logger: Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware
+2021-02-28 17:49:54.5849 Debug Targets not configured for logger: Microsoft.AspNetCore.Cors.Infrastructure.CorsService
+2021-02-28 17:49:54.5849 Debug Targets not configured for logger: Microsoft.AspNetCore.Cors.Infrastructure.CorsMiddleware
+2021-02-28 17:49:54.6005 Debug Targets not configured for logger: Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddleware
+2021-02-28 17:49:54.6005 Debug Targets not configured for logger: Microsoft.AspNetCore.HostFiltering.HostFilteringMiddleware
+2021-02-28 17:49:54.6005 Debug Targets not configured for logger: Microsoft.AspNetCore.Hosting.HostedServiceExecutor
+2021-02-28 17:49:54.6005 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.TypeForwardingActivator
+2021-02-28 17:49:54.6005 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.KeyManagement.XmlKeyManager
+2021-02-28 17:49:54.6005 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngGcmAuthenticatedEncryptorFactory
+2021-02-28 17:49:54.6005 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.CngCbcAuthenticatedEncryptorFactory
+2021-02-28 17:49:54.6005 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.AuthenticatedEncryption.ManagedAuthenticatedEncryptorFactory
+2021-02-28 17:49:54.6166 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlEncryptor
+2021-02-28 17:49:54.6166 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.Repositories.FileSystemXmlRepository
+2021-02-28 17:49:54.6315 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.KeyManagement.DefaultKeyResolver
+2021-02-28 17:49:54.6315 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingProvider
+2021-02-28 17:49:54.6315 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.Internal.DataProtectionHostedService
+2021-02-28 17:49:54.6502 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.XmlEncryption.DpapiXmlDecryptor
+2021-02-28 17:49:54.6858 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Razor.Compilation.DefaultViewCompiler
+2021-02-28 17:49:54.6858 Debug Targets not configured for logger: Microsoft.AspNetCore.Routing.Matching.DfaMatcher
+2021-02-28 17:49:54.7225 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.ModelBinding.ModelBinderFactory
+2021-02-28 17:49:54.7262 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.ModelBinding.ParameterBinder
+2021-02-28 17:49:54.7262 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker
+2021-02-28 17:49:54.7262 Debug Targets not configured for logger: Microsoft.AspNetCore.DataProtection.KeyManagement.KeyRingBasedDataProtector
+2021-02-28 17:49:54.7262 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.ViewFeatures.CookieTempDataProvider
+2021-02-28 17:49:54.7262 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Razor.RazorViewEngine
+2021-02-28 17:49:54.7262 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.RazorPages.Infrastructure.PageActionInvoker
+2021-02-28 17:49:54.7473 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.ViewFeatures.ViewResultExecutor
+2021-02-28 17:49:54.7624 Debug Targets not configured for logger: Microsoft.AspNetCore.Routing.DefaultLinkGenerator
+2021-02-28 17:49:54.7624 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Routing.EndpointRoutingUrlHelper
+2021-02-28 17:49:54.7624 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.ViewComponents.DefaultViewComponentInvoker
+2021-02-28 17:49:54.7795 Debug Targets not configured for logger: Microsoft.AspNetCore.Antiforgery.DefaultAntiforgery
+2021-02-28 17:49:54.7922 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Razor.TagHelpers.HeadTagHelper
+2021-02-28 17:49:54.8024 Debug Targets not configured for logger: Microsoft.AspNetCore.Mvc.Razor.TagHelpers.BodyTagHelper

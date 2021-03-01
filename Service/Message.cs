@@ -13,9 +13,11 @@ namespace SocialMedia.Service
 {
     public class Message : ChatMsgRepository, IMessage, IChat
     {
-        public Message(MemberContext context) : base(context)
+        private readonly IErrorHandler _errorHandler;
+        public Message(MemberContext context, IErrorHandler errorHandler) : base(context)
         {
             //_context = context;
+            _errorHandler = errorHandler;
         }
 
         //獲取聊天訊息
@@ -50,10 +52,8 @@ namespace SocialMedia.Service
                 return resp;
             }
             catch (Exception ex)
-            {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = ex.Message;
-                return resp;
+            {              
+                return _errorHandler.SysError(resp, ex.Message);
             }
 
             
@@ -81,9 +81,7 @@ namespace SocialMedia.Service
             catch (Exception ex)
             {
                 var resp = new MsgLastResp();
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = ex.Message;
-                return resp;
+                return _errorHandler.SysError(resp, ex.Message);
             }
             
 
@@ -107,9 +105,7 @@ namespace SocialMedia.Service
             catch (Exception ex)
             {
                 var resp = new MsgCountResp();
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = ex.Message;
-                return resp;
+                return _errorHandler.SysError(resp, ex.Message);
             }
            
         }
@@ -134,9 +130,9 @@ namespace SocialMedia.Service
             try
             {
                 await base.SaveChatMsg(userid, recieveid, input);
-            }catch(Exception)
+            }catch(Exception ex)
             {
-
+                _errorHandler.SysError(ex.Message);
             }
             
         }
@@ -158,10 +154,8 @@ namespace SocialMedia.Service
             }
             catch (Exception ex)
             {
-                var resp = new ChatMemResp();
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = ex.Message;
-                return resp;
+                var resp = new ChatMemResp();              
+                return _errorHandler.SysError(resp,ex.Message); ;
             }
             
 
@@ -175,9 +169,9 @@ namespace SocialMedia.Service
             {
                 await base.UpdateDBToRead(userid, recieveid);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
+                _errorHandler.SysError(ex.Message);
             }
             
         }

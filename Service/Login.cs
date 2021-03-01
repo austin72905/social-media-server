@@ -14,13 +14,17 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Service
 {
+  
     public class Login : PasswordRepository, ILogin
     {
         //注入DbContext
         //private readonly MemberContext _context;
-        public Login(MemberContext context):base(context)
+
+        private readonly ILogMan _logMan;
+        public Login(MemberContext context, ILogMan logMan) :base(context)
         {
             //_context = context;
+            _logMan = logMan;
         }
 
         public async Task<LoginResp> CheckUserExisted(LoginReq req)
@@ -70,7 +74,8 @@ namespace SocialMedia.Service
             catch(Exception ex)
             {
                 resp.code= (int)RespCode.FAIL;
-                resp.msg = ex.Message;
+                resp.msg = "系統內部異常";
+                _logMan.Appendline($"System Error : {ex.Message}");
                 return resp;
             }
             

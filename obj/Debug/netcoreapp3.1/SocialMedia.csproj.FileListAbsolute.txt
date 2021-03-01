@@ -78,8 +78,6 @@ C:\Users\USER\Social_media_server\bin\Debug\netcoreapp3.1\runtimes\win\lib\netco
 C:\Users\USER\Social_media_server\obj\Debug\netcoreapp3.1\SocialMedia.csprojAssemblyReference.cache
 C:\Users\USER\Social_media_server\obj\Debug\netcoreapp3.1\SocialMedia.AssemblyInfoInputs.cache
 C:\Users\USER\Social_media_server\obj\Debug\netcoreapp3.1\SocialMedia.AssemblyInfo.cs
-C:\Users\USER\Social_media_server\obj\Debug\netcoreapp3.1\SocialMedia.csproj.CoreCompileInputs.cache
-C:\Users\USER\Social_media_server\obj\Debug\netcoreapp3.1\SocialMedia.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\USER\Social_media_server\obj\Debug\netcoreapp3.1\SocialMedia.RazorAssemblyInfo.cache
 C:\Users\USER\Social_media_server\obj\Debug\netcoreapp3.1\SocialMedia.RazorAssemblyInfo.cs
 C:\Users\USER\Social_media_server\obj\Debug\netcoreapp3.1\SocialMedia.TagHelpers.input.cache
@@ -102,3 +100,9 @@ C:\Users\USER\Social_media_server\obj\Debug\netcoreapp3.1\staticwebassets\Social
 C:\Users\USER\Social_media_server\obj\Debug\netcoreapp3.1\SocialMedia.dll
 C:\Users\USER\Social_media_server\obj\Debug\netcoreapp3.1\SocialMedia.pdb
 C:\Users\USER\Social_media_server\obj\Debug\netcoreapp3.1\SocialMedia.genruntimeconfig.cache
+C:\Users\USER\Social_media_server\bin\Debug\netcoreapp3.1\NLog.dll
+C:\Users\USER\Social_media_server\bin\Debug\netcoreapp3.1\NLog.Extensions.Logging.dll
+C:\Users\USER\Social_media_server\bin\Debug\netcoreapp3.1\NLog.Web.AspNetCore.dll
+C:\Users\USER\Social_media_server\bin\Debug\netcoreapp3.1\NLog.config
+C:\Users\USER\Social_media_server\obj\Debug\netcoreapp3.1\SocialMedia.csproj.CoreCompileInputs.cache
+C:\Users\USER\Social_media_server\obj\Debug\netcoreapp3.1\SocialMedia.MvcApplicationPartsAssemblyInfo.cache

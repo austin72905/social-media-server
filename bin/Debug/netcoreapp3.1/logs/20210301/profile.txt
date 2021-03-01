@@ -1,0 +1,27 @@
+**********START**********
+Time : 2021-03-01 21:48:51
+Req : profile
+memberid : 1
+username : mandy
+Resp : {"code":0,"data":{"memberID":2,"username":"mandy","nickname":null,"gender":"\u5973","job":null,"state":null,"introduce":null,"interest":"","preferType":"","isFriend":false},"msg":"\u53D6\u5F97\u7528\u6236\u6210\u529F"}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-03-01 21:51:36
+Req : profile
+memberid : 1
+username : mandy
+Resp : {"code":0,"msg":"\u7CFB\u7D71\u5167\u90E8\u7570\u5E38","data":{"memberID":2,"username":"mandy","nickname":null,"gender":"\u5973","job":null,"state":null,"introduce":null,"interest":"","preferType":"","isFriend":false}}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-03-01 23:09:19
+Req : profile
+memberid : 1
+username : ggg
+Resp : {"code":0,"data":{"memberID":7,"username":"ggg","nickname":null,"gender":null,"job":null,"state":null,"introduce":null,"interest":"","preferType":"","isFriend":false},"msg":"\u53D6\u5F97\u7528\u6236\u6210\u529F"}
+
+-----------END-----------
+

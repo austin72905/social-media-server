@@ -1,0 +1,201 @@
+**********START**********
+Time : 2021-02-28 18:26:54
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:26:54
+Executed DbCommand (34ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:26:54
+Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Member] AS [m])
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:26:54
+User profile is available. Using 'C:\Users\USER\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:26:55
+路徑是: /{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:26:55
+Executing endpoint 'SocialMedia.Controllers.HomeController.Index (SocialMedia)'{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:26:55
+Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller SocialMedia.Controllers.HomeController (SocialMedia).{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:26:55
+Executing ViewResult, running view Index.{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:26:55
+Executed ViewResult - view Index executed in 99.2115ms.{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:26:55
+Executed action SocialMedia.Controllers.HomeController.Index (SocialMedia) in 125.1511ms{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:26:55
+Executed endpoint 'SocialMedia.Controllers.HomeController.Index (SocialMedia)'{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:27:42
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:27:42
+Executed DbCommand (38ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:27:43
+Executed DbCommand (3ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Member] AS [m])
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:27:43
+User profile is available. Using 'C:\Users\USER\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:27:43
+路徑是: /
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:27:43
+Executing endpoint 'SocialMedia.Controllers.HomeController.Index (SocialMedia)'
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:27:43
+Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller SocialMedia.Controllers.HomeController (SocialMedia).
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:27:43
+Executing ViewResult, running view Index.
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:27:43
+Executed ViewResult - view Index executed in 103.1907ms.
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:27:43
+Executed action SocialMedia.Controllers.HomeController.Index (SocialMedia) in 122.2558ms
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:27:43
+Executed endpoint 'SocialMedia.Controllers.HomeController.Index (SocialMedia)'
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:30:30
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:30:30
+Executed DbCommand (36ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:30:30
+Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Member] AS [m])
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:30:30
+User profile is available. Using 'C:\Users\USER\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:30:30
+路徑是: /
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:30:30
+Executing endpoint 'SocialMedia.Controllers.HomeController.Index (SocialMedia)'
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:30:30
+Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller SocialMedia.Controllers.HomeController (SocialMedia).
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:30:30
+Executing ViewResult, running view Index.
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:30:31
+Executed ViewResult - view Index executed in 103.9556ms.
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:30:31
+Executed action SocialMedia.Controllers.HomeController.Index (SocialMedia) in 121.464ms
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:30:31
+Executed endpoint 'SocialMedia.Controllers.HomeController.Index (SocialMedia)'
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:33:29
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:33:29
+Executed DbCommand (34ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:33:29
+Executed DbCommand (12ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Member] AS [m])
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:33:29
+User profile is available. Using 'C:\Users\USER\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:33:29
+Request starting HTTP/1.1 GET http://localhost:62001/  
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:33:29
+路徑是: /
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:33:29
+Executing endpoint 'SocialMedia.Controllers.HomeController.Index (SocialMedia)'
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:33:29
+Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller SocialMedia.Controllers.HomeController (SocialMedia).
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:33:29
+Executing ViewResult, running view Index.
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:33:29
+Executed ViewResult - view Index executed in 100.0392ms.
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:33:29
+Executed action SocialMedia.Controllers.HomeController.Index (SocialMedia) in 118.9564ms
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:33:30
+Executed endpoint 'SocialMedia.Controllers.HomeController.Index (SocialMedia)'
+-----------END-----------
+**********START**********
+Time : 2021-02-28 18:33:30
+Request finished in 242.9101ms 200 text/html; charset=utf-8
+-----------END-----------

@@ -1,0 +1,64 @@
+**********START**********
+Time : 2021-03-01 23:08:37
+Req : message/lastmsgs
+memberid : 1
+Resp : {"code":0,"data":[{"username":"mandy","memberid":1,"gender":"\u5973","text":"zzz","chatname":null,"chatid":"2","unreadcount":0},{"username":"plus","memberid":9,"gender":"\u5973","text":"aa","chatname":"aaAA","chatid":"9","unreadcount":9}],"msg":"\u7372\u53D6\u8A0A\u606F\u6210\u529F"}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-03-01 23:08:43
+Req : message/lastmsgs
+memberid : 1
+Resp : {"code":0,"data":[{"username":"mandy","memberid":1,"gender":"\u5973","text":"zzz","chatname":null,"chatid":"2","unreadcount":0},{"username":"plus","memberid":9,"gender":"\u5973","text":"aa","chatname":"aaAA","chatid":"9","unreadcount":9}],"msg":"\u7372\u53D6\u8A0A\u606F\u6210\u529F"}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-03-01 23:08:49
+Req : message/lastmsgs
+memberid : 1
+Resp : {"code":0,"data":[{"username":"mandy","memberid":1,"gender":"\u5973","text":"zzz","chatname":null,"chatid":"2","unreadcount":0},{"username":"plus","memberid":9,"gender":"\u5973","text":"aa","chatname":"aaAA","chatid":"9","unreadcount":0}],"msg":"\u7372\u53D6\u8A0A\u606F\u6210\u529F"}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-03-01 23:08:59
+Req : message/lastmsgs
+memberid : 1
+Resp : {"code":0,"data":[{"username":"mandy","memberid":1,"gender":"\u5973","text":"zzz","chatname":null,"chatid":"2","unreadcount":0},{"username":"plus","memberid":9,"gender":"\u5973","text":"aa","chatname":"aaAA","chatid":"9","unreadcount":0}],"msg":"\u7372\u53D6\u8A0A\u606F\u6210\u529F"}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-03-01 23:09:04
+Req : message/lastmsgs
+memberid : 1
+Resp : {"code":0,"data":[{"username":"mandy","memberid":1,"gender":"\u5973","text":"zzz","chatname":null,"chatid":"2","unreadcount":0},{"username":"plus","memberid":9,"gender":"\u5973","text":"aa","chatname":"aaAA","chatid":"9","unreadcount":0}],"msg":"\u7372\u53D6\u8A0A\u606F\u6210\u529F"}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-03-01 23:09:34
+Req : message/lastmsgs
+memberid : 1
+Resp : {"code":0,"data":[{"username":"mandy","memberid":1,"gender":"\u5973","text":"zzz","chatname":null,"chatid":"2","unreadcount":0},{"username":"plus","memberid":9,"gender":"\u5973","text":"aa","chatname":"aaAA","chatid":"9","unreadcount":0}],"msg":"\u7372\u53D6\u8A0A\u606F\u6210\u529F"}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-03-01 23:10:08
+Req : message/lastmsgs
+memberid : 1
+Resp : {"code":0,"data":[{"username":"mandy","memberid":1,"gender":"\u5973","text":"zzz","chatname":null,"chatid":"2","unreadcount":0},{"username":"plus","memberid":9,"gender":"\u5973","text":"aa","chatname":"aaAA","chatid":"9","unreadcount":0}],"msg":"\u7372\u53D6\u8A0A\u606F\u6210\u529F"}
+
+-----------END-----------
+
+**********START**********
+Time : 2021-03-01 23:10:15
+Req : message/lastmsgs
+memberid : 1
+Resp : {"code":0,"data":[{"username":"mandy","memberid":1,"gender":"\u5973","text":"zzz","chatname":null,"chatid":"2","unreadcount":0},{"username":"plus","memberid":9,"gender":"\u5973","text":"aa","chatname":"aaAA","chatid":"9","unreadcount":0}],"msg":"\u7372\u53D6\u8A0A\u606F\u6210\u529F"}
+
+-----------END-----------
+

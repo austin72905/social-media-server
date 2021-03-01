@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SocialMedia.Common;
 using SocialMedia.Interface;
 using SocialMedia.Models.DbModels;
 using SocialMedia.Models.Setting;
@@ -9,13 +10,16 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Controllers
 {
-    public class MemberInfoController : Controller
+    public class MemberInfoController : BaseController
     {
         private readonly IMemberinfo _setting;
 
-        public MemberInfoController(IMemberinfo setting)
+        private readonly ILogMan _logMan;
+
+        public MemberInfoController(IMemberinfo setting, ILogMan logman):base(logman)
         {
             _setting = setting;
+            _logMan = logman;
         }
 
         //get
@@ -32,8 +36,9 @@ namespace SocialMedia.Controllers
         {
             int memberID = Convert.ToInt32(Request.Query["memberid"]);
             //var checkresult = _setting.GetMemberInfo(reqbody.memberid);
+            _logMan.Appendline($"memberid : {memberID}");
             var checkresult =await _setting.GetMemberList(memberID);
-            return Json(checkresult);
+            return RespResult(checkresult);
         }
 
        

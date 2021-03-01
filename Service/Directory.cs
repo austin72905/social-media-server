@@ -16,9 +16,11 @@ namespace SocialMedia.Service
     {
         //注入DbContext
         //private readonly MemberContext _context;
-        public Directory(MemberContext context):base(context)
+        private readonly IErrorHandler _errorHandler;
+        public Directory(MemberContext context, IErrorHandler errorHandler) :base(context)
         {
             //_context = context;
+            _errorHandler = errorHandler;
         }
 
         /// <summary>
@@ -54,9 +56,8 @@ namespace SocialMedia.Service
             }
             catch (Exception ex)
             {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = ex.Message;
-                return resp;
+                
+                return _errorHandler.SysError(resp,ex.Message);
             }
             
         }
@@ -93,9 +94,8 @@ namespace SocialMedia.Service
             }
             catch (Exception ex)
             {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = ex.Message;
-                return resp;
+                
+                return _errorHandler.SysError(resp,ex.Message);
             }
             
 
@@ -133,9 +133,8 @@ namespace SocialMedia.Service
             }
             catch (Exception ex)
             {
-                resp.code = (int)RespCode.FAIL;
-                resp.msg = ex.Message;
-                return resp;
+                
+                return _errorHandler.SysError(resp,ex.Message);
             }
             
 

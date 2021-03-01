@@ -1,0 +1,40 @@
+**********START**********
+Time : 2021-02-28 18:23:44
+Entity Framework Core 2.2.3-servicing-35854 initialized 'MemberContext' using provider 'Microsoft.EntityFrameworkCore.SqlServer' with options: None{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:23:45
+Executed DbCommand (42ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+IF EXISTS (SELECT * FROM INFORMATION_SCHEMA.TABLES WHERE TABLE_TYPE = 'BASE TABLE') SELECT 1 ELSE SELECT 0{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:23:45
+Executed DbCommand (4ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT CASE
+    WHEN EXISTS (
+        SELECT 1
+        FROM [Member] AS [m])
+    THEN CAST(1 AS BIT) ELSE CAST(0 AS BIT)
+END{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:23:46
+User profile is available. Using 'C:\Users\USER\AppData\Local\ASP.NET\DataProtection-Keys' as key repository and Windows DPAPI to encrypt keys at rest.{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:23:46
+/{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:23:46
+Executing endpoint 'SocialMedia.Controllers.HomeController.Index (SocialMedia)'{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:23:46
+Route matched with {action = "Index", controller = "Home"}. Executing controller action with signature Microsoft.AspNetCore.Mvc.IActionResult Index() on controller SocialMedia.Controllers.HomeController (SocialMedia).{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:23:46
+Executing ViewResult, running view Index.{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:23:46
+Executed ViewResult - view Index executed in 107.6863ms.{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:23:46
+Executed action SocialMedia.Controllers.HomeController.Index (SocialMedia) in 122.893ms{newline}-----------END-----------
+**********START**********
+Time : 2021-02-28 18:23:46
+Executed endpoint 'SocialMedia.Controllers.HomeController.Index (SocialMedia)'{newline}-----------END-----------

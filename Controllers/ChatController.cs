@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using SocialMedia.Common;
 using SocialMedia.Interface;
 using SocialMedia.Models.Message;
 using System;
@@ -8,19 +9,24 @@ using System.Threading.Tasks;
 
 namespace SocialMedia.Controllers
 {
-    public class ChatController : Controller
+    public class ChatController : BaseController
     {
         private readonly IChat _chat;
 
-        public ChatController(IChat chat)
+        private readonly ILogMan _logMan;
+
+        public ChatController(IChat chat,ILogMan logMan):base(logMan)
         {
             _chat = chat;
+            _logMan = logMan;
         }
 
         public async Task<IActionResult> Index()
         {
             var result =await _chat.GetChatMemList();
-            return Json(result);
+            //_logMan.Appendline($"Resp : {JsonUtil.Serialize(result)}");
+            //_logMan.WriteToFile();
+            return RespResult(result);
         }
 
         //寫個接口 更新資料庫
@@ -39,6 +45,8 @@ namespace SocialMedia.Controllers
             await _chat.SaveMsgData(req.memberid, req.recieveid, req.input);
             return Json("");
         }
+
+        
 
 
     }

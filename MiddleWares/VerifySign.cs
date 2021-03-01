@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Logging;
 using SocialMedia.Common;
 using SocialMedia.Enum;
+using SocialMedia.Interface;
 using SocialMedia.Models;
 using System;
 using System.Collections.Generic;
@@ -13,7 +15,12 @@ namespace SocialMedia.MiddleWares
 {
     public class VerifySign
     {
+        //private readonly ILogger _logger;
+
+
         private readonly RequestDelegate _next;
+
+        //private ILogMan _logMan;
         //不用驗證的路由
         private List<string> NoVerifyPath =>new List<string> { "/login", "/register", "/personal/selectoption","/chat","/home","/" };
 
@@ -22,14 +29,21 @@ namespace SocialMedia.MiddleWares
         public VerifySign(RequestDelegate next)
         {
             _next = next;
+            //_logMan = logMan;
         }
 
-        public async Task Invoke(HttpContext context)
+        //di 再middleware 使用時，直接在invoke 當作參數傳入即可，構造函數注入Middleware只能Singleton解析服務Middleware
+        public async Task Invoke(HttpContext context, ILogMan logMan)
         {
             
             try
             {
                 string path = context.Request.Path.ToString().ToLower();
+                string testLogname = path=="/"?"verifySign": path.Substring(1);
+
+                logMan.SetLogName(testLogname);
+                logMan.Appendline($"Req : {testLogname}");
+
                 string username = context.Request.Query["username"].ToString();
                 string token = context.Request.Query["token"].ToString();
                 //允許body 多次使用 .net core 的坑
@@ -47,15 +61,15 @@ namespace SocialMedia.MiddleWares
                         context.Request.Body.Seek(0, SeekOrigin.Begin);
                         //context.Request.Body.Position = 0;
                     }
-                                 
+
+                    logMan.Appendline($"ReqBody {requestContent}");
 
 
+                    Dictionary<string, object> dic = JsonUtil.Deserialize<Dictionary<string, object>>(requestContent);
 
-                    Dictionary<string, object> dic = System.Text.Json.JsonSerializer.Deserialize<Dictionary<string, object>>(requestContent);
 
-
-                    username = dic["username"].ToString();
-                    token = dic["token"].ToString();
+                    username = dic.ContainsKey("username")? dic["username"].ToString():"";
+                    token = dic.ContainsKey("token")?dic["token"].ToString():"";
                     
                 }
                 
@@ -71,7 +85,9 @@ namespace SocialMedia.MiddleWares
                             code = (int)RespCode.FAIL,
                             msg = "簽名失敗"
                         };
-                        string respstr = System.Text.Json.JsonSerializer.Serialize(resp);
+
+                        string respstr = JsonUtil.Serialize(resp);
+                        logMan.Appendline($"VaildSign : {respstr}");
                         await context.Response.WriteAsync(respstr);
                     }
                 }
@@ -80,7 +96,7 @@ namespace SocialMedia.MiddleWares
             }
             catch (Exception ex)
             {
-
+                logMan.Appendline($"some error occur in middleWare : {ex.Message}");
             }
             
             
